@@ -8,7 +8,6 @@ import Cart from './Components/Cart';
 import Details from './Components/Details';
 import  Orders from './Components/Orders';
 
-
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
