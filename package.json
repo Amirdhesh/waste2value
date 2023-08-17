@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "react-native-image-picker": "^5.6.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-navigation": "^4.4.4"
   }
 }
