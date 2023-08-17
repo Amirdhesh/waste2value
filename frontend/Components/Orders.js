@@ -1,4 +1,4 @@
-import { View, Text,Image,FlatList, FlatListComponent } from 'react-native'
+import { View, Text,Image,FlatList, FlatListComponent, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 
 
 
-const Cart = () => {
+const Cart = ({navigation}) => {
 
   
   const cartdata = [
@@ -61,13 +61,9 @@ const Cart = () => {
         </View>
         <View style={{left:15}}>
           <Text style={{fontSize:30}}>{item.product_name}</Text>
-          <Text style={{fontSize:20}}>Cost</Text>
-          <View style={{flexDirection:'row',marginLeft:-5}}>
-              <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
-              <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
-              <Ionicons onPress={()=>quantityplus(item.product_code)} name="ios-add-circle" size={24} color="#C96FC4" />
-          </View>
-          
+          <Text style={{fontSize:20}}>status</Text>
+          <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
+                   
         </View>
      </View> 
      </View>
@@ -84,19 +80,27 @@ const Cart = () => {
   return (
     <View style={{flex:1}}>
       <StatusBar hidden={true}/>
-      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'10%'}}>
-        <View style={{flexDirection:'row',justifyContent:'center',borderWidth: 1,left:25, borderColor: '#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:47,shadowColor: '#52006A', elevation: 20 }}>
-           <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
+      <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
+      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
+        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',borderWidth: 1, borderColor: '#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:45,height:50,shadowColor: '#52006A', elevation: 20 }}>
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
+
+          </TouchableOpacity>
         </View>
-        <Text style={{fontSize:43,right:24}}>Orders</Text>
+        <Text style={{fontSize:38,marginRight:30}}>Orders</Text>
         <View></View>
+        </View>
         </View> 
+        <View style={{height:'90%'}}>
         <FlatList
            style={{paddingHorizontal:15}}
             data={cartdata}
             renderItem={({item})=><Product item={item}/>}
             keyExtractor={item=>item.id}
         />
+        </View>
+       
           
         
           
