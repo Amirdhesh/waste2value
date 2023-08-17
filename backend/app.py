@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+'''from flask import Flask,jsonify,request
 from flask_mysqldb import MySQL
 
 app=Flask(__name__)
@@ -12,7 +12,7 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 cur=mydb.cursor()
-'''@app.route('/login',methods=['POST'])
+@app.route('/login',methods=['POST'])
 def index():
     user = request.json['user']
     password= request.json['password']
@@ -21,7 +21,7 @@ def index():
     val=(user,password,'user')
     cur.execute(sql,val)
     mydb.commit()
-    return jsonify("Success")'''
+    return jsonify("Success")
 @app.route('/user',methods=['GET'])
 def user():
     cur.execute("select * from login")
@@ -47,7 +47,7 @@ def createuseraccount():
     else:
         return jsonify("Account already exists")
     
-@app.route('/custemer',methods=["POST"])
+@app.route('/customer',methods=["POST"])
 def add():
     return jsonify("hai")
 
@@ -69,7 +69,73 @@ def userdetails():
     else:
         return jsonify("details allredy exist")
 
+@app.route('/api/products', methods=['GET'])
+def get_productslist():
+    try:
+        connection = mysql.connector.connect(**db_config)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT id, pname FROM products")  # Adjust the query as needed
+        products = cursor.fetchall()
+        cursor.close()
+        return jsonify(products)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 if __name__=="__main__":
+    app.run(host='192.168.56.1',port='3000',debug=True)
+'''
+
+from flask import Flask, request, jsonify
+import mysql.connector 
+db=mysql.connector.connect(
+    host= "localhost",
+    user= "Madumitha",
+    password= "madumitha",
+    database="WASTETOVALUE"
+)
+app = Flask(__name__)
+
+products = []
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    return jsonify(products)
+
+@app.route('/api/add_product', methods=['POST'])
+def add_product():
+    data = {
+        "productName":request.json['productName'],
+        "description":request.json['description'],
+        'price':request.json['price']
+    }
+    image=request.files['image']
+    image_path=os.path.join('')
+    cursor=db.cursor()
+    query = "INSERT INTO productdetails (Product_name,product_description,product_price) VALUES (%s, %s, %s)"
+    values=(data['productName'],data['description'],data['price'])
+    products.append(data)
+    print(products)
+    try:
+        cursor.execute(query,values)
+        db.commit()
+        cursor.close()
+        return jsonify({'message':'Product added to database successfully'})
+    except Exception as e:
+        db.rollback()
+        cursor.close()
+        return jsonify({'error':str(e)})
+
+@app.route('/api/productslist', methods=['GET'])
+def get_productslist():
+    try:
+        cursor = db.cursor(dictionary=True)
+        query = "SELECT * FROM productdetails"
+        cursor.execute(query)
+        products = cursor.fetchall()
+        cursor.close()
+        return jsonify(products)
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+if __name__ == '__main__':
     app.run(host='192.168.56.1',port='3000',debug=True)
