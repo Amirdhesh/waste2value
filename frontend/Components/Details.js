@@ -1,7 +1,7 @@
 import { View, Text,TextInput,StatusBar,TouchableOpacity,TouchableWithoutFeedback,Keyboard } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-aware-scroll-view'
 
 const Details = ({navigation}) => {
   return (
