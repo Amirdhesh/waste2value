@@ -47,6 +47,10 @@ def createuseraccount():
     else:
         return jsonify("Account already exists")
     
+@app.route('/custemer',methods=["POST"])
+def add():
+    return jsonify("hai")
+
 
 @app.route('/')
 @app.route('/userdetails',methods=["POST"])
