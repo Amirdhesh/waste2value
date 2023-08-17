@@ -7,8 +7,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="tiger",
-  database="wtv"
+  password="user",
+  database="sampledb"
 )
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -27,11 +27,6 @@ def user():
     cur.execute("select * from login")
     result = cur.fetchall()
     return jsonify(result)
-<<<<<<< HEAD
-
-#create account
-=======
->>>>>>> a57c5374a5385a8bc9c3e13cb64fb1f78c6d1a7c
 @app.route('/createuseraccount',methods=["POST"])
 def createuseraccount():
     email=request.json['email']
@@ -87,7 +82,33 @@ def login():
     if user:
         return jsonify("Login Successful")
     else:
-        return jsonify("Login Failed"), 401
+        return jsonify("Incorrect email or password"), 401
+    
+# for signup
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    check_email_sql = "SELECT * FROM login WHERE email = %s"
+    cur.execute(check_email_sql, [email])  
+
+    user = cur.fetchone()
+
+    if user:
+        return jsonify("Email already exists")
+    else:
+        sql = "INSERT INTO login (type, email, password) VALUES (%s, %s, %s)"
+        val = ['user', email, password]  
+        cur.execute(sql, val)
+        mydb.commit()
+        
+
+        return jsonify("Signup Successful")
+
+
     
 
 
