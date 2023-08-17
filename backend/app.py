@@ -27,8 +27,11 @@ def user():
     cur.execute("select * from login")
     result = cur.fetchall()
     return jsonify(result)
+<<<<<<< HEAD
 
 #create account
+=======
+>>>>>>> a57c5374a5385a8bc9c3e13cb64fb1f78c6d1a7c
 @app.route('/createuseraccount',methods=["POST"])
 def createuseraccount():
     email=request.json['email']
@@ -51,8 +54,11 @@ def createuseraccount():
     
 
 @app.route('/')
+<<<<<<< HEAD
 
 #for user details
+=======
+>>>>>>> a57c5374a5385a8bc9c3e13cb64fb1f78c6d1a7c
 @app.route('/userdetails',methods=["POST"])
 def userdetails():
     id=request.json['id']
