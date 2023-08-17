@@ -1,5 +1,6 @@
 from flask import Flask,jsonify,request
 from flask_mysqldb import MySQL
+import os
 
 app=Flask(__name__)
 import mysql.connector
@@ -73,7 +74,6 @@ def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-
     sql = "SELECT * FROM login WHERE email = %s AND password = %s"
     val = (email, password)
     cur.execute(sql, val)
@@ -104,31 +104,59 @@ def signup():
         val = ['user', email, password]  
         cur.execute(sql, val)
         mydb.commit()
+
         return jsonify("Signup Successful")
 
+#UPLOAD_FOLDER = 'uploads'
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/company', methods=['POST'])
+
 def company():
     data = request.get_json()
+    name=data.get('Company name')
     email = data.get('email')
-    password = data.get('password')
-    #need password field in frontend
+    ph_no=data.get('ph_no')
+    address=data.get('address')
+    pin=data.get('pin')
+    area=data.get('area')
+    password=data.get('password')
+    '''image = request.files['image']'''
+
+    #return if user account does not exists in db
     check_email_sql = "SELECT * FROM login WHERE email = %s"
-    cur.execute(check_email_sql, [email])  
-
+    cur.execute(check_email_sql, [email,])  
     user = cur.fetchone()
-
-    if user:
-        return jsonify("Email already exists")
+    
+    if not user:
+        return jsonify("Please create an account as an user and then try again")
+    #else add email to db
     else:
-        sql = "INSERT INTO login (type, email, password) VALUES (%s, %s, %s)"
-        val = ['company', email, password]  
+        origpasssql="select password from login where email=%s"
+        cur.execute(origpasssql, [email,])
+        origpass = cur.fetchone() 
+        '''if password!=origpass:
+            return jsonify("incorrect password")'''
+        delsql="DELETE FROM login WHERE email = %s"
+        cur.execute(delsql, [email,])
+        mydb.commit()
+        sql = "INSERT INTO login (email,type,company_name, ph_no, address, pincode, area,password) VALUES  (%s,%s, %s, %s,%s,%s,%s,%s) "
+        val = [email,'company',name,ph_no,address,pin,area,password]  
         cur.execute(sql, val)
         mydb.commit()
-        return jsonify("Signup Successful")
-    
-    
 
-
+    # storing image data
+    '''if image:
+        filename = os.path.join('uploads', image.filename)
+        image.save(filename)
+        insert_sql = "INSERT INTO login (image) VALUES (%s)"
+        image_data = image.read()  # Read binary image data
+        val = [image_data]
+        cur.execute(insert_sql, val)
+        mydb.commit()
+    '''
+    
+    return jsonify("You will be verified soon!!")
+    
 
 
 if __name__=="__main__":
