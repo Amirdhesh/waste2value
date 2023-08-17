@@ -7,8 +7,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="tiger",
-  database="wtv"
+  password="user",
+  database="sampledb"
 )
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -53,6 +53,8 @@ def add():
 
 
 @app.route('/')
+
+#for user details
 @app.route('/userdetails',methods=["POST"])
 def userdetails():
     id=request.json['id']
@@ -68,6 +70,71 @@ def userdetails():
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
+
+#for login
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    sql = "SELECT * FROM login WHERE email = %s AND password = %s"
+    val = (email, password)
+    cur.execute(sql, val)
+    user = cur.fetchone()
+
+    if user:
+        return jsonify("Login Successful")
+    else:
+        return jsonify("Incorrect email or password"), 401
+    
+# for signup
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    check_email_sql = "SELECT * FROM login WHERE email = %s"
+    cur.execute(check_email_sql, [email])  
+
+    user = cur.fetchone()
+
+    if user:
+        return jsonify("Email already exists")
+    else:
+        sql = "INSERT INTO login (type, email, password) VALUES (%s, %s, %s)"
+        val = ['user', email, password]  
+        cur.execute(sql, val)
+        mydb.commit()
+
+        return jsonify("Signup Successful")
+
+@app.route('/company', methods=['POST'])
+def company():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    #need password field in frontend
+    check_email_sql = "SELECT * FROM login WHERE email = %s"
+    cur.execute(check_email_sql, [email])  
+
+    user = cur.fetchone()
+
+    if user:
+        return jsonify("Email already exists")
+    else:
+        sql = "INSERT INTO login (type, email, password) VALUES (%s, %s, %s)"
+        val = ['company', email, password]  
+        cur.execute(sql, val)
+        mydb.commit()
+        return jsonify("Signup Successful")
+    
+
+
+    
+
 
 
 
