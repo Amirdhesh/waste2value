@@ -132,11 +132,6 @@ def company():
         return jsonify("Signup Successful")
     
 
-
-    
-
-
-
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
