@@ -104,6 +104,7 @@ def signup():
         val = ['user', email, password]  
         cur.execute(sql, val)
         mydb.commit()
+
         return jsonify("Signup Successful")
 
 @app.route('/company', methods=['POST'])
@@ -126,6 +127,8 @@ def company():
         mydb.commit()
         return jsonify("Signup Successful")
     
+
+
     
 
 
