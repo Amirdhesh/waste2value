@@ -8,18 +8,19 @@ import Cart from './Components/Cart';
 import Details from './Components/Details';
 import  Orders from './Components/Orders';
 
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// const Stack = createNativeStackNavigator();
+ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    // <NavigationContainer>
-    // <Stack.Navigator>
-    // <Stack.Screen name="Login" component={Login} />
-    // </Stack.Navigator>
-    // </NavigationContainer>
-    <Orders/>
+     /* <NavigationContainer>
+     <Stack.Navigator>
+     <Stack.Screen name="Login" component={Login} />
+     <Stack.Screen name="Details" component={Details} />
+     </Stack.Navigator>
+     </NavigationContainer> */
+    <Details/> 
     
   );
 }
