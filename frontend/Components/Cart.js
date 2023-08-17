@@ -1,4 +1,4 @@
-import { View, Text,Image,FlatList, FlatListComponent } from 'react-native'
+import { View, Text,Image,FlatList, FlatListComponent, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
@@ -8,7 +8,7 @@ import { Entypo } from '@expo/vector-icons';
 
 
 
-const Cart = () => {
+const Cart = ({navigation}) => {
 
   // const cartdata = []
   const cartdata = [
@@ -86,12 +86,17 @@ const Cart = () => {
   return (
     <View style={{flex:1}}>
       <StatusBar hidden={true}/>
-      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'10%'}}>
-        <View style={{flexDirection:'row',justifyContent:'center',borderWidth: 1,left:25, borderColor: '#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:47,shadowColor: '#52006A', elevation: 20 }}>
-           <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
+      <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
+      <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
+        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',borderWidth: 1, borderColor: '#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:45,height:50,shadowColor: '#52006A', elevation: 20 }}>
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
+
+          </TouchableOpacity>
         </View>
-        <Text style={{fontSize:43,right:24}}>Cart</Text>
-        <View></View>
+        <Text style={{fontSize:43,marginRight:50}}>Cart</Text>
+         <View></View>
+        </View>
       </View>
       
 
@@ -119,9 +124,14 @@ const Cart = () => {
             <Text style={{fontSize:16}}>Total Cost:</Text>
             <Text style={{fontSize:30}}>$350</Text>
           </View>
-          <View>
-            <Text style={{shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:30 , backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,fontSize:20,color:'white'}}>Make a Payment</Text>
-          </View>
+          
+            <View style={{ height: 70,width: 220,shadowColor: '#52006A', elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+            <TouchableOpacity onPress={()=>navigation.navigate('CustomerPayment')}>
+            <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Make a Payment</Text>
+            </TouchableOpacity>
+            </View>
+            
+          
         </View>  
       
     </View>
