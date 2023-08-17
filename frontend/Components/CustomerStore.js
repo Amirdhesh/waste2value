@@ -1,85 +1,27 @@
 import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-import { Entypo } from '@expo/vector-icons'; 
 const CustomerStore = ({navigation}) => {
   const [filter, setfilter] = useState(false)
-  const Data=[
-    
-    {
-      id:0,
-      pname:'product 0 '
-    },
-    {
-      id:1,
-      pname:'product 1'
-    },
-    {
-      id:2,
-      pname:'product 2'
-    },
-    {
-      id:3,
-      pname:'product 3'
-    },
-    {
-      id:4,
-      pname:'product 4'
-    },
-    {
-      id:5,
-      pname:'product 5'
-    },
-    {
-      id:6,
-      pname:'product 6'
-    },
-    {
-      id:7,
-      pname:'product 7'
-    },
-    {
-      id:8,
-      pname:'product 8'
-    },
-    {
-      id:9,
-      pname:'product 9'
-    },
-    {
-      id:10,
-      pname:'product 10'
-    },
-   
-    {
-      id:11,
-      pname:'product 4'
-    },
-    {
-      id:12,
-      pname:'product 4'
-    },
-    {
-      id:13,
-      pname:'product 4'
-    },
-    {
-      id:14,
-      pname:'product 4'
-    },
-    {
-      id:15,
-      pname:'product 4'
-    },
-    {
-      id:16,
-      pname:'product 4'
-    },
-   
+  const [Data, setProductData] = useState([]); // State for product data
 
-  ]
+  useEffect(() => {
+    fetchProductData(); // Fetch product data from Flask API
+  }, []);
+
+  
+  const fetchProductData = async () => {
+    try {
+      const response = await fetch('http://192.168.56.1:3000/api/productslist');
+      const data = await response.json();
+      setProductData(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // const Product=({item})=>(
   //   <View style={{}}>
@@ -106,7 +48,9 @@ const CustomerStore = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
-        <Text style={{fontSize:16}}>{item.pname}</Text>
+        <Text style={{fontSize:20}}>{item.product_name}</Text>
+        <Text style={{fontSize:18}}>{item.product_description}</Text>
+        <Text style={{fontSize:14}}>Price:Rs.{item.product_price}</Text>
       </View>
     );
   };
@@ -132,25 +76,11 @@ const CustomerStore = ({navigation}) => {
       <FlatList
       data={Data}
       renderItem={renderItem}
-      keyExtractor={item => ( item.id)}
+      keyExtractor={item => ( item.product_id)}
       numColumns={2} 
       style={ {flex: 1}}
     />
-      {
-          filter && 
-          <View style={{position:'absolute',flexDirection:'column',alignItems:'center',borderRadius:10,height:'25%',backgroundColor:"white",elevation:20,shadowColor: '#52006A',borderWidth:2,borderColor: '#BC5EB6',width:"50%",top:34,right:20}}>
-            <View style={{flexDirection:'row',width:"92%",justifyContent:"space-between",height:'100%'}}>
-                <View></View>
-                <Text style={{fontSize:23,paddingLeft:20}}>Filter</Text>
-                <TouchableOpacity onPress={()=>setfilter(false)}>
-                <Entypo name="cross" size={28} color="black" style={{paddingTop:3}} />
-                </TouchableOpacity>
-                
-              </View>
-          </View>
 
-          
-        }
       <CustomerNavbar  navigation={navigation}/>
     </View>
   )
