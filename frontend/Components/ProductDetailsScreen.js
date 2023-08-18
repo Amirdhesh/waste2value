@@ -1,17 +1,40 @@
 // ProductDetailsScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import Cart from './Cart';
 function ProductDetailsScreen({ route,navigation}) {
-  const { productId } = route.params;
+  const { product_id,customer_id } = route.params;
   const [productDetails, setProductDetails] = useState({});
+console.log(product_id,customer_id);
+
+  const handleAddToCart= () => {
+    fetch(`http://192.168.56.1:3000/api/add_to_cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customer_id: customer_id,
+        product_id: product_id,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      // Handle success or error response from the API
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  };
+
 
   useEffect(() => {
-    fetch(`http://192.168.56.1:3000/api/selectedproduct/${productId}`)
+    fetch(`http://192.168.56.1:3000/api/selectedproduct/${product_id}`)
       .then((response) => {
         console.log('Response Status:', response.status);
         if (!response.ok) {
@@ -21,10 +44,8 @@ function ProductDetailsScreen({ route,navigation}) {
       })
       .then((data) => setProductDetails(data))
       .catch((error) => console.error(error));
-  }, [productId]);
-const handlePress=(productId)=> {
-  navigation.navigate('AddToCart',{productId});
-}
+  }, [product_id]);
+
   return (
     <View style={styles.fullcontainer}>
       <Text style={styles.name}>{productDetails.product_name}</Text>
@@ -34,7 +55,7 @@ const handlePress=(productId)=> {
       <Text style={styles.price}>Rs.{productDetails.product_price}</Text>
     </View>
     <View style={styles.buttonview}>
-    <Button title="Add to Cart" onPress={()=>handlePress(productId)} color="#D268CC" />
+    <Button title="Add to Cart" onPress={()=>handleAddToCart()} color="#D268CC" />
   </View>
   </View>
   );

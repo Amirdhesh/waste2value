@@ -9,7 +9,16 @@ mydb = mysql.connector.connect(
   user="root",
   password="tiger",
   database="wtv"
+)'''
+from flask import Flask, request, jsonify
+import mysql.connector 
+mydb=mysql.connector.connect(
+    host= "localhost",
+    user= "Madumitha",
+    password= "madumitha",
+    database="WASTETOVALUE"
 )
+app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
 @app.route('/user',methods=['GET'])
@@ -78,7 +87,7 @@ def login():
         cur.execute(sql, val)
         userid = cur.fetchone()
         userid=userid[0]
-        return jsonify("Login Successful",userid)
+        return jsonify({"message":"Login Successful","customer_id":userid})
     else:
         return jsonify("Incorrect email or password"), 401
     
@@ -107,7 +116,7 @@ def signup():
         mydb.commit()
 
         return jsonify("Signup Successful")
-
+'''
 @app.route('/company', methods=['POST'])
 def company():
     data = request.get_json()
@@ -127,7 +136,7 @@ def company():
         cur.execute(sql, val)
         mydb.commit()
         return jsonify("Signup Successful")
-    
+  
 
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
@@ -141,19 +150,8 @@ def get_productslist():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-if __name__=="__main__":
-    app.run(host='192.168.56.1',port='3000',debug=True)
 '''
 
-from flask import Flask, request, jsonify
-import mysql.connector 
-mydb=mysql.connector.connect(
-    host= "localhost",
-    user= "Madumitha",
-    password= "madumitha",
-    database="WASTETOVALUE"
-)
-app = Flask(__name__)
 
 products = []
 @app.route('/api/add_product', methods=['POST'])
@@ -199,8 +197,32 @@ def get_product_details(product_id):
     print(product_details)
     return jsonify(product_details)
 
+@app.route('/api/add_to_cart', methods=['POST'])
+def add_to_cart():
+    try:
+        data = request.get_json()
+        customer_id = data.get('customer_id')
+        product_id = data.get('product_id')
+
+        cursor = mydb.cursor()
+        query = "INSERT INTO addtocart (customer_id, product_id) VALUES (%s, %s)"
+        values = (customer_id, product_id)
+
+        cursor.execute(query, values)
+        mydb.commit()
+        cursor.close()
+
+        return jsonify({'message': 'Product added to cart successfully'})
+    except Exception as e:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({'error': 'Product already in cart'})
+
+
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
+
+
 '''
 
 from flask import Flask, request, jsonify
@@ -222,5 +244,3 @@ def get_products():
 
 if __name__ == '__main__':
     app.run(host='192.168.56.1',port='3000',debug=True)'''
-
-dfsf

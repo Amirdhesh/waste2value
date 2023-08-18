@@ -23,7 +23,6 @@ import Productupload from './Components/Productupload';
 
 import ProductAddedScreen from './Components/ProductAddedScreen';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
-import Cart from './Components/Cart';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
@@ -47,20 +46,23 @@ export function App() {
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
    </Stack.Navigator>
- </NavigationContainer>*/ 
+ </NavigationContainer> 
   <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+    <Stack.Screen name="CustomerCart" component={Cart} />
   </Stack.Navigator>
-</NavigationContainer>
- /*<NavigationContainer>
- <Stack.Navigator initialRoutName="Product">
+</NavigationContainer>*/
+ <NavigationContainer>
+ <Stack.Navigator initialRoutName="Login">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
-   <Stack.Screen name="CustomerProduct" component={CustomerProduct} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
+    <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
  </Stack.Navigator>
-</NavigationContainer>*/ 
+</NavigationContainer>
   );
 }
 export default App;

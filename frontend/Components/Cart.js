@@ -8,53 +8,11 @@ import { Entypo } from '@expo/vector-icons';
 
 
 
-const Cart = ({navigation}) => {
+const Cart = ({route,navigation}) => {
 
-  // const cartdata = []
-  const cartdata = [
-    {
-    "product_name":"amir",
-    "product_code":123,
-    "product_price":12,
-    "quantity":10	
-    },
-    {
-      "product_name":"amir",
-      "product_code":123,
-      "product_price":12,
-      "quantity":10	
-      },
-      {
-        "product_name":"amir",
-        "product_code":123,
-        "product_price":12,
-        "quantity":10	
-        },
-        {
-          "product_name":"amir",
-          "product_code":123,
-          "product_price":12,
-          "quantity":10	
-          },
-          {
-            "product_name":"amir",
-            "product_code":123,
-            "product_price":12,
-            "quantity":10	
-            },
-            {
-              "product_name":"amir",
-              "product_code":123,
-              "product_price":12,
-              "quantity":10	
-              },
-              {
-                "product_name":"amir",
-                "product_code":123,
-                "product_price":12,
-                "quantity":10	
-                },
-    ]
+  const {customerid} = route.params;
+  
+  
   const Product=({item})=>(
     <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
     <View style={{flexDirection:'row',alignItems:'center'}}>

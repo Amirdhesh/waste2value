@@ -3,15 +3,15 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({navigation}) => {
+const CustomerStore = ({route,navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
 
   useEffect(() => {
     fetchProductData(); // Fetch product data from Flask API
   }, []);
-
-  
+  console.log(route.params);
+  const {customer_id} = route.params;
   const fetchProductData = async () => {
     try {
       const response = await fetch('http://192.168.56.1:3000/api/productslist');
@@ -23,8 +23,9 @@ const CustomerStore = ({navigation}) => {
     }
   };
 
-  const handleProductClick = (productId) => {
-    navigation.navigate('ProductDetails', { productId });
+  const handleProductClick = (product_id) => {
+    console.log(customer_id);
+    navigation.navigate('ProductDetails', { product_id,customer_id });
   };
 
   // const Product=({item})=>(
@@ -44,7 +45,6 @@ const CustomerStore = ({navigation}) => {
   // )
   
   const renderItem = ({ item }) => {
-    
         
     return (
       <View style={{
