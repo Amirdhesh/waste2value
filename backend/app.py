@@ -152,7 +152,7 @@ if __name__=="__main__":
 
 from flask import Flask, request, jsonify
 import mysql.connector 
-db=mysql.connector.connect(
+mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
@@ -173,15 +173,15 @@ def add_product():
         product_description = data.get('product_description')
         product_price = data.get('product_price')
         products.append(data)
-        cursor = db.cursor()
+        cursor = mydb.cursor()
         query = "INSERT INTO productdetails (product_name, product_description, product_price) VALUES (%s, %s, %s)"
         values = (product_name, product_description, product_price)
         cursor.execute(query, values)
-        db.commit()
+        mydb.commit()
         cursor.close()
         return jsonify({'message': 'Product added to database successfully'})
     except Exception as e:
-        db.rollback()
+        mydb.rollback()
         if 'cursor' in locals():
             cursor.close()
         return jsonify({'error': str(e)})
@@ -190,7 +190,7 @@ def add_product():
 @app.route('/api/productslist', methods=['GET'])
 def get_productslist():
     try:
-        cursor = db.cursor(dictionary=True)
+        cursor = mydb.cursor(dictionary=True)
         query = "SELECT * FROM productdetails"
         cursor.execute(query)
         products = cursor.fetchall()
@@ -202,7 +202,7 @@ def get_productslist():
 
 @app.route('/api/selectedproduct/<int:product_id>', methods=['GET'])
 def get_product_details(product_id):
-    cursor = db.cursor(dictionary=True)
+    cursor = mydb.cursor(dictionary=True)
     query = "SELECT * FROM productdetails WHERE product_id = %s"
     cursor.execute(query, (product_id,))
     product_details = cursor.fetchone()

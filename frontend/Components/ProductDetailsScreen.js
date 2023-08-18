@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import Cart from './Cart';
-function ProductDetailsScreen({ route },{navigation}) {
+function ProductDetailsScreen({ route,navigation}) {
   const { productId } = route.params;
   const [productDetails, setProductDetails] = useState({});
 
@@ -22,8 +22,8 @@ function ProductDetailsScreen({ route },{navigation}) {
       .then((data) => setProductDetails(data))
       .catch((error) => console.error(error));
   }, [productId]);
-const handlePress=()=> {
-  navigation.navigate()
+const handlePress=(productId)=> {
+  navigation.navigate('AddToCart',{productId});
 }
   return (
     <View style={styles.fullcontainer}>
@@ -34,7 +34,7 @@ const handlePress=()=> {
       <Text style={styles.price}>Rs.{productDetails.product_price}</Text>
     </View>
     <View style={styles.buttonview}>
-    <Button title="Add to Cart" onPress={()=>handlePress()} color="#D268CC" />
+    <Button title="Add to Cart" onPress={()=>handlePress(productId)} color="#D268CC" />
   </View>
   </View>
   );

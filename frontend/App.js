@@ -22,6 +22,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Productupload from './Components/Productupload';
 import ProductAddedScreen from './Components/ProductAddedScreen';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
+import Cart from './Components/Cart';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
@@ -52,6 +53,7 @@ export function App() {
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+    <Stack.Screen name="AddToCart" component={Cart}/>
   </Stack.Navigator>
 </NavigationContainer>
   );
