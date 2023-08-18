@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native';
+import { color } from 'react-native-elements/dist/helpers';
 function ProductDetailsScreen({ route }) {
   const { productId } = route.params;
   const [productDetails, setProductDetails] = useState({});
@@ -22,14 +23,15 @@ function ProductDetailsScreen({ route }) {
   }, [productId]);
 
   return (
-    <View>
+    <View style={styles.fullcontainer}>
       <Text style={styles.name}>{productDetails.product_name}</Text>
       <View style={styles.container}></View>
+     <View>
       <Text style={styles.description}>{productDetails.product_description}</Text>
       <Text style={styles.price}>Price: {productDetails.product_price}</Text>
-    <View style={styles.buttonContainer}>
-    <Button title="Add to Cart" />
-    <Button title="Add to Wishlist" />
+    </View>
+    <View style={styles.buttonview}>
+    <Button title="Add to Cart" color="#D268CC" />
   </View>
   </View>
   );
@@ -40,8 +42,12 @@ export default ProductDetailsScreen;
 
 const styles=StyleSheet.create(
   {
+    fullcontainer:{
+      marginLeft: 20,
+      flex:1
+    },
     container: {
-      left: 70,
+      left:40,
       height:300,
       width: 278,
       borderRadius: 10,
@@ -60,6 +66,14 @@ const styles=StyleSheet.create(
       top:60,
       fontSize: 20,
       color:'green'
+    },
+    buttonview: {
+      width: 250,
+      top: 200,
+      left: 65,
+      justifyContent: 'center',
+       
     }
+    
   }
 );

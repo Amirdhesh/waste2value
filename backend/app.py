@@ -195,6 +195,7 @@ def get_productslist():
         cursor.execute(query)
         products = cursor.fetchall()
         cursor.close()
+        print(products)
         return jsonify(products)
     except Exception as e:
         return jsonify({'error': str(e)})

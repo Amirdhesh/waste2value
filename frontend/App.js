@@ -47,14 +47,13 @@ export function App() {
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
    </Stack.Navigator>
  </NavigationContainer> 
-  <CustomerStore/>
+  */
   <NavigationContainer>
-  <Stack.Navigator>
+  <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
   </Stack.Navigator>
-</NavigationContainer>*/
-<Login/>
+</NavigationContainer>
   );
 }
 export default App;
