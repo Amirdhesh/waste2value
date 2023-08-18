@@ -52,8 +52,7 @@ const CustomerStore = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
-        <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.id)}>{item.product_name}</Text>
-        <Text style={{fontSize:18,fontWeight:"300"}}>{item.product_description}</Text>
+        <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.product_id)}>{item.product_name}</Text>
         <Text style={{fontSize:14,color:"green"}}>Price:Rs.{item.product_price}</Text>
       </View>
     );
