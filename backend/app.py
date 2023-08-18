@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+'''from flask import Flask,jsonify,request
 from flask_mysqldb import MySQL
 
 app=Flask(__name__)
@@ -129,7 +129,7 @@ def company():
         return jsonify("Signup Successful")
     
 
-'''@app.route('/api/products', methods=['GET'])
+@app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
         connection = mysql.connector.connect(db_config)
@@ -139,10 +139,7 @@ def get_productslist():
         cursor.close()
         return jsonify(products)
     except Exception as e:
-        return jsonify({'error': str(e)})'''
-<<<<<<< HEAD
-
-
+        return jsonify({'error': str(e)})
 
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
@@ -158,8 +155,6 @@ mydb=mysql.connector.connect(
 )
 app = Flask(__name__)
 
-=======
->>>>>>> 1c170aa82875ba2cb6d4eda3b1965b938e57b535
 products = []
 @app.route('/api/add_product', methods=['POST'])
 def add_product():
@@ -181,7 +176,6 @@ def add_product():
         if 'cursor' in locals():
             cursor.close()
         return jsonify({'error': str(e)})
-
 
 @app.route('/api/productslist', methods=['GET'])
 def get_productslist():
@@ -228,3 +222,5 @@ def get_products():
 
 if __name__ == '__main__':
     app.run(host='192.168.56.1',port='3000',debug=True)'''
+
+dfsf
