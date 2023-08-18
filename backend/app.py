@@ -1,4 +1,4 @@
-'''from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request
 from flask_mysqldb import MySQL
 
 app=Flask(__name__)
@@ -12,16 +12,6 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 cur=mydb.cursor()
-'''@app.route('/login',methods=['POST'])
-def index():
-    user = request.json['user']
-    password= request.json['password']
-    sql="insert into  login (username,password,type)values (%s,%s,%s)"
-    
-    val=(user,password,'user')
-    cur.execute(sql,val)
-    mydb.commit()
-    return jsonify("Success")'''
 @app.route('/user',methods=['GET'])
 def user():
     cur.execute("select * from login")
@@ -150,6 +140,7 @@ def get_productslist():
         return jsonify(products)
     except Exception as e:
         return jsonify({'error': str(e)})'''
+<<<<<<< HEAD
 
 
 
@@ -167,11 +158,9 @@ mydb=mysql.connector.connect(
 )
 app = Flask(__name__)
 
+=======
+>>>>>>> 1c170aa82875ba2cb6d4eda3b1965b938e57b535
 products = []
-@app.route('/api/products', methods=['GET'])
-def get_products():
-    return jsonify(products)
-
 @app.route('/api/add_product', methods=['POST'])
 def add_product():
     try:
@@ -216,5 +205,26 @@ def get_product_details(product_id):
     print(product_details)
     return jsonify(product_details)
 
-if __name__ == '__main__':
+if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
+'''
+
+from flask import Flask, request, jsonify
+import mysql.connector 
+db=mysql.connector.connect(
+    host= "localhost",
+    user= "Madumitha",
+    password= "madumitha",
+    database="WASTETOVALUE"
+)
+app = Flask(__name__)
+
+
+@app.route('/api/products', methods=['GET'])
+def get_products():
+    return jsonify(products)
+
+
+
+if __name__ == '__main__':
+    app.run(host='192.168.56.1',port='3000',debug=True)'''
