@@ -16,7 +16,7 @@ import CustomerProduct from './Components/CustomerProduct';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Header } from 'react-native-elements';
-import Productupload from './Components/Productupload';
+//import Productupload from './Components/Productupload';
 import ProductAddedScreen from './Components/ProductAddedScreen';
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -36,12 +36,19 @@ export default function App() {
 
       </Stack.Navigator>
    </NavigationContainer>
-    */
-   <NavigationContainer>
+  */
+   /*<NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
    </Stack.Navigator>
- </NavigationContainer> 
+ </NavigationContainer> */
+ <NavigationContainer>
+ <Stack.Navigator initialRoutName="Product">
+   <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name="CustomerProduct" component={CustomerProduct} options={{headerShown:false}}/>
+ </Stack.Navigator>
+</NavigationContainer> 
   );
 }
