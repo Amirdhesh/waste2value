@@ -52,12 +52,11 @@ export function App() {
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
   </Stack.Navigator>*/
-</NavigationContainer>
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Product">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
-   <Stack.Screen name="CustomerProduct" component={CustomerProduct} options={{headerShown:false}}/>
+   <Stack.Screen name="CustomerStore" component={CustomerStore} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer> 
   );

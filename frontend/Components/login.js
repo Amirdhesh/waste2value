@@ -21,7 +21,7 @@ const Login = ({navigation}) => {
   .then(resp => resp.json())
   .then(data => {
     if(data[0]=="Login Successful"){
-    navigation.navigate("CustomerProduct")
+    navigation.navigate("CustomerStore")
     }
     console.log(data)
     
