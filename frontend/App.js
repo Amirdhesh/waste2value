@@ -1,4 +1,4 @@
-/*import { StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import SignUp from './Components/SignUp';
 import Register from './Components/Register';
 
@@ -12,7 +12,7 @@ import CustomerPayment from './Components/CustomerPayment';
 import ForgetPassword from './Components/ForgetPassword';
 import OTP from './Components/OTP';
 import CustomerProduct from './Components/CustomerProduct';
-import { Header } from 'react-native-elements';*/
+import { Header } from 'react-native-elements';
 import Login from './Components/login';
 
 import CustomerStore from './Components/CustomerStore';
@@ -20,6 +20,7 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Productupload from './Components/Productupload';
+
 import ProductAddedScreen from './Components/ProductAddedScreen';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
 const Stack = createNativeStackNavigator();
@@ -39,21 +40,26 @@ export function App() {
         <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
 
       </Stack.Navigator>
-   </NavigationContainer>
-    
-   <NavigationContainer>
+   </NavigationContainer>*/
+   /*<NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
-   </Stack.Navigator>
- </NavigationContainer> 
-  */
+   </Stack.Navigator>*/
+ /*</NavigationContainer> 
   <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-  </Stack.Navigator>
+  </Stack.Navigator>*/
 </NavigationContainer>
+ <NavigationContainer>
+ <Stack.Navigator initialRoutName="Product">
+   <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name="CustomerProduct" component={CustomerProduct} options={{headerShown:false}}/>
+ </Stack.Navigator>
+</NavigationContainer> 
   );
 }
 export default App;

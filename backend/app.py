@@ -7,12 +7,12 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="user",
-  database="sampledb"
+  password="tiger",
+  database="wtv"
 )
 mycursor = mydb.cursor()
 cur=mydb.cursor()
-@app.route('/login',methods=['POST'])
+'''@app.route('/login',methods=['POST'])
 def index():
     user = request.json['user']
     password= request.json['password']
@@ -21,7 +21,7 @@ def index():
     val=(user,password,'user')
     cur.execute(sql,val)
     mydb.commit()
-    return jsonify("Success")
+    return jsonify("Success")'''
 @app.route('/user',methods=['GET'])
 def user():
     cur.execute("select * from login")
@@ -74,21 +74,28 @@ def userdetails():
 #for login
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-
+    #data = request.get_json()
+    email = request.json['email']
+    password = request.json['password']
     sql = "SELECT * FROM login WHERE email = %s AND password = %s"
     val = (email, password)
     cur.execute(sql, val)
     user = cur.fetchone()
-
+    
     if user:
-        return jsonify("Login Successful")
+        sql = "SELECT id FROM login WHERE email = %s"
+        val = (email,)
+        cur.execute(sql, val)
+        userid = cur.fetchone()
+        userid=userid[0]
+        return jsonify("Login Successful",userid)
     else:
         return jsonify("Incorrect email or password"), 401
     
 # for signup
+
+
+
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -132,17 +139,17 @@ def company():
         return jsonify("Signup Successful")
     
 
-@app.route('/api/products', methods=['GET'])
+'''@app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
-        connection = mysql.connector.connect(**db_config)
+        connection = mysql.connector.connect(db_config)
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT id, pname FROM products") 
         products = cursor.fetchall()
         cursor.close()
         return jsonify(products)
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)})'''
 
 
 
