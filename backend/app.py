@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+'''from flask import Flask,jsonify,request
 from flask_mysqldb import MySQL
 
 app=Flask(__name__)
@@ -137,7 +137,7 @@ def get_productslist():
     try:
         connection = mysql.connector.connect(**db_config)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT id, pname FROM products")  # Adjust the query as needed
+        cursor.execute("SELECT id, pname FROM products") 
         products = cursor.fetchall()
         cursor.close()
         return jsonify(products)
@@ -167,27 +167,25 @@ def get_products():
 
 @app.route('/api/add_product', methods=['POST'])
 def add_product():
-    data = {
-        "productName":request.json['productName'],
-        "description":request.json['description'],
-        'price':request.json['price']
-    }
-    image=request.files['image']
-    image_path=os.path.join('')
-    cursor=db.cursor()
-    query = "INSERT INTO productdetails (Product_name,product_description,product_price) VALUES (%s, %s, %s)"
-    values=(data['productName'],data['description'],data['price'])
-    products.append(data)
-    print(products)
     try:
-        cursor.execute(query,values)
+        data = request.get_json()
+        product_name = data.get('product_name')
+        product_description = data.get('product_description')
+        product_price = data.get('product_price')
+        products.append(data)
+        cursor = db.cursor()
+        query = "INSERT INTO productdetails (product_name, product_description, product_price) VALUES (%s, %s, %s)"
+        values = (product_name, product_description, product_price)
+        cursor.execute(query, values)
         db.commit()
         cursor.close()
-        return jsonify({'message':'Product added to database successfully'})
+        return jsonify({'message': 'Product added to database successfully'})
     except Exception as e:
         db.rollback()
-        cursor.close()
-        return jsonify({'error':str(e)})
+        if 'cursor' in locals():
+            cursor.close()
+        return jsonify({'error': str(e)})
+
 
 @app.route('/api/productslist', methods=['GET'])
 def get_productslist():
@@ -201,5 +199,14 @@ def get_productslist():
     except Exception as e:
         return jsonify({'error': str(e)})
 
+@app.route('/api/selectedproduct/<int:product_id>', methods=['GET'])
+def get_product_details(product_id):
+    cursor = db.cursor(dictionary=True)
+    query = "SELECT * FROM productdetails WHERE product_id = %s"
+    cursor.execute(query, (product_id,))
+    product_details = cursor.fetchone()
+    print(product_details)
+    return jsonify(product_details)
+
 if __name__ == '__main__':
-    app.run(host='192.168.56.1',port='3000',debug=True)'''
+    app.run(host='192.168.56.1',port='3000',debug=True)

@@ -23,6 +23,10 @@ const CustomerStore = ({navigation}) => {
     }
   };
 
+  const handleProductClick = (productId) => {
+    navigation.navigate('ProductDetails', { productId });
+  };
+
   // const Product=({item})=>(
   //   <View style={{}}>
   //     <View style={{flexDirection:'row',justifyContent:"space-evenly",}}>
@@ -48,9 +52,9 @@ const CustomerStore = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
-        <Text style={{fontSize:20}}>{item.product_name}</Text>
-        <Text style={{fontSize:18}}>{item.product_description}</Text>
-        <Text style={{fontSize:14}}>Price:Rs.{item.product_price}</Text>
+        <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.id)}>{item.product_name}</Text>
+        <Text style={{fontSize:18,fontWeight:"300"}}>{item.product_description}</Text>
+        <Text style={{fontSize:14,color:"green"}}>Price:Rs.{item.product_price}</Text>
       </View>
     );
   };

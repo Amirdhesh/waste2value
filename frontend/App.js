@@ -1,8 +1,8 @@
-import { StatusBar } from 'react-native';
+/*import { StatusBar } from 'react-native';
 import Login from './Components/login';
 import SignUp from './Components/SignUp';
 import Register from './Components/Register';
-import CustomerStore from './Components/CustomerStore';
+
 import CustomerNavbar from './Components/CustomerNavbar';
 import Cart from './Components/Cart';
 import Details from './Components/Details';
@@ -13,13 +13,16 @@ import CustomerPayment from './Components/CustomerPayment';
 import ForgetPassword from './Components/ForgetPassword';
 import OTP from './Components/OTP';
 import CustomerProduct from './Components/CustomerProduct';
+import { Header } from 'react-native-elements';*/
+import CustomerStore from './Components/CustomerStore';
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Header } from 'react-native-elements';
 import Productupload from './Components/Productupload';
 import ProductAddedScreen from './Components/ProductAddedScreen';
+import ProductDetailsScreen from './Components/ProductDetailsScreen';
 const Stack = createNativeStackNavigator();
-export default function App() {
+export function App() {
   return (
     /*<NavigationContainer>
       <Stack.Navigator initialRouteName='CustomerStore'>
@@ -36,12 +39,21 @@ export default function App() {
 
       </Stack.Navigator>
    </NavigationContainer>
-    */
+    
    <NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
    </Stack.Navigator>
  </NavigationContainer> 
+  <CustomerStore/>*/
+  <NavigationContainer>
+  <Stack.Navigator>
+    <Stack.Screen name="ProductList" component={CustomerStore} />
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+  </Stack.Navigator>
+</NavigationContainer>
+
   );
 }
+export default App;
