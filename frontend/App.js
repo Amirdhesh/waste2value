@@ -46,21 +46,21 @@ export function App() {
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
-   </Stack.Navigator>*/
- /*</NavigationContainer> 
+   </Stack.Navigator>
+ </NavigationContainer>*/ 
   <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-  </Stack.Navigator>*/
+  </Stack.Navigator>
 </NavigationContainer>
- <NavigationContainer>
+ /*<NavigationContainer>
  <Stack.Navigator initialRoutName="Product">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
    <Stack.Screen name="CustomerProduct" component={CustomerProduct} options={{headerShown:false}}/>
  </Stack.Navigator>
-</NavigationContainer> 
+</NavigationContainer>*/ 
   );
 }
 export default App;
