@@ -5,56 +5,25 @@ import { StatusBar } from 'expo-status-bar';
 import cart from "./../Assests/Cart.png"
 import { Ionicons } from '@expo/vector-icons'; 
 import { Entypo } from '@expo/vector-icons'; 
+import { useState, useEffect } from 'react';
 
+const Cart = ({route,navigation}) => {
 
+  const {customer_id} = route.params;
+  const [cartData, SetcartData] = useState([]); 
+  console.log('customer_id:',customer_id);
+  useEffect(()=>{
+    fetch(`http://192.168.56.1:3000/api/cartdetails/${customer_id}`)
+    .then((response)=> response.json())
+    .then((data)=>{
+      console.log('cartData:',data);
+      SetcartData(data);
+    })
+    .catch((error)=>{
+      console.error('Error fetching cart data:',error);
+    })
+  },[]);
 
-const Cart = ({navigation}) => {
-
-  // const cartdata = []
-  const cartdata = [
-    {
-    "product_name":"amir",
-    "product_code":123,
-    "product_price":12,
-    "quantity":10	
-    },
-    {
-      "product_name":"amir",
-      "product_code":123,
-      "product_price":12,
-      "quantity":10	
-      },
-      {
-        "product_name":"amir",
-        "product_code":123,
-        "product_price":12,
-        "quantity":10	
-        },
-        {
-          "product_name":"amir",
-          "product_code":123,
-          "product_price":12,
-          "quantity":10	
-          },
-          {
-            "product_name":"amir",
-            "product_code":123,
-            "product_price":12,
-            "quantity":10	
-            },
-            {
-              "product_name":"amir",
-              "product_code":123,
-              "product_price":12,
-              "quantity":10	
-              },
-              {
-                "product_name":"amir",
-                "product_code":123,
-                "product_price":12,
-                "quantity":10	
-                },
-    ]
   const Product=({item})=>(
     <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
     <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -62,8 +31,8 @@ const Cart = ({navigation}) => {
 
         </View>
         <View style={{left:15}}>
-          <Text style={{fontSize:30}}>{item.product_name}</Text>
-          <Text style={{fontSize:20}}>Cost</Text>
+          <Text style={{fontSize:27 ,fontWeight:600 }}>{item.product_name}</Text>
+          <Text style={{fontSize:20 , color:'green' , fontWeight:400 }}>Price: Rs.{item.product_price}</Text>
           <View style={{flexDirection:'row',marginLeft:-5}}>
               <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
               <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
@@ -76,6 +45,10 @@ const Cart = ({navigation}) => {
 
   )
 
+  const totalCost = cartData.reduce(
+    (total, item) => total + item.product_price,
+    0
+  );
   function quantityminus(code){
     console.log(code);
   }
@@ -104,15 +77,15 @@ const Cart = ({navigation}) => {
       
       
         <View style={{ height:'80%'}}>
-          { cartdata.length !=0 && 
+          { cartData.length !=0 && 
             <FlatList
           style={{paddingHorizontal:15}}
-            data={cartdata}
+            data={cartData}
             renderItem={({item})=><Product item={item}/>}
             keyExtractor={item=>item.id}
-          />
+          /> 
           }
-          {cartdata.length == 0 && 
+          {cartData.length == 0 && 
             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center', height:'100%'}}>
         <Image source={cart} style={{height:361,width:285}} />
        </View> 
@@ -122,7 +95,7 @@ const Cart = ({navigation}) => {
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-evenly',height:'10%'}}>
           <View style={{flexDirection:'column',alignItems:'center'}}>
             <Text style={{fontSize:16}}>Total Cost:</Text>
-            <Text style={{fontSize:30}}>$350</Text>
+            <Text style={{fontSize:30}}>Rs.{totalCost}</Text>
           </View>
           
             <View style={{ height: 70,width: 220,shadowColor: '#52006A', elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>

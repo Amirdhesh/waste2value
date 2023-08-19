@@ -45,20 +45,24 @@ export function App() {
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
-   </Stack.Navigator>*/
- /*</NavigationContainer> 
+   </Stack.Navigator>
+ </NavigationContainer> 
   <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-  </Stack.Navigator>*/
+    <Stack.Screen name="CustomerCart" component={Cart} />
+  </Stack.Navigator>
+</NavigationContainer>*/
  <NavigationContainer>
- <Stack.Navigator initialRoutName="Product">
+ <Stack.Navigator initialRoutName="Login">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
-   <Stack.Screen name="CustomerStore" component={CustomerStore} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
+    <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
  </Stack.Navigator>
-</NavigationContainer> 
+</NavigationContainer>
   );
 }
 export default App;
