@@ -3,7 +3,24 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-aware-scroll-view'
 
-const Details = ({navigation}) => {
+const Details = ({route,navigation}) => {
+  const {customer_id} = route.params;
+  console.log(customer_id);
+  const Details=(()=>{
+    fetch(`http://192.168.56.1:3000/userdetails/${customer_id}`)
+    .then((response)=> response.json())
+    .then((data)=>{
+      if(data=='Updated the details'){
+        navigation.navigate("CustomerPayment",{customer_id:data.customer_id})
+      }
+      else{
+        navigation.navigate("Details",{customer_id:data.customer_id})
+      }
+    })
+    .catch((error)=>{
+      console.error('Error fetching cart data:',error);
+    })
+  })
   return (
 <KeyboardAwareScrollView
     style={{ flex:1 }}
@@ -72,7 +89,9 @@ const Details = ({navigation}) => {
         
 
         <View style={{ height: 60,width: 351,shadowColor: '#52006A',margin:20, elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity onPress={()=>Details()}>
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Ok</Text>
+        </TouchableOpacity>
         </View>
       </View> 
       

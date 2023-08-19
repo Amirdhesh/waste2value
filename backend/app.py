@@ -1,4 +1,6 @@
 from flask import Flask,jsonify,request
+
+from flask_mysqldb import MySQL
 import mysql.connector
 
 app=Flask(__name__)
@@ -10,12 +12,13 @@ mydb = mysql.connector.connect(
   password="tiger",
   database="wtv"
 )
-'''from flask import Flask, request, jsonify
+'''
+from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "localhost",
+    host= "172.31.99.34",
     user= "Madumitha",
-    password= "madumitha",
+    password= "1234",
     database="WASTETOVALUE"
 )'''
 app = Flask(__name__)
@@ -35,7 +38,7 @@ def createuseraccount():
     exist=False
     for i in result :
         if i[0]== email:
-            exist=True
+            exist=True            
             break
     if exist==False:
         sql="insert into  login (password,type,email)values (%s,%s,%s)"
@@ -54,18 +57,19 @@ def add():
 @app.route('/')
 
 #for user details
-@app.route('/userdetails',methods=["POST"])
-def userdetails():
-    id=request.json['id']
+@app.route('/userdetails/<int:id>',methods=["POST","GET"])
+def userdetails(id):
     qury="select username from login where id="+id
     cur.execute(qury)
     result=cur.fetchall()
+    print(id)
     if result[0][0]==None:
         username=request.json['username']
         sql="update login set username=%s where id="+id
         val=(username,)
         cur.execute(sql,val)
         mydb.commit()
+
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
@@ -93,6 +97,17 @@ def login():
     
 # for signup
 
+@app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
+def checkdetails(customer_id):
+    check_name='select username from login where id=%s'
+    cur.execute(check_name, [customer_id,]) 
+    username = cur.fetchone()
+    print(customer_id)
+    print(username)
+    if  username[0]!=None:
+        return jsonify({"message":"Payment","customer_id":customer_id})
+    else:
+        return jsonify({"message":"Details","customer_id":customer_id})
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -191,7 +206,6 @@ def get_product_details(product_id):
     query = "SELECT * FROM productdetails WHERE product_id = %s"
     cursor.execute(query, (product_id,))
     product_details = cursor.fetchone()
-    print(product_details)
     return jsonify(product_details)
 
 @app.route('/api/add_to_cart', methods=['POST'])

@@ -42,13 +42,18 @@ export function App() {
         <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
 
       </Stack.Navigator>
+   </NavigationContainer>*/
+   /*
    </NavigationContainer>
    <NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
      <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
    </Stack.Navigator>
+   
  </NavigationContainer> 
+ 
+  <NavigationContainer>
  <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
@@ -64,6 +69,8 @@ export function App() {
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:true}}/>
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
+    <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
+    <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
     <Stack.Screen name="CustomerPayment" component={CustomerPayment} option={{headerShown:true}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
  </Stack.Navigator>
