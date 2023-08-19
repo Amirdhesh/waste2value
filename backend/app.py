@@ -8,7 +8,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="LOCALHOST",
+  host="192.168.0.156",
   user="root",
   password="tiger",
   database="wtv"
@@ -61,7 +61,7 @@ def userdetails(id):
     qury="select username from login where id="+str(id)
     cur.execute(qury)
     result=cur.fetchall()
-    if result[0][0]==None:
+    if result[0][0]==None: 
         username=request.json['username']
         ph_no=request.json['ph_no']
         address=request.json['address']
@@ -71,7 +71,6 @@ def userdetails(id):
         #update_query = "UPDATE login SET username = %s WHERE id = %d"
         #%s
         #cur.execute(update_query,[username,id])
-        #
         sql="UPDATE login SET username = %s ,address = %s,phonenumber = %s,pincode= %s,district = %s,state = %s where id=%s"
         val=(username,address,ph_no,pin,district,state,id)
         cur.execute(sql,val)
@@ -207,8 +206,24 @@ def add_product():
         mydb.rollback()
         if 'cursor' in locals():
             cursor.close()
+        return jsonify({'error': str()})
+
+#search product 
+@app.route('/api/searchproduct/<search>',methods=['POST','GET'])
+def searchproduct(search):
+    try:
+        cursor = mydb.cursor(dictionary=True)
+        query = "SELECT * FROM productdetails where product_name like '"+search+"%'"
+        cursor.execute(query)
+        products = cursor.fetchall()
+        print(search,products)
+        cursor.close()
+        print(products)
+        return jsonify(products)
+    except Exception as e:
         return jsonify({'error': str(e)})
 
+@app.route('/api/searchproduct/',methods=['GET'])
 @app.route('/api/productslist', methods=['GET'])
 def get_productslist():
     try:
