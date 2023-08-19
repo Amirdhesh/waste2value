@@ -5,7 +5,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="localhost",
+  host="192.168.0.155",
   user="root",
   password="tiger",
   database="wtv"
