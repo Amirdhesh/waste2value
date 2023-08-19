@@ -98,9 +98,18 @@ def login():
     
 # for signup
 
-
-
-
+@app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
+def checkdetails(customer_id):
+    check_name='select username from login where id=%s'
+    cur.execute(check_name, [customer_id,]) 
+    username = cur.fetchone()
+    print(customer_id)
+    print(username)
+    if  username[0]!=None:
+        return jsonify({"message":"Payment","customer_id":customer_id})
+    else:
+        return jsonify({"message":"Details","customer_id":customer_id})
+    
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -121,7 +130,7 @@ def signup():
         mydb.commit()
 
         return jsonify("Signup Successful")
-
+'''
 @app.route('/company', methods=['POST'])
 
 def company():
@@ -170,7 +179,11 @@ def get_productslist():
         cursor.close()
         return jsonify(products)
     except Exception as e:
-        return jsonify({'error': str(e)})'''
+        return jsonify({'error': str(e)})
+
+'''
+
+
 products = []
 @app.route('/api/add_product', methods=['POST'])
 def add_product():
@@ -213,6 +226,40 @@ def get_product_details(product_id):
     cursor.execute(query, (product_id,))
     product_details = cursor.fetchone()
     return jsonify(product_details)
+
+@app.route('/api/add_to_cart', methods=['POST'])
+def add_to_cart():
+    try:
+        data = request.get_json()
+        customer_id = data.get('customer_id')
+        product_id = data.get('product_id')
+
+        cursor = mydb.cursor()
+        query = "INSERT INTO addtocart (customer_id, product_id) VALUES (%s, %s)"
+        values = (customer_id, product_id)
+
+        cursor.execute(query, values)
+        mydb.commit()
+        cursor.close()
+
+        return jsonify({'message': 'Product added to cart successfully'})
+    except Exception as e:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({'error': 'Product already in cart'})
+    
+@app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
+def cartdetails(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select * from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
+    value=(customer_id,)
+    cursor.execute(query,value)
+    cartdata=cursor.fetchall()
+    print('cartdata fetching:',cartdata)
+    return jsonify(cartdata)
+
+
+
 
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
