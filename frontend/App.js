@@ -76,6 +76,7 @@ export function App() {
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
  </Stack.Navigator>
   </NavigationContainer>
+ /* <CompanyRequest></CompanyRequest>*/
   );
 }
 export default App;

@@ -42,7 +42,7 @@ const Register = ({navigation}) => {
       {
         navigation.navigate('Register')
       }
-      else if(data=="Registered successfully" | data=="Already registered")
+      else 
       {
         navigation.navigate('Login')
       }

@@ -6,12 +6,21 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-
+'''
 mydb = mysql.connector.connect(
   host="192.168.0.156",
   user="root",
   password="tiger",
   database="wtv"
+)'''
+
+from flask import Flask, request, jsonify
+import mysql.connector 
+mydb=mysql.connector.connect(
+    host= "localhost",
+    user= "Madumitha",
+    password= "madumitha",
+    database="WASTETOVALUE"
 )
 '''
 from flask import Flask, request, jsonify
@@ -154,14 +163,11 @@ def company():
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s where email=%s"
+            query="update login set company_name=%s, type='pending', phonenumber=%s, address=%s, pincode=%s where email=%s"
             cur.execute(query,(name,ph_no,address,pin,email))
             mydb.commit()
             return jsonify("Registered successfully")
-
-    
-
-
+        
 '''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
@@ -266,6 +272,17 @@ def cartdetails(customer_id):
     
     return jsonify("You will be verified soon!!")
     
+
+
+#admin
+
+@app.route('/admin/companyrequest',methods=['GET'])
+def CompanyRequest():
+    cursor=mydb.cursor(dictionary=True)
+    query="select * from login where type='pending'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    return jsonify(data)
 
 
 if __name__=="__main__":
