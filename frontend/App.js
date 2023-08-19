@@ -25,6 +25,7 @@ import ProductAddedScreen from './Components/ProductAddedScreen';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
 import CompanyRequest from './Components/companyrequest';
 import ContributeWaste from './Components/Contributewaste';
+
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
@@ -65,13 +66,13 @@ export function App() {
  <Stack.Navigator initialRoutName="Login">
 
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name='Signup' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:true}}/>
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
-    <Stack.Screen name="CustomerPayment" component={CustomerPayment} option={{headerShown:true}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
  </Stack.Navigator>
   </NavigationContainer>

@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request
-
-from flask_mysqldb import MySQL
+import mysql.connector
+#from flask_mysqldb import MySQL
 import os
 import mysql.connector
 
@@ -8,7 +8,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="172.31.98.250",
+  host="192.168.0.156",
   user="root",
   password="tiger",
   database="wtv"
@@ -134,45 +134,35 @@ def signup():
 #UPLOAD_FOLDER = 'uploads'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 @app.route('/company', methods=['POST'])
-
 def company():
     data = request.get_json()
-    name=data.get('Company name')
+    name=data.get('Companyname')
     email = data.get('email')
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
-    area=data.get('area')
     password=data.get('password')
-    '''image = request.files['image']'''
-
-    #return if user account does not exists in db
-    check_email_sql = "SELECT * FROM login WHERE email = %s"
-    cur.execute(check_email_sql, [email,])  
-    user = cur.fetchone()
-    
+    query1="select * from login where email=%s"
+    cur.execute(query1,(email,))
+    user=cur.fetchone()
     if not user:
-        return jsonify("Please create an account as an user and then try again")
-    #else add email to db
+        return jsonify({"message":"Register as user"})
     else:
-        origpasssql="select password from login where email=%s"
-        cur.execute(origpasssql, [email,])
-        origpass = cur.fetchone() 
-        '''if password!=origpass:
-            return jsonify("incorrect password")'''
-        delsql="DELETE FROM login WHERE email = %s"
-        cur.execute(delsql, [email,])
-        mydb.commit()
-        sql = "INSERT INTO login (email,type,company_name, ph_no, address, pincode, area,password) VALUES  (%s,%s, %s, %s,%s,%s,%s,%s) "
-        val = [email,'company',name,ph_no,address,pin,area,password]  
-        cur.execute(sql, val)
-        mydb.commit()
+        if user.get('type')=='pending' or user.get('type')=='company':
+            return jsonify({"message":"Already register"})
+        if user.get('password')!=password:
+            return jsonify({"message":"Incorrect password"})
+        else:
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s where email=%s"
+            cur.execute(query,(name,ph_no,address,pin,email))
+            mydb.commit()
+            return jsonify("Updated successfully")
 
-        return jsonify("Signup Successful")
-  
+    
 
+
+'''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
@@ -186,7 +176,7 @@ def get_productslist():
         return jsonify({'error': str(e)})
 
 
-
+'''
 
 products = []
 @app.route('/api/add_product', methods=['POST'])

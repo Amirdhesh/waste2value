@@ -18,7 +18,7 @@ const Details = ({route,navigation}) => {
       }
     })
     .catch((error)=>{
-      console.error('Error fetching cart data:',error);
+      console.error('Error fetching user data:',error);
     })
   })
   return (

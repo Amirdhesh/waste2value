@@ -70,7 +70,7 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           <Text>Or</Text>
           <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
-          <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('SignUp')} >Account</Text></Text>
+          <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('Signup')} >Account</Text></Text>
           </TouchableOpacity>
         </View>
         </View>
