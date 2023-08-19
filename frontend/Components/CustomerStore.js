@@ -3,14 +3,13 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({route,navigation}) => {
+const CustomerStore = ({route ,navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
 
   useEffect(() => {
     fetchProductData(); // Fetch product data from Flask API
   }, []);
-  console.log(route.params);
   const {customer_id} = route.params;
   const fetchProductData = async () => {
     try {

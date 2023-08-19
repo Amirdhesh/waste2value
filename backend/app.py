@@ -9,6 +9,7 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
   host="192.168.0.156",
+  host="LOCALHOST",
   user="root",
   password="tiger",
   database="wtv"
@@ -42,9 +43,7 @@ def createuseraccount():
             exist=True            
             break
     if exist==False:
-        sql="insert into  login (password,type,email)values (%s,%s,%s)"
-        val=(password,'user',email)
-        cur.execute(sql,val)
+         
         mydb.commit()
         return jsonify("Sucess")
     else:
@@ -55,22 +54,29 @@ def add():
     return jsonify("hai")
 
 
-@app.route('/')
+
 
 #for user details
-@app.route('/userdetails/<int:id>',methods=["POST","GET"])
+@app.route('/userdetails/<int:id>',methods=["POST"])
 def userdetails(id):
-    qury="select username from login where id="+id
+    qury="select username from login where id="+str(id)
     cur.execute(qury)
     result=cur.fetchall()
-    print(id)
     if result[0][0]==None:
         username=request.json['username']
-        sql="update login set username=%s where id="+id
-        val=(username,)
+        ph_no=request.json['ph_no']
+        address=request.json['address']
+        pin=request.json['pin']
+        district=request.json['district']
+        state=request.json['state']
+        #update_query = "UPDATE login SET username = %s WHERE id = %d"
+        #%s
+        #cur.execute(update_query,[username,id])
+        #
+        sql="UPDATE login SET username = %s ,address = %s,phonenumber = %s,pincode= %s,district = %s,state = %s where id=%s"
+        val=(username,address,ph_no,pin,district,state,id)
         cur.execute(sql,val)
         mydb.commit()
-
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
@@ -109,6 +115,7 @@ def checkdetails(customer_id):
         return jsonify({"message":"Payment","customer_id":customer_id})
     else:
         return jsonify({"message":"Details","customer_id":customer_id})
+    
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -129,6 +136,7 @@ def signup():
         mydb.commit()
 
         return jsonify("Signup Successful")
+
 
 
 #UPLOAD_FOLDER = 'uploads'
@@ -159,10 +167,21 @@ def company():
             mydb.commit()
             return jsonify("Registered successfully")
 
-    
+        origpasssql="select password from login where email=%s"
+        cur.execute(origpasssql, [email,])
+        origpass = cur.fetchone() 
+        '''if password!=origpass:
+            return jsonify("incorrect password")'''
+        delsql="DELETE FROM login WHERE email = %s"
+        cur.execute(delsql, [email,])
+        mydb.commit()
+        sql = "INSERT INTO login (email,type,company_name, phonenumber, address, pincode,password) VALUES  (%s,%s, %s, %s,%s,%s,%s) "
+        val = [email,'pending',name,ph_no,address,pin,password]  
+        cur.execute(sql, val)
+        mydb.commit()
 
+        return jsonify("Signup Successful")
 
-'''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
@@ -175,8 +194,6 @@ def get_productslist():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-
-'''
 
 products = []
 @app.route('/api/add_product', methods=['POST'])
@@ -242,6 +259,7 @@ def add_to_cart():
         cursor.close()
         return jsonify({'error': 'Product already in cart'})
     
+
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):
     cursor=mydb.cursor(dictionary=True)
@@ -253,19 +271,6 @@ def cartdetails(customer_id):
     return jsonify(cartdata)
 
 
-    # storing image data
-    '''if image:
-        filename = os.path.join('uploads', image.filename)
-        image.save(filename)
-        insert_sql = "INSERT INTO login (image) VALUES (%s)"
-        image_data = image.read()  # Read binary image data
-        val = [image_data]
-        cur.execute(insert_sql, val)
-        mydb.commit()
-    '''
-    
-    return jsonify("You will be verified soon!!")
-    
 
 
 if __name__=="__main__":

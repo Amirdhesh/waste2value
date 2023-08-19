@@ -45,7 +45,6 @@ export function App() {
       </Stack.Navigator>
    </NavigationContainer>*/
    /*
-   </NavigationContainer>
    <NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
      <Stack.Screen name="Product" component={Productupload} />
@@ -55,7 +54,6 @@ export function App() {
  </NavigationContainer> 
  
   <NavigationContainer>
- <NavigationContainer>
   <Stack.Navigator initialRouteName='ProductList'>
     <Stack.Screen name="ProductList" component={CustomerStore} />
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
@@ -64,18 +62,18 @@ export function App() {
 </NavigationContainer>*/
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Login">
-
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='Signup' component={SignUp} options={{headerShown:false}}/>
    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
-    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:true}}/>
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
+    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
  </Stack.Navigator>
-  </NavigationContainer>
+</NavigationContainer>
   );
 }
 export default App;
