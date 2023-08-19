@@ -1,7 +1,7 @@
 import { View, Text,StatusBar,TextInput,TouchableWithoutFeedback,Keyboard,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-aware-scroll-view'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
