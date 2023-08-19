@@ -149,15 +149,15 @@ def company():
     if not user:
         return jsonify({"message":"Register as user"})
     else:
-        if user.get('type')=='pending' or user.get('type')=='company':
+        if user[3]=='pending' or user[3]=='company':
             return jsonify({"message":"Already register"})
-        if user.get('password')!=password:
+        if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
             query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s where email=%s"
             cur.execute(query,(name,ph_no,address,pin,email))
             mydb.commit()
-            return jsonify("Updated successfully")
+            return jsonify("Registered successfully")
 
     
 

@@ -33,15 +33,16 @@ const Register = ({navigation}) => {
     .then((response)=>response.json())
     .then((data)=>{
       console.log(data);
-      if(data=="Please create an account as an user and then try again")
+      data=data.message
+      if(data=="Register as user")
       {
         navigation.navigate('Signup')
       }
-      else if(data=="incorrect password")
+      else if(data=="Incorrect password")
       {
         navigation.navigate('Register')
       }
-      else if(data=="Signup Successful")
+      else if(data=="Registered successfully" | data=="Already registered")
       {
         navigation.navigate('Login')
       }
@@ -96,8 +97,8 @@ const Register = ({navigation}) => {
             <TextInput keyboardType='numeric' style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 136, borderRadius: 9 }} onChangeText={(text)=>setPin(text)}/>
         </View>
         <View style={{marginLeft: 10}}>
-            <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Area:</Text>
-            <TextInput style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 208, borderRadius: 9 }}/>
+            <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Phone number:</Text>
+            <TextInput style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 208, borderRadius: 9 }} onChangeText={(text)=> setPhone(text)}/>
         </View>
       </View>
       <View style={{flexDirection:'row',justifyContent:'center',marginTop:5}}>
@@ -120,9 +121,13 @@ const Register = ({navigation}) => {
             <Text style={{marginTop:8,marginLeft:-10}}>I accept the <Text style={{color:"#B33BAE"}}>Terms and Condition</Text></Text>
         </View>
 
+        <TouchableOpacity onPress={RegisterCompany}>
         <View style={{ height: 60,width: 351,shadowColor: '#52006A',margin:20, elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+           
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }} onPress={RegisterCompany}>Register</Text>
+           
         </View>
+        </TouchableOpacity>
       </View> 
       
       </View>
