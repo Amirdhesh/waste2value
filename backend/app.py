@@ -217,6 +217,18 @@ def add_to_cart():
         mydb.rollback()
         cursor.close()
         return jsonify({'error': 'Product already in cart'})
+    
+@app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
+def cartdetails(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select * from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
+    value=(customer_id,)
+    cursor.execute(query,value)
+    cartdata=cursor.fetchall()
+    print('cartdata fetching:',cartdata)
+    return jsonify(cartdata)
+
+
 
 
 if __name__=="__main__":

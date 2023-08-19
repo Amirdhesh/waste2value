@@ -35,6 +35,7 @@ console.log(product_id,customer_id);
 
   useEffect(() => {
     fetch(`http://192.168.56.1:3000/api/selectedproduct/${product_id}`)
+    
       .then((response) => {
         console.log('Response Status:', response.status);
         if (!response.ok) {
@@ -56,6 +57,7 @@ console.log(product_id,customer_id);
     </View>
     <View style={styles.buttonview}>
     <Button title="Add to Cart" onPress={()=>handleAddToCart()} color="#D268CC" />
+    <Button title="ViewCart" onPress={()=>navigation.navigate('CustomerCart',{customer_id})} color="#D268CC" />
   </View>
   </View>
   );
