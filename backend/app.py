@@ -9,7 +9,6 @@ import mysql.connector
 
 mydb = mysql.connector.connect(
   host="192.168.0.156",
-  host="LOCALHOST",
   user="root",
   password="tiger",
   database="wtv"
@@ -62,7 +61,7 @@ def userdetails(id):
     qury="select username from login where id="+str(id)
     cur.execute(qury)
     result=cur.fetchall()
-    if result[0][0]==None:
+    if result[0][0]==None: 
         username=request.json['username']
         ph_no=request.json['ph_no']
         address=request.json['address']
@@ -72,7 +71,6 @@ def userdetails(id):
         #update_query = "UPDATE login SET username = %s WHERE id = %d"
         #%s
         #cur.execute(update_query,[username,id])
-        #
         sql="UPDATE login SET username = %s ,address = %s,phonenumber = %s,pincode= %s,district = %s,state = %s where id=%s"
         val=(username,address,ph_no,pin,district,state,id)
         cur.execute(sql,val)
@@ -157,42 +155,19 @@ def company():
     if not user:
         return jsonify({"message":"Register as user"})
     else:
+        print(user[3])
         if user[3]=='pending' or user[3]=='company':
             return jsonify({"message":"Already register"})
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s where email=%s"
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
             cur.execute(query,(name,ph_no,address,pin,email))
             mydb.commit()
             return jsonify("Registered successfully")
+        
 
-        origpasssql="select password from login where email=%s"
-        cur.execute(origpasssql, [email,])
-        origpass = cur.fetchone() 
-        '''if password!=origpass:
-            return jsonify("incorrect password")'''
-        delsql="DELETE FROM login WHERE email = %s"
-        cur.execute(delsql, [email,])
-        mydb.commit()
-        sql = "INSERT INTO login (email,type,company_name, phonenumber, address, pincode,password) VALUES  (%s,%s, %s, %s,%s,%s,%s) "
-        val = [email,'pending',name,ph_no,address,pin,password]  
-        cur.execute(sql, val)
-        mydb.commit()
 
-        return jsonify("Signup Successful")
-
-@app.route('/api/products', methods=['GET'])
-def get_productslist():
-    try:
-        connection = mysql.connector.connect(db_config)
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT id, pname FROM products") 
-        products = cursor.fetchall()
-        cursor.close()
-        return jsonify(products)
-    except Exception as e:
-        return jsonify({'error': str(e)})
 
 
 products = []
@@ -215,8 +190,24 @@ def add_product():
         mydb.rollback()
         if 'cursor' in locals():
             cursor.close()
+        return jsonify({'error': str()})
+
+#search product 
+@app.route('/api/searchproduct/<search>',methods=['POST','GET'])
+def searchproduct(search):
+    try:
+        cursor = mydb.cursor(dictionary=True)
+        query = "SELECT * FROM productdetails where product_name like '"+search+"%'"
+        cursor.execute(query)
+        products = cursor.fetchall()
+        print(search,products)
+        cursor.close()
+        print(products)
+        return jsonify(products)
+    except Exception as e:
         return jsonify({'error': str(e)})
 
+@app.route('/api/searchproduct/',methods=['GET'])
 @app.route('/api/productslist', methods=['GET'])
 def get_productslist():
     try:
