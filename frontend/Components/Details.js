@@ -13,6 +13,22 @@ const Details = ({route,navigation}) => {
   const [district,setdistrict]=useState("")
   const [state,setstate]=useState("")
   const Details=(()=>{
+/*
+    fetch(`http://192.168.56.1:3000/userdetails/${customer_id}`)
+    .then((response)=> response.json())
+    .then((data)=>{
+      if(data=='Updated the details'){
+        navigation.navigate("CustomerPayment",{customer_id:data.customer_id})
+      }
+      else{
+        navigation.navigate("Details",{customer_id:data.customer_id})
+      }
+    })
+    .catch((error)=>{
+      console.error('Error fetching user data:',error);
+    })
+  })*/
+    //amir
     fetch(`http://192.168.56.1:3000/userdetails/${customer_id}`,{
       method:"POST",
       headers: 
@@ -32,6 +48,7 @@ const Details = ({route,navigation}) => {
 })
 .catch(error => console.log(error))
 })
+//amir
   return (
 <KeyboardAwareScrollView
     style={{ flex:1 }}

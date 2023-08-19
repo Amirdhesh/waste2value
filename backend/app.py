@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request
-
-from flask_mysqldb import MySQL
+import mysql.connector
+#from flask_mysqldb import MySQL
 import os
 import mysql.connector
 
@@ -8,6 +8,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
+  host="192.168.0.156",
   host="LOCALHOST",
   user="root",
   password="tiger",
@@ -136,27 +137,36 @@ def signup():
 
         return jsonify("Signup Successful")
 
-@app.route('/company', methods=['POST'])
 
+
+#UPLOAD_FOLDER = 'uploads'
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/company', methods=['POST'])
 def company():
     data = request.get_json()
-    name=data.get('Company name')
+    name=data.get('Companyname')
     email = data.get('email')
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
-    '''image = request.files['image']'''
-
-    #return if user account does not exists in db
-    check_email_sql = "SELECT * FROM login WHERE email = %s"
-    cur.execute(check_email_sql, [email,])  
-    user = cur.fetchone()
-    
+    query1="select * from login where email=%s"
+    cur.execute(query1,(email,))
+    user=cur.fetchone()
     if not user:
-        return jsonify("Please create an account as an user and then try again")
-    #else add email to db
+        return jsonify({"message":"Register as user"})
     else:
+        if user[3]=='pending' or user[3]=='company':
+            return jsonify({"message":"Already register"})
+        if user[2]!=password:
+            return jsonify({"message":"Incorrect password"})
+        else:
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s where email=%s"
+            cur.execute(query,(name,ph_no,address,pin,email))
+            mydb.commit()
+            return jsonify("Registered successfully")
+
         origpasssql="select password from login where email=%s"
         cur.execute(origpasssql, [email,])
         origpass = cur.fetchone() 
@@ -171,8 +181,7 @@ def company():
         mydb.commit()
 
         return jsonify("Signup Successful")
-  
-'''
+
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
@@ -183,8 +192,7 @@ def get_productslist():
         cursor.close()
         return jsonify(products)
     except Exception as e:
-        return jsonify({'error': str(e)})'''
-
+        return jsonify({'error': str(e)})
 
 
 products = []
