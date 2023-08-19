@@ -8,7 +8,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="172.31.98.250",
+  host="LOCALHOST",
   user="root",
   password="tiger",
   database="wtv"
@@ -42,9 +42,7 @@ def createuseraccount():
             exist=True            
             break
     if exist==False:
-        sql="insert into  login (password,type,email)values (%s,%s,%s)"
-        val=(password,'user',email)
-        cur.execute(sql,val)
+         
         mydb.commit()
         return jsonify("Sucess")
     else:
@@ -55,22 +53,29 @@ def add():
     return jsonify("hai")
 
 
-@app.route('/')
+
 
 #for user details
-@app.route('/userdetails/<int:id>',methods=["POST","GET"])
+@app.route('/userdetails/<int:id>',methods=["POST"])
 def userdetails(id):
-    qury="select username from login where id="+id
+    qury="select username from login where id="+str(id)
     cur.execute(qury)
     result=cur.fetchall()
-    print(id)
     if result[0][0]==None:
         username=request.json['username']
-        sql="update login set username=%s where id="+id
-        val=(username,)
+        ph_no=request.json['ph_no']
+        address=request.json['address']
+        pin=request.json['pin']
+        district=request.json['district']
+        state=request.json['state']
+        #update_query = "UPDATE login SET username = %s WHERE id = %d"
+        #%s
+        #cur.execute(update_query,[username,id])
+        #
+        sql="UPDATE login SET username = %s ,address = %s,phonenumber = %s,pincode= %s,district = %s,state = %s where id=%s"
+        val=(username,address,ph_no,pin,district,state,id)
         cur.execute(sql,val)
         mydb.commit()
-
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
@@ -140,7 +145,6 @@ def company():
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
-    area=data.get('area')
     password=data.get('password')
     '''image = request.files['image']'''
 
@@ -161,8 +165,8 @@ def company():
         delsql="DELETE FROM login WHERE email = %s"
         cur.execute(delsql, [email,])
         mydb.commit()
-        sql = "INSERT INTO login (email,type,company_name, ph_no, address, pincode, area,password) VALUES  (%s,%s, %s, %s,%s,%s,%s,%s) "
-        val = [email,'pending',name,ph_no,address,pin,area,password]  
+        sql = "INSERT INTO login (email,type,company_name, phonenumber, address, pincode,password) VALUES  (%s,%s, %s, %s,%s,%s,%s) "
+        val = [email,'pending',name,ph_no,address,pin,password]  
         cur.execute(sql, val)
         mydb.commit()
 
@@ -247,6 +251,7 @@ def add_to_cart():
         cursor.close()
         return jsonify({'error': 'Product already in cart'})
     
+
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):
     cursor=mydb.cursor(dictionary=True)

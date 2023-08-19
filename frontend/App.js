@@ -68,6 +68,7 @@ export function App() {
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
+    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
   );
