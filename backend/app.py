@@ -1,5 +1,7 @@
 from flask import Flask,jsonify,request
+
 from flask_mysqldb import MySQL
+import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
@@ -106,7 +108,6 @@ def checkdetails(customer_id):
         return jsonify({"message":"Payment","customer_id":customer_id})
     else:
         return jsonify({"message":"Details","customer_id":customer_id})
-    
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -237,7 +238,6 @@ def cartdetails(customer_id):
     cartdata=cursor.fetchall()
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
-
 
 
 
