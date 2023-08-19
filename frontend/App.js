@@ -71,7 +71,6 @@ export function App() {
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
-    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
   );
