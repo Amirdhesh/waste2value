@@ -8,7 +8,7 @@ app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="192.168.0.155",
+  host="172.31.98.250",
   user="root",
   password="tiger",
   database="wtv"
@@ -130,7 +130,7 @@ def signup():
         mydb.commit()
 
         return jsonify("Signup Successful")
-'''
+
 @app.route('/company', methods=['POST'])
 
 def company():
@@ -162,13 +162,13 @@ def company():
         cur.execute(delsql, [email,])
         mydb.commit()
         sql = "INSERT INTO login (email,type,company_name, ph_no, address, pincode, area,password) VALUES  (%s,%s, %s, %s,%s,%s,%s,%s) "
-        val = [email,'company',name,ph_no,address,pin,area,password]  
+        val = [email,'pending',name,ph_no,address,pin,area,password]  
         cur.execute(sql, val)
         mydb.commit()
 
         return jsonify("Signup Successful")
   
-
+'''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
     try:
@@ -179,9 +179,8 @@ def get_productslist():
         cursor.close()
         return jsonify(products)
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)})'''
 
-'''
 
 
 products = []
