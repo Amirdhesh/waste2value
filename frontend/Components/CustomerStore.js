@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({route,navigation}) => {
+const CustomerStore = ({props ,navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
 
