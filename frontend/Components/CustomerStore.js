@@ -3,15 +3,15 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({navigation}) => {
+const CustomerStore = ({route,navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
 
   useEffect(() => {
     fetchProductData(); // Fetch product data from Flask API
   }, []);
-
-  
+  console.log(route.params);
+  const {customer_id} = route.params;
   const fetchProductData = async () => {
     try {
       const response = await fetch('http://192.168.56.1:3000/api/productslist');
@@ -21,6 +21,11 @@ const CustomerStore = ({navigation}) => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleProductClick = (product_id) => {
+    console.log(customer_id);
+    navigation.navigate('ProductDetails', { product_id,customer_id });
   };
 
   // const Product=({item})=>(
@@ -40,7 +45,6 @@ const CustomerStore = ({navigation}) => {
   // )
   
   const renderItem = ({ item }) => {
-    
         
     return (
       <View style={{
@@ -48,9 +52,8 @@ const CustomerStore = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
-        <Text style={{fontSize:20}}>{item.product_name}</Text>
-        <Text style={{fontSize:18}}>{item.product_description}</Text>
-        <Text style={{fontSize:14}}>Price:Rs.{item.product_price}</Text>
+        <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.product_id)}>{item.product_name}</Text>
+        <Text style={{fontSize:14,color:"green"}} onPress={()=>handleProductClick(item.product_id)}>Price:Rs.{item.product_price}</Text>
       </View>
     );
   };
