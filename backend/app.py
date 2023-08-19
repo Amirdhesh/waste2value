@@ -1,23 +1,23 @@
-'''from flask import Flask,jsonify,request
-from flask_mysqldb import MySQL
+from flask import Flask,jsonify,request
+import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
 
 mydb = mysql.connector.connect(
-  host="localhost",
+  host="172.31.98.250",
   user="root",
   password="tiger",
   database="wtv"
-)'''
-from flask import Flask, request, jsonify
+)
+'''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
+)'''
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -92,9 +92,6 @@ def login():
         return jsonify("Incorrect email or password"), 401
     
 # for signup
-
-
-
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -227,7 +224,6 @@ def cartdetails(customer_id):
     cartdata=cursor.fetchall()
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
-
 
 
 
