@@ -6,8 +6,7 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-
-mydb = mysql.connector.connect(
+'''mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
@@ -21,7 +20,7 @@ mydb=mysql.connector.connect(
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)'''
+)
 '''
 from flask import Flask, request, jsonify
 import mysql.connector 
