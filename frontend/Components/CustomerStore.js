@@ -92,7 +92,7 @@ const searchproduct = async () => {
       style={ {flex: 1}}
     />
 
-      <CustomerNavbar  navigation={navigation}/>
+      <CustomerNavbar  navigation={navigation} customer_id={customer_id}/>
     </View>
     
   )
