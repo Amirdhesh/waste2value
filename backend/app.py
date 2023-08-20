@@ -6,23 +6,21 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
 )
-'''
-from flask import Flask, request, jsonify
+
+'''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)'''
-'''
+)
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -117,7 +115,7 @@ def login():
     val = (email, password)
     cur.execute(sql, val)
     user = cur.fetchone()
-    
+    print(email)
 
     if user:
         typesql="select type from login where email = %s"
@@ -137,7 +135,7 @@ def login():
             return jsonify({"message":"Login Successful","customer_id":userid})
     
     else:
-        return jsonify("Incorrect email or password"),401
+        return jsonify("Incorrect email or password")
 # for signup
 
 @app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
@@ -334,6 +332,10 @@ def delete_product():
         product_id = data.get('product_id')
         cursor = mydb.cursor()
         query='delete from productdetails where product_id=%s'
+        values = ( product_id,)
+        cursor.execute(query, values)
+        mydb.commit()
+        query='delete from addtocart where product_id=%s'
         values = ( product_id,)
         cursor.execute(query, values)
         mydb.commit()

@@ -14,7 +14,6 @@ import OTP from './Components/OTP';
 import CustomerProduct from './Components/CustomerProduct';
 import { Header } from 'react-native-elements';
 import Login from './Components/login';
-
 import CustomerStore from './Components/CustomerStore';
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
@@ -27,13 +26,13 @@ import ContributeWaste from './Components/Contributewaste';
 import Companyinterfase from './Components/Companyinterface';
 import CompanyStore from './Components/CompanyStore';
 import ProductDetailscompany from './Components/ProductDetailscompany';
-import Companydetailsdisplay from './companydetailsdisplay';
+import Companydetailsdisplay from './Components/companydetailsdisplay';
 import Contribute from './Components/contribute';
 const Stack = createNativeStackNavigator();
 export function App() {
-  return (
-    /*<NavigationContainer>
-      <Stack.Navigator initialRouteName='CustomerStore'>
+  return (/*
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
@@ -43,6 +42,7 @@ export function App() {
         <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
         <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
         <Stack.Screen name='Contribution' component={Contribution} options={{headerShown:false}}/>
+        <Stack.Screen name='Contribute' component={Contribute} options={{headerShown:false}}/>
         <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
 
       </Stack.Navigator>
@@ -66,7 +66,7 @@ export function App() {
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Login">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-   <Stack.Screen name='Signup' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
