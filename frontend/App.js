@@ -28,6 +28,7 @@ import Companyinterfase from './Components/Companyinterface';
 import CompanyStore from './Components/CompanyStore';
 import ProductDetailscompany from './Components/ProductDetailscompany';
 import Companydetailsdisplay from './companydetailsdisplay';
+import Contribute from './Components/contribute';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
@@ -73,6 +74,7 @@ export function App() {
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
+    <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
     <Stack.Screen name="Product" component={Productupload} />
     <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
     <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
@@ -89,4 +91,7 @@ export function App() {
 </NavigationContainer>*/
   );
 }
+
+
+
 export default App;

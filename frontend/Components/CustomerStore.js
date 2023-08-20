@@ -3,10 +3,10 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({route ,navigation}) => {
+const CustomerStore = ({navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
-  const [search,setsearch]=useState("");
+
   useEffect(() => {
     searchproduct(); // Fetch product data from Flask API
   }, []);
@@ -92,7 +92,7 @@ const searchproduct = async () => {
       style={ {flex: 1}}
     />
 
-      <CustomerNavbar  navigation={navigation}/>
+      <CustomerNavbar  navigation={navigation} customer_id={customer_id}/>
     </View>
     
   )
