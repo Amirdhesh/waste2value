@@ -21,10 +21,10 @@ const Login = ({navigation}) => {
   .then(resp => resp.json())
   .then(data => {
     if(data.message=="Login Successful"){
-    navigation.navigate("CustomerStore",{customer_id:data.customer_id})
+    navigation.navigate("ProductList",{customer_id:data.customer_id})
     }
     else if(data.message=="company"){
-      navigation.navigate("CompanyStore",{compnay_id:data.customer_id})
+      navigation.navigate("Companyinterfase",{compnay_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("CustomerStore")

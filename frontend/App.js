@@ -14,7 +14,6 @@ import OTP from './Components/OTP';
 import CustomerProduct from './Components/CustomerProduct';
 import { Header } from 'react-native-elements';
 import Login from './Components/login';
-
 import CustomerStore from './Components/CustomerStore';
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';

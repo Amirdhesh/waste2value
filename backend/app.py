@@ -337,6 +337,10 @@ def delete_product():
         values = ( product_id,)
         cursor.execute(query, values)
         mydb.commit()
+        query='delete from addtocart where product_id=%s'
+        values = ( product_id,)
+        cursor.execute(query, values)
+        mydb.commit()
         cursor.close()
         return jsonify({'message': 'Product deleted'})
     except Exception as e:
