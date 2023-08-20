@@ -1,16 +1,16 @@
-import { StyleSheet, View, Image,Text, TextInput, TouchableOpacity, KeyboardAvoidingView ,TouchableWithoutFeedback,Keyboard} from 'react-native'
+import { StyleSheet, View, Image,Text, TextInput, TouchableOpacity, KeyboardAvoidingView ,TouchableWithoutFeedback,Keyboard, ScrollView} from 'react-native'
 import React,{useState} from 'react'
 import bgimg from "./../Assests/Frame1.png"
 import { StatusBar } from 'expo-status-bar'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import SignUp from './SignUp';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
   const [email,setemail]=useState("")
   const [password,setPassword]=useState("")
   const login=()=>{
+    console.log('Trying to login');
     fetch("http://192.168.56.1:3000/login",{
         method:"POST",
         headers: 
@@ -21,29 +21,28 @@ const Login = ({navigation}) => {
   .then(resp => resp.json())
   .then(data => {
     if(data[0]=="Login Successful"){
-
-    navigation.navigate("CustomerStore",id=data[1]);
+    navigation.navigate("CustomerStore")
     }
-    console.log(data);
+    console.log(data)
     
     
   })
   .catch(error => console.log(error))
   }
+
   return (
-    
     <KeyboardAvoidingView 
       style={{ flex: 1 }}
       behavior="position"
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
+        <View style={{flex:1}}>
     <StatusBar hidden={true}/>
       
-        <View >
+        <View style={{flex:1}}>
             <Image  resizeMode='cover' source={bgimg} />
         </View>
-        <View style={{flexDirection: 'column',alignItems: 'center' ,position:'absolute',top:450,}}>
+        <View style={{flexDirection: 'column', flex: 1, alignItems: 'center' ,position:'absolute',top:450,}}>
           <View style={{margin: 5}}>
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Email</Text>
             <TextInput keyboardType='email-address' style={{height: 57,fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 351, borderRadius: 9 }} value={email} onChangeText={text => setemail(text)}/>
@@ -72,7 +71,7 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
           <Text>Or</Text>
           <TouchableOpacity onPress={()=>navigation.navigate('SignUp')}>
-          <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('SignUp')} >Account</Text></Text>
+          <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('Signup')} >Account</Text></Text>
           </TouchableOpacity>
         </View>
         </View>

@@ -5,11 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 import React from 'react'
 
-const CustomerNavbar = ({navigation}  ) => {
+const CustomerNavbar = ({route,navigation}  ) => {
   return (
     <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
       <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
-        <TouchableOpacity onPress={()=>navigation.navigate('CustomerStore')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('ContributeWaste')}>
         <View>
             <MaterialCommunityIcons name="storefront-outline" size={34} color="white" style={{marginRight:14}}/>
         </View>
