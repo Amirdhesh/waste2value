@@ -7,6 +7,38 @@ import { Ionicons } from '@expo/vector-icons';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
+<<<<<<< HEAD
+=======
+  const [email,setemail]=useState("")
+  const [password,setPassword]=useState("")
+  const login=()=>{
+    console.log('Trying to login');
+    fetch("http://192.168.56.1:3000/login",{
+        method:"POST",
+        headers: 
+        {'Content-Type':'application/json'
+    },
+    body:JSON.stringify({email:email,password:password})
+  })
+  .then(resp => resp.json())
+  .then(data => {
+    if(data.message=="Login Successful"){
+    navigation.navigate("CustomerStore",{customer_id:data.customer_id})
+    }
+    else if(data.message=="company"){
+      navigation.navigate("CompanyStore",{compnay_id:data.customer_id})
+    }
+    else if (data.message=="admin") {
+      navigation.navigate("CustomerStore")
+    }
+    console.log(data)
+    
+    
+  })
+  .catch(error => console.log(error))
+  }
+
+>>>>>>> edbdba6aa21bb81927ac54d28be1cc948eed9f6e
   return (
     
     <KeyboardAvoidingView 
