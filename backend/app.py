@@ -6,12 +6,21 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-
+'''
 mydb = mysql.connector.connect(
   host="192.168.0.156",
   user="root",
   password="tiger",
   database="wtv"
+)'''
+
+from flask import Flask, request, jsonify
+import mysql.connector 
+mydb=mysql.connector.connect(
+    host= "localhost",
+    user= "Madumitha",
+    password= "madumitha",
+    database="WASTETOVALUE"
 )
 '''
 from flask import Flask, request, jsonify
@@ -166,9 +175,21 @@ def company():
             mydb.commit()
             return jsonify("Registered successfully")
         
+'''
+@app.route('/api/products', methods=['GET'])
+def get_productslist():
+    try:
+        connection = mysql.connector.connect(db_config)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT id, pname FROM products") 
+        products = cursor.fetchall()
+        cursor.close()
+        return jsonify(products)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
-
+'''
 
 products = []
 @app.route('/api/add_product', methods=['POST'])
@@ -208,7 +229,6 @@ def searchproduct(search):
         return jsonify({'error': str(e)})
 
 @app.route('/api/searchproduct/',methods=['GET'])
-@app.route('/api/productslist', methods=['GET'])
 def get_productslist():
     try:
         cursor = mydb.cursor(dictionary=True)
@@ -263,6 +283,54 @@ def cartdetails(customer_id):
 
 
 
+
+#admin
+
+@app.route('/admin/companyrequest',methods=['GET'])
+def CompanyRequest():
+    cursor=mydb.cursor(dictionary=True)
+    query="select * from login where type like '%pending%'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/admin/companydetailsdisplay/<email>',methods=['GET'])
+def companydetailsdisplay(email):
+    cursor=mydb.cursor(dictionary=True)
+    query="select * from login where email like '%"+email+"%'"
+    cursor.execute(query)
+    data=cursor.fetchone()
+    print(data)
+    return jsonify(data)
+
+@app.route('/admin/declineRequest/<email>',methods=['POST'])
+def DeclineRequest(email):
+    try:
+        cursor=mydb.cursor()
+        query="update login set type='user' where email=%s"
+        cursor.execute(query,(email,))
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Offer declined Type updated to user"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Error occured while declining"})
+
+@app.route('/admin/acceptRequest/<email>',methods=['POST'])
+def AcceptRequest(email):
+    try:
+        cursor=mydb.cursor()
+        query="update login set type='company' where email=%s"
+        cursor.execute(query,(email,))
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Offer Accepted Type updated to company"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Error occured while accepting"})
 
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
