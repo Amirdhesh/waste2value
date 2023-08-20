@@ -1,8 +1,9 @@
 import React from "react";
 import { Text,TouchableOpacity,View } from "react-native";
 
-const Contribute=()=>
+const Contribute=({navigation,route})=>
 {
+    const {customer_id} = route.params;
     return(
         <View style={{flex:1,justifyContent:'center',borderColor:'black',borderWidth:2,margin:50,borderRadius:20,alignItems:'center'}}>
 
