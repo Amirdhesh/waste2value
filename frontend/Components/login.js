@@ -20,10 +20,20 @@ const Login = ({navigation}) => {
   })
   .then(resp => resp.json())
   .then(data => {
+    
     if(data.message=="Login Successful"){
 
     navigation.navigate("ProductList",{customer_id:data.customer_id});
     }
+    
+    else if(data.message=="admin"){
+      
+
+      navigation.navigate("ProductList",{customer_id:data.customer_id});
+      }
+    else if(data.message=="company"){
+        navigation.navigate("Companyinterfase",{company_id:data.customer_id});
+        }
     console.log(data);
     
     

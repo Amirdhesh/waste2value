@@ -23,21 +23,43 @@ const Cart = ({route,navigation}) => {
       console.error('Error fetching cart data:',error);
     })
   })
-  const {customer_id} = route.params;
+  const {customer_id,product_id} = route.params;
   const [cartData, SetcartData] = useState([]); 
   console.log('customer_id:',customer_id);
   useEffect(()=>{
+    cartdetail()
+  },[]);
+  const cartdetail=(()=>{
     fetch(`http://192.168.56.1:3000/api/cartdetails/${customer_id}`)
     .then((response)=> response.json())
     .then((data)=>{
-      console.log('cartData:',data);
       SetcartData(data);
     })
     .catch((error)=>{
       console.error('Error fetching cart data:',error);
     })
-  },[]);
-
+  });
+  const deletecart=(()=>{
+    fetch(`http://192.168.56.1:3000/api/delete_to_cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customer_id: customer_id,
+        product_id: product_id,
+      }),
+      
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      cartdetail();
+      // Handle success or error response from the API
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  })
   const Product=({item})=>(
     <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
     <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -51,6 +73,9 @@ const Cart = ({route,navigation}) => {
               <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
               <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
               <Ionicons onPress={()=>quantityplus(item.product_code)} name="ios-add-circle" size={24} color="#C96FC4" />
+              <TouchableOpacity onPress={()=>deletecart()}>
+              <Text style={{paddingLeft:10,paddingTop:5}}>Remove</Text>
+              </TouchableOpacity>
           </View>
           
         </View>

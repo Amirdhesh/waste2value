@@ -8,24 +8,10 @@ const CustomerStore = ({route ,navigation}) => {
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
   useEffect(() => {
-    fetchProductData(); // Fetch product data from Flask API
+    searchproduct(); // Fetch product data from Flask API
   }, []);
   const {customer_id} = route.params;
   //to search the product
-  /*const searchprodect=(()=>{
-    fetch(`http://192.168.56.1:3000/searchproduct`,{
-      method:"GET",
-      headers: 
-      {'Content-Type':'application/json'
-  },
-  body:JSON.stringify({search:search})
-})
-.then(resp => resp.json())
-.then(data => {
-  setProductData(data)  
-})
-.catch(error => console.log(error))
-})*/
 const searchproduct = async () => {
   try {
     const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
@@ -37,16 +23,7 @@ const searchproduct = async () => {
   }
 };
 // search close 
-  const fetchProductData = async () => {
-    try {
-      const response = await fetch('http://192.168.56.1:3000/api/productslist');
-      const data = await response.json();
-      setProductData(data);
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
@@ -117,6 +94,7 @@ const searchproduct = async () => {
 
       <CustomerNavbar  navigation={navigation}/>
     </View>
+    
   )
 }
        
