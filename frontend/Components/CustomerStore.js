@@ -12,20 +12,6 @@ const CustomerStore = ({route ,navigation}) => {
   }, []);
   const {customer_id} = route.params;
   //to search the product
-  /*const searchprodect=(()=>{
-    fetch(`http://192.168.56.1:3000/searchproduct`,{
-      method:"GET",
-      headers: 
-      {'Content-Type':'application/json'
-  },
-  body:JSON.stringify({search:search})
-})
-.then(resp => resp.json())
-.then(data => {
-  setProductData(data)  
-})
-.catch(error => console.log(error))
-})*/
 const searchproduct = async () => {
   try {
     const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
@@ -37,6 +23,7 @@ const searchproduct = async () => {
   }
 };
 
+// search close 
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
@@ -107,6 +94,7 @@ const searchproduct = async () => {
 
       <CustomerNavbar  navigation={navigation}/>
     </View>
+    
   )
 }
        

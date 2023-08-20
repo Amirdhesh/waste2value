@@ -1,38 +1,32 @@
-// ProductDetailsScreen.js
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import Cart from './Cart';
-function ProductDetailsScreen({ route,navigation}) {
-  const { product_id,customer_id } = route.params;
+function ProductDetailscompany({ route,navigation}) {
+  const {company_id, product_id} = route.params;
   const [productDetails, setProductDetails] = useState({});
-  console.log(product_id,customer_id);
-
-  const handleAddToCart= () => {
-    fetch(`http://192.168.56.1:3000/api/add_to_cart`, {
+  const deleteproduct=(()=>{
+    fetch(`http://192.168.56.1:3000/api/delete_product`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        customer_id: customer_id,
         product_id: product_id,
       }),
+      
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      navigation.navigate("CompanyStore",{company_id});
       // Handle success or error response from the API
     })
     .catch((error) => {
       console.error(error);
     });
-  };
-
-
+  })
   useEffect(() => {
     fetch(`http://192.168.56.1:3000/api/selectedproduct/${product_id}`)
     
@@ -56,14 +50,13 @@ function ProductDetailsScreen({ route,navigation}) {
       <Text style={styles.price}>Rs.{productDetails.product_price}</Text>
     </View>
     <View style={styles.buttonview}>
-    <Button title="Add to Cart" onPress={()=>handleAddToCart()} color="#D268CC" />
-    <Button title="ViewCart" onPress={()=>navigation.navigate('CustomerCart',{customer_id,product_id})} color="#D268CC" />
+    <Button title="Delete Product" onPress={()=>deleteproduct()} color="#D268CC" />
   </View>
   </View>
   );
 } 
 
-export default ProductDetailsScreen;
+export default ProductDetailscompany;
 
 
 const styles=StyleSheet.create(
