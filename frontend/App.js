@@ -27,6 +27,7 @@ import ContributeWaste from './Components/Contributewaste';
 import Companyinterfase from './Components/Companyinterface';
 import CompanyStore from './Components/CompanyStore';
 import ProductDetailscompany from './Components/ProductDetailscompany';
+import Companydetailsdisplay from './companydetailsdisplay';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
@@ -78,7 +79,15 @@ export function App() {
     <Stack.Screen name="CompanyStore" component={CompanyStore}/>
     <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
  </Stack.Navigator>
+    </Stack.Navigator>
 </NavigationContainer>
+/*<NavigationContainer>
+  <Stack.Navigator initialRouteName='CompanyRequest'>
+
+    <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
+    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
+  </Stack.Navigator>
+</NavigationContainer>*/
   );
 }
 export default App;

@@ -22,8 +22,8 @@ const searchproduct = async () => {
     console.error(error);
   }
 };
+
 // search close 
-  
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
