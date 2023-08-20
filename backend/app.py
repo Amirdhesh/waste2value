@@ -115,8 +115,6 @@ def login():
     val = (email, password)
     cur.execute(sql, val)
     user = cur.fetchone()
-    print(email)
-
     if user:
         typesql="select type from login where email = %s"
         cur.execute(typesql,[email,])
