@@ -26,13 +26,13 @@ import ContributeWaste from './Components/Contributewaste';
 import Companyinterfase from './Components/Companyinterface';
 import CompanyStore from './Components/CompanyStore';
 import ProductDetailscompany from './Components/ProductDetailscompany';
-import Companydetailsdisplay from './companydetailsdisplay';
+import Companydetailsdisplay from './Components/companydetailsdisplay';
 import Contribute from './Components/contribute';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (
-    /*<NavigationContainer>
-      <Stack.Navigator initialRouteName='CustomerStore'>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
@@ -42,10 +42,11 @@ export function App() {
         <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
         <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
         <Stack.Screen name='Contribution' component={Contribution} options={{headerShown:false}}/>
+        <Stack.Screen name='Contribute' component={Contribute} options={{headerShown:false}}/>
         <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
 
       </Stack.Navigator>
-   </NavigationContainer>*/
+   </NavigationContainer>
    /*
    <NavigationContainer>
    <Stack.Navigator initialRoutName="Product">
@@ -61,7 +62,7 @@ export function App() {
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     <Stack.Screen name="CustomerCart" component={Cart} />
   </Stack.Navigator>
-</NavigationContainer>*/
+</NavigationContainer>
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Login">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
