@@ -20,11 +20,13 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Productupload from './Components/Productupload';
-
 import ProductAddedScreen from './Components/ProductAddedScreen';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
 import CompanyRequest from './Components/companyrequest';
 import ContributeWaste from './Components/Contributewaste';
+import Companyinterfase from './Components/Companyinterface';
+import CompanyStore from './Components/CompanyStore';
+import ProductDetailscompany from './Components/ProductDetailscompany';
 import Companydetailsdisplay from './companydetailsdisplay';
 import Contribute from './Components/contribute';
 const Stack = createNativeStackNavigator();
@@ -73,7 +75,12 @@ export function App() {
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
-    </Stack.Navigator>
+    <Stack.Screen name="Product" component={Productupload} />
+    <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
+    <Stack.Screen name="CompanyStore" component={CompanyStore}/>
+    <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
+ </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
   <Stack.Navigator initialRouteName='CompanyRequest'>
@@ -84,6 +91,7 @@ export function App() {
 </NavigationContainer>*/
   );
 }
+
 
 
 export default App;

@@ -20,11 +20,10 @@ const Login = ({navigation}) => {
   })
   .then(resp => resp.json())
   .then(data => {
-    if(data.message=="Login Successful"){
-
-    navigation.navigate("ProductList",{customer_id:data.customer_id});
+    if(data[0]=="Login Successful"){
+    navigation.navigate("CustomerStore")
     }
-    console.log(data);
+    console.log(data)
     
     
   })

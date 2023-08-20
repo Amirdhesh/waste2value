@@ -6,14 +6,14 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-'''
+
 mydb = mysql.connector.connect(
-  host="192.168.0.156",
+  host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)'''
-
+)
+'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -21,7 +21,7 @@ mydb=mysql.connector.connect(
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
+)'''
 '''
 from flask import Flask, request, jsonify
 import mysql.connector 
@@ -89,7 +89,7 @@ def userdetails(id):
         return jsonify("details allredy exist")
 
 #for login
-@app.route('/login', methods=['POST'])
+'''@app.route('/login', methods=['POST'])
 def login():
     #data = request.get_json()
     email = request.json['email']
@@ -107,8 +107,37 @@ def login():
         userid=userid[0]
         return jsonify({"message":"Login Successful","customer_id":userid})
     else:
-        return jsonify("Incorrect email or password"), 401
+        return jsonify("Incorrect email or password"), 401'''
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    sql = "SELECT * FROM login WHERE email = %s AND password = %s"
+    val = (email, password)
+    cur.execute(sql, val)
+    user = cur.fetchone()
     
+
+    if user:
+        typesql="select type from login where email = %s"
+        cur.execute(typesql,[email,])
+        type=cur.fetchone()
+        sql = "SELECT id FROM login WHERE email = %s"
+        val = (email,)
+        cur.execute(sql, val)
+        userid = cur.fetchone()
+        userid=userid[0]
+        print(type[0])
+        if type[0]=='admin':
+            return jsonify({"message":"admin","customer_id":userid})
+        elif type[0]=='company':
+            return jsonify({"message":"company","customer_id":userid})
+        elif type[0]=='user':
+            return jsonify({"message":"Login Successful","customer_id":userid})
+    
+    else:
+        return jsonify("Incorrect email or password"),401
 # for signup
 
 @app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
@@ -192,8 +221,8 @@ def get_productslist():
 '''
 
 products = []
-@app.route('/api/add_product', methods=['POST'])
-def add_product():
+@app.route('/api/add_product/<int:company_id>', methods=['POST'])
+def add_product(company_id):
     try:
         data = request.get_json()
         product_name = data.get('product_name')
@@ -201,8 +230,8 @@ def add_product():
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price) VALUES (%s, %s, %s)"
-        values = (product_name, product_description, product_price)
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
+        values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()
         cursor.close()
@@ -240,6 +269,18 @@ def get_productslist():
         return jsonify(products)
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+@app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
+def get_companylist(company_id):
+    try:
+        cursor = mydb.cursor(dictionary=True)
+        query = "SELECT * FROM productdetails where company_id=%s"
+        cursor.execute(query,(company_id,))
+        products = cursor.fetchall()
+        cursor.close()
+        return jsonify(products)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 @app.route('/api/selectedproduct/<int:product_id>', methods=['GET'])
 def get_product_details(product_id):
@@ -270,6 +311,38 @@ def add_to_cart():
         cursor.close()
         return jsonify({'error': 'Product already in cart'})
     
+@app.route('/api/delete_to_cart', methods=['POST'])
+def delete_to_cart():
+    try:
+        data = request.get_json()
+        customer_id = data.get('customer_id')
+        product_id = data.get('product_id')
+        cursor = mydb.cursor()
+        query='delete from addtocart where customer_id=%s and product_id=%s'
+        values = (customer_id, product_id)
+        cursor.execute(query, values)
+        mydb.commit()
+        return jsonify({'message': 'Product deleted to cart successfully'})
+    except Exception as e:
+        mydb.rollback()
+        return jsonify({'error': 'Product already in cart'})
+    
+@app.route('/api/delete_product', methods=['POST'])
+def delete_product():
+    try:
+        data = request.get_json()
+        product_id = data.get('product_id')
+        cursor = mydb.cursor()
+        query='delete from productdetails where product_id=%s'
+        values = ( product_id,)
+        cursor.execute(query, values)
+        mydb.commit()
+        cursor.close()
+        return jsonify({'message': 'Product deleted'})
+    except Exception as e:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({'error': 'Product already in cart'})
 
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):

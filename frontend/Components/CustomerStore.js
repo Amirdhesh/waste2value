@@ -3,29 +3,15 @@ import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
-const CustomerStore = ({route ,navigation}) => {
+const CustomerStore = ({navigation}) => {
   const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
-  const [search,setsearch]=useState("");
+
   useEffect(() => {
     searchproduct(); // Fetch product data from Flask API
   }, []);
   const {customer_id} = route.params;
   //to search the product
-  /*const searchprodect=(()=>{
-    fetch(`http://192.168.56.1:3000/searchproduct`,{
-      method:"GET",
-      headers: 
-      {'Content-Type':'application/json'
-  },
-  body:JSON.stringify({search:search})
-})
-.then(resp => resp.json())
-.then(data => {
-  setProductData(data)  
-})
-.catch(error => console.log(error))
-})*/
 const searchproduct = async () => {
   try {
     const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
@@ -37,6 +23,7 @@ const searchproduct = async () => {
   }
 };
 
+// search close 
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
@@ -107,6 +94,7 @@ const searchproduct = async () => {
 
       <CustomerNavbar  navigation={navigation} customer_id={customer_id}/>
     </View>
+    
   )
 }
        
