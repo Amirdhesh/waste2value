@@ -33,8 +33,7 @@ const Register = ({navigation}) => {
     .then((response)=>response.json())
     .then((data)=>{
       console.log(data);
-      data=data.message
-      if(data=="Register as user")
+      if(data=="Register successfully")
       {
         navigation.navigate('Signup')
       }
