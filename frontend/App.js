@@ -79,7 +79,6 @@ export function App() {
     <Stack.Screen name="CompanyStore" component={CompanyStore}/>
     <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
  </Stack.Navigator>
-    </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
   <Stack.Navigator initialRouteName='CompanyRequest'>

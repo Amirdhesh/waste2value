@@ -6,14 +6,14 @@ import mysql.connector
 
 app=Flask(__name__)
 import mysql.connector
-'''
+
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)'''
-
+)
+'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -21,7 +21,7 @@ mydb=mysql.connector.connect(
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
+)'''
 '''
 from flask import Flask, request, jsonify
 import mysql.connector 
@@ -322,11 +322,9 @@ def delete_to_cart():
         values = (customer_id, product_id)
         cursor.execute(query, values)
         mydb.commit()
-        cursor.close()
         return jsonify({'message': 'Product deleted to cart successfully'})
     except Exception as e:
         mydb.rollback()
-        cursor.close()
         return jsonify({'error': 'Product already in cart'})
     
 @app.route('/api/delete_product', methods=['POST'])

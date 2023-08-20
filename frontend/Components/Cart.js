@@ -39,7 +39,7 @@ const Cart = ({route,navigation}) => {
       console.error('Error fetching cart data:',error);
     })
   });
-  const deletecart=(()=>{
+  const deletecart=((product_id)=>{
     fetch(`http://192.168.56.1:3000/api/delete_to_cart`, {
       method: 'POST',
       headers: {
@@ -73,7 +73,7 @@ const Cart = ({route,navigation}) => {
               <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
               <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
               <Ionicons onPress={()=>quantityplus(item.product_code)} name="ios-add-circle" size={24} color="#C96FC4" />
-              <TouchableOpacity onPress={()=>deletecart()}>
+              <TouchableOpacity onPress={()=>deletecart(item.product_id)}>
               <Text style={{paddingLeft:10,paddingTop:5}}>Remove</Text>
               </TouchableOpacity>
           </View>
