@@ -3,17 +3,17 @@ import mysql.connector
 #from flask_mysqldb import MySQL
 import os
 import mysql.connector
-
+import datetime
 app=Flask(__name__)
-import mysql.connector
+'''import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)
+)'''
 
-'''from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
@@ -21,7 +21,7 @@ mydb=mysql.connector.connect(
     password= "madumitha",
     database="WASTETOVALUE"
 )
-from flask import Flask, request, jsonify
+'''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "172.31.99.34",
@@ -354,7 +354,15 @@ def cartdetails(customer_id):
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
-
+@app.route('/api/contributions/<customer_id>',methods=['GET'])
+def fetchcontributiondata(customer_id):
+    cursor = mydb.cursor(dictionary=True)
+    query="Select * from contributions where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchall()
+    jsonify(data)
+    print(data)
+    return jsonify(data)
 
 
 #admin
