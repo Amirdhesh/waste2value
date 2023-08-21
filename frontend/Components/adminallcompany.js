@@ -8,7 +8,7 @@ import { FlatList } from "react-native";
 import { Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-const CompanyRequest=({navigation})=>{
+const Adminallcompany=({navigation})=>{
    
   const [companydata,setcompanydata] = useState({});
    useFocusEffect(
@@ -20,7 +20,7 @@ const CompanyRequest=({navigation})=>{
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch('http://192.168.56.1:3000/admin/companyrequest')
+    fetch('http://192.168.56.1:3000/admin/admincompanyrequest')
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)
@@ -29,7 +29,7 @@ const CompanyRequest=({navigation})=>{
   }
  const handlePress=(email)=>
  {
-  navigation.navigate('Companydetailsdisplay',{email});
+  navigation.navigate('admincompanydisplay',{email});
  }
 
   const renderItem =({item})=>
@@ -68,7 +68,9 @@ return (
           }
     </View>
         </View>
+
+
         )
         
         }
-export default CompanyRequest;
+export default Adminallcompany;

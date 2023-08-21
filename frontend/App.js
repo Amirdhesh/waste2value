@@ -1,7 +1,6 @@
 import { StatusBar } from 'react-native';
 import SignUp from './Components/SignUp';
 import Register from './Components/Register';
-
 import CustomerNavbar from './Components/CustomerNavbar';
 import Cart from './Components/Cart';
 import Details from './Components/Details';
@@ -28,6 +27,11 @@ import CompanyStore from './Components/CompanyStore';
 import ProductDetailscompany from './Components/ProductDetailscompany';
 import Companydetailsdisplay from './Components/companydetailsdisplay';
 import Contribute from './Components/contribute';
+import Admininterface from './Components/Admininterface';
+import Admincompanydisplay from './Components/admincompanydisplay';
+import Adminallcompany from './Components/adminallcompany';
+import Adminuserdetialsdispaly from './Components/adminuserdetialsdiaplay';
+import Comapnyorderdetails from './Components/companyorderdetails';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (/*
@@ -80,18 +84,21 @@ export function App() {
     <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
     <Stack.Screen name="CompanyStore" component={CompanyStore}/>
     <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
+    <Stack.Screen name="Admininterface" component={Admininterface}/>
+    <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
+    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
+    <Stack.Screen name="admincompanydisplay" component={Admincompanydisplay} options={{headerShown:false}}/>
+    <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>
+    <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
+    <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
   <Stack.Navigator initialRouteName='CompanyRequest'>
-
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
   </Stack.Navigator>
 </NavigationContainer>*/
   );
 }
-
-
-
 export default App;

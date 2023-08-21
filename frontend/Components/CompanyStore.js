@@ -8,7 +8,7 @@ const CompanyStore = ({route ,navigation}) => {
     const [Data, setProductData] = useState([]);
     const {company_id} = route.params;
     const [search,setsearch]=useState("");
-    useFocusEffect(() => {
+    useEffect(() => {
         searchproduct(); // Fetch product data from Flask API
       });
     const searchproduct = async () => {

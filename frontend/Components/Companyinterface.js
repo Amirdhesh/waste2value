@@ -16,7 +16,7 @@ const Companyinterfase = ({route,navigation}) => {
     <TouchableOpacity onPress={()=>navigation.navigate('CompanyStore',{ company_id:company_id })}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Product</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={()=>login()}>
+    <TouchableOpacity onPress={()=>navigation.navigate('Comapnyorderdetails',{ company_id:company_id })}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Orders</Text>
     </TouchableOpacity>
     </View>
