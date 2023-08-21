@@ -1,8 +1,7 @@
 import { StatusBar } from 'react-native';
-import Login from './Components/login';
 import SignUp from './Components/SignUp';
 import Register from './Components/Register';
-import CustomerStore from './Components/CustomerStore';
+
 import CustomerNavbar from './Components/CustomerNavbar';
 import Cart from './Components/Cart';
 import Details from './Components/Details';
@@ -13,28 +12,19 @@ import CustomerPayment from './Components/CustomerPayment';
 import ForgetPassword from './Components/ForgetPassword';
 import OTP from './Components/OTP';
 import CustomerProduct from './Components/CustomerProduct';
+import { Header } from 'react-native-elements';
+import Login from './Components/login';
+import CustomerStore from './Components/CustomerStore';
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Header } from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-
-  // async function loginstatus(){
-  //   const logedinstatus = await AsyncStorage.getItem("false")
-  //   console.log(loginstatus)
-  // }
-
-  // useEffect(()=>{
-  //   loginstatus()
-  // })
-
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='CustomerStore'>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
         <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
@@ -44,11 +34,56 @@ export default function App() {
         <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
         <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
         <Stack.Screen name='Contribution' component={Contribution} options={{headerShown:false}}/>
+        <Stack.Screen name='Contribute' component={Contribute} options={{headerShown:false}}/>
         <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
 
       </Stack.Navigator>
-   </NavigationContainer>
-    
-    
+   </NavigationContainer>*/
+   /*
+   <NavigationContainer>
+   <Stack.Navigator initialRoutName="Product">
+     <Stack.Screen name="Product" component={Productupload} />
+     <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
+   </Stack.Navigator>
+   
+ </NavigationContainer> 
+ 
+  <NavigationContainer>
+  <Stack.Navigator initialRouteName='ProductList'>
+    <Stack.Screen name="ProductList" component={CustomerStore} />
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+    <Stack.Screen name="CustomerCart" component={Cart} />
+  </Stack.Navigator>
+</NavigationContainer>*/
+ <NavigationContainer>
+ <Stack.Navigator initialRoutName="Login">
+   <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
+   <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
+    <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
+    <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
+    <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
+    <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
+    <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
+    <Stack.Screen name="Product" component={Productupload} />
+    <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
+    <Stack.Screen name="CompanyStore" component={CompanyStore}/>
+    <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
+ </Stack.Navigator>
+</NavigationContainer>
+/*<NavigationContainer>
+  <Stack.Navigator initialRouteName='CompanyRequest'>
+
+    <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
+    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
+  </Stack.Navigator>
+</NavigationContainer>*/
   );
 }
+
+
+
+export default App;
