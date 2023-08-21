@@ -11,7 +11,7 @@ const CustomerStore = ({navigation,route}) => {
     searchproduct(); // Fetch product data from Flask API
   }, []);
   const {customer_id} = route.params;
-  //to search the product
+  //to search the product7
 const searchproduct = async () => {
   try {
     const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
