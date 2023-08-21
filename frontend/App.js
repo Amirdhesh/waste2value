@@ -16,9 +16,22 @@ import CustomerProduct from './Components/CustomerProduct';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Header } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
+
+  // async function loginstatus(){
+  //   const logedinstatus = await AsyncStorage.getItem("false")
+  //   console.log(loginstatus)
+  // }
+
+  // useEffect(()=>{
+  //   loginstatus()
+  // })
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='CustomerStore'>
