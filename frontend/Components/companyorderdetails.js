@@ -1,26 +1,22 @@
-import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { TextInput } from "react-native";
-import {useState, useEffect} from "react";
-import { Button } from "react-native-elements";
-import { FlatList } from "react-native";
-import { Text } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
-const CompanyRequest=({navigation})=>{
-   
-  const [companydata,setcompanydata] = useState({});
-   useFocusEffect(
-    useCallback(() => {
+import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
+import React,{useState,useEffect} from 'react'
+import { MaterialIcons } from '@expo/vector-icons'
+import CustomerNavbar from './CustomerNavbar' 
+import { Ionicons } from '@expo/vector-icons'; 
+import { useFocusEffect } from '@react-navigation/native';
+const Comapnyorderdetails = ({route ,navigation}) => {
+    const [Data, setProductData] = useState([]);
+    const {company_id} = route.params;
+    
+    const [companydata,setcompanydata] = useState({});
+   useEffect(() => {
       CompanyData();
     }, [])
-  );
 
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch('http://192.168.56.1:3000/admin/companyrequest')
+    fetch(`http://192.168.56.1:3000/companyorderdetails/${company_id}`)
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)
@@ -29,7 +25,7 @@ const CompanyRequest=({navigation})=>{
   }
  const handlePress=(email)=>
  {
-  navigation.navigate('Companydetailsdisplay',{email});
+  navigation.navigate('admincompanydisplay',{email});
  }
 
   const renderItem =({item})=>
@@ -43,7 +39,7 @@ const CompanyRequest=({navigation})=>{
       }}>
         <TouchableOpacity onPress={()=>handlePress(item.email)}>
         <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:10}}>
-        <Text style={{fontSize:28, fontWeight:"600"}}>Company Name: {item.company_name}</Text>
+        <Text style={{fontSize:28, fontWeight:"600"}}>Customer Name: {item.username}</Text>
         <Text style={{fontSize:24,color:"green"}}>Address: {item.address}</Text>
         </View>
         </TouchableOpacity>
@@ -68,7 +64,9 @@ return (
           }
     </View>
         </View>
+
+
         )
         
         }
-export default CompanyRequest;
+export default Comapnyorderdetails
