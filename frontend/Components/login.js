@@ -7,8 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
-<<<<<<< HEAD
-=======
   const [email,setemail]=useState("")
   const [password,setPassword]=useState("")
   const login=()=>{
@@ -23,10 +21,10 @@ const Login = ({navigation}) => {
   .then(resp => resp.json())
   .then(data => {
     if(data.message=="Login Successful"){
-    navigation.navigate("CustomerStore",{customer_id:data.customer_id})
+    navigation.navigate("ProductList",{customer_id:data.customer_id})
     }
     else if(data.message=="company"){
-      navigation.navigate("CompanyStore",{compnay_id:data.customer_id})
+      navigation.navigate("Companyinterfase",{company_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("CustomerStore")
@@ -37,8 +35,6 @@ const Login = ({navigation}) => {
   })
   .catch(error => console.log(error))
   }
-
->>>>>>> edbdba6aa21bb81927ac54d28be1cc948eed9f6e
   return (
     
     <KeyboardAvoidingView 
@@ -55,12 +51,12 @@ const Login = ({navigation}) => {
         <View style={{flexDirection: 'column',alignItems: 'center' ,position:'absolute',top:450,}}>
           <View style={{margin: 5}}>
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Email</Text>
-            <TextInput keyboardType='email-address' style={{height: 57,fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 351, borderRadius: 9 }} />
+            <TextInput keyboardType='email-address' style={{height: 57,fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 351, borderRadius: 9 }} value={email}onChangeText={text => setemail(text)}/>
           </View>
           <View>
             <Text style={{fontSize: 26, fontWeight: 400, marginLeft: 2}}>Password</Text>
             <View style={{flexDirection:'row',height: 57,alignItems:'center', borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 349, borderRadius: 9}}>
-                <TextInput style={{height: 53, fontSize:22,paddingLeft:10,borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: '88%', borderRadius: 9 }}  secureTextEntry={visible} />
+                <TextInput style={{height: 53, fontSize:22,paddingLeft:10,borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: '88%', borderRadius: 9 }}  secureTextEntry={visible} value={password}onChangeText={text => setPassword(text)}/>
                 <TouchableOpacity onPress={()=>setvisible(!visible)}>
                 { visible == true ?
                 <FontAwesome5 name="eye-slash" size={24} color="#B33BAE"  />
@@ -76,11 +72,13 @@ const Login = ({navigation}) => {
               <Text style={{color:'blue',fontSize:17}}>Forget Password?</Text>
             </View>
           </View>
-          <TouchableOpacity onPress>
+          <TouchableOpacity onPress={()=>login()}>
           <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 500, fontSize: 29 }}>Login</Text>
           </TouchableOpacity>
           <Text>Or</Text>
+          <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
           <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('SignUp')} >Account</Text></Text>
+          </TouchableOpacity>
         </View>
         </View>
         </TouchableWithoutFeedback>
