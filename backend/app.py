@@ -364,7 +364,15 @@ def fetchcontributiondata(customer_id):
     print(data)
     return jsonify(data)
 
-
+@app.route('/api/fetchcustomercoins/<customer_id>',methods=['GET'])
+def fetchcustomercoins(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select wallet_amount from wallet where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchone()
+    print("data",data)
+    return jsonify(data)
+ 
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])
