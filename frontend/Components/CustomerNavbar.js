@@ -24,7 +24,7 @@ const CustomerNavbar = ({navigation,customer_id,product_id}  ) => {
             <Ionicons name="ios-cart-outline" size={38} color="white" style={{marginHorizontal:14,marginTop:-2}}/>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('Account')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Account',{customer_id:customer_id})}>
         <View>
             <MaterialCommunityIcons name="account-box-multiple" size={32} color="white" style={{marginLeft:14,marginTop:1}} />
         </View>

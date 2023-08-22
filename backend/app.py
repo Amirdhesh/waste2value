@@ -484,6 +484,31 @@ def plaseorder(id):
             cursor.execute(query,(id,))
             print("product ordered success")
             return jsonify("product ordered success")
+
+@app.route('/userorderdetails/<int:id>',methods=["GET","POST"])
+def userorderdetails(id):    
+    cursor=mydb.cursor()
+    try:
+        query='select product_id from order_details where customer_id=%s'
+        cursor.execute(query,(id,))
+        data=cursor.fetchall()
+        print(data)
+        if data:
+            rtu=[]
+            for i in data:
+                try:
+                    cursor = mydb.cursor(dictionary=True)
+                    query = "select product_name,product_description as product_code,product_price as product_price from productdetails where product_id=%s"
+                    cursor.execute(query,(i[0],))
+                    pt = cursor.fetchall()
+                    cursor.close()
+                    rtu.append(pt[0])
+                except Exception as e:
+                    pass
+            print(rtu)
+            return jsonify(rtu)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
 
