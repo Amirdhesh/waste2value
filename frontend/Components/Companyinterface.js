@@ -6,7 +6,11 @@ import { Feather } from '@expo/vector-icons';
 import React from 'react'
 
 const Companyinterfase = ({route,navigation}) => {
-    const {company_id} = route.params;  
+    const {customer_id} = route.params;  
+    const wallet=()=>{
+        navigation.navigate("CompanyWallet",{customer_id});
+    }
+const Companyinterfase = ({company_id,navigation}) => {
     return(
         <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
         <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
@@ -37,15 +41,19 @@ const Companyinterfase = ({route,navigation}) => {
       </View>
     /*<View style={{flex:1}}>
         <Text style={{fontSize:20}}>Company</Text>
-    <TouchableOpacity onPress={()=>navigation.navigate('Product',{ company_id:company_id })}>
+    <TouchableOpacity onPress={()=>navigation.navigate('Product',{ customer_id:customer_id })}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>Add Product</Text>
     </TouchableOpacity>
-    <TouchableOpacity onPress={()=>navigation.navigate('CompanyStore',{ company_id:company_id })}>
+    <TouchableOpacity onPress={()=>navigation.navigate('CompanyStore',{ customer_id:customer_id })}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Product</Text>
     </TouchableOpacity>
     <TouchableOpacity onPress={()=>navigation.navigate('Comapnyorderdetails',{ company_id:company_id })}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Orders</Text>
     </TouchableOpacity>
+    <TouchableOpacity onPress={()=>wallet()}>
+        <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Wallet</Text>
+    </TouchableOpacity>
+    </View>
     </View>*/
     )
 }
