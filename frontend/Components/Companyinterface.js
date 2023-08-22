@@ -35,6 +35,18 @@ const Companyinterfase = ({route,navigation}) => {
   
         </View>
       </View>
+    /*<View style={{flex:1}}>
+        <Text style={{fontSize:20}}>Company</Text>
+    <TouchableOpacity onPress={()=>navigation.navigate('Product',{ company_id:company_id })}>
+        <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>Add Product</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={()=>navigation.navigate('CompanyStore',{ company_id:company_id })}>
+        <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Product</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={()=>navigation.navigate('Comapnyorderdetails',{ company_id:company_id })}>
+        <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Orders</Text>
+    </TouchableOpacity>
+    </View>*/
     )
 }
 export default Companyinterfase 
