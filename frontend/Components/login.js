@@ -24,7 +24,7 @@ const Login = ({navigation}) => {
     navigation.navigate("ProductList",{customer_id:data.customer_id})
     }
     else if(data.message=="company"){
-      navigation.navigate("Companyinterfase",{company_id:data.customer_id})
+      navigation.navigate("Companyinterfase",{customer_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("CustomerStore")

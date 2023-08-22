@@ -379,9 +379,9 @@ def addcoins():
         data=request.get_json()
         customer_id=data.get('customer_id')
         coins=data.get('coins')
-        query="update wallet set wallet_amount=wallet_amount+%s where customer_id=%s"
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
         cursor=mydb.cursor()
-        cursor.execute(query,(customer_id,coins))
+        cursor.execute(query)
         mydb.commit()
         cursor.close()
         return jsonify({"message":"Coins added successfully"})

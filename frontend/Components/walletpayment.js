@@ -1,13 +1,13 @@
-import { View, Text, TextInput, TouchableOpacity,FlatList } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity,FlatList, Alert } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome } from '@expo/vector-icons';
-
 const WalletPayment = ({navigation,route}) => {
-
+   
   const {customer_id,requiredcoins} = route.params;
  const addcoins=()=>{
+  Alert.alert("Coins added successfully","Click ok to continue",[{text:"OK", onPress:()=>navigation.navigate("CustomerWallet",{customer_id})}])
   fetch(`http://192.168.56.1:3000/api/addcoins`, {
       method: 'POST',
       headers: {
@@ -100,11 +100,12 @@ const WalletPayment = ({navigation,route}) => {
             <Text style={{fontSize:16}}>Total Cost:</Text>
             <Text style={{fontSize:30}}>Rs.{requiredcoins}</Text>
           </View>
+          <TouchableOpacity onPress={()=>addcoins()}>
           <View style={{ height: 70,width: 220,shadowColor: '#52006A', elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>addcoins()}>
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Pay</Text>
-            </TouchableOpacity>
             </View>
+            </TouchableOpacity>
+           
         </View>  
       
     </View>

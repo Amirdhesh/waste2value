@@ -6,14 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 const CompanyStore = ({route ,navigation}) => {
     const [Data, setProductData] = useState([]);
-    const {company_id} = route.params;
+    const {customer_id} = route.params;
     const [search,setsearch]=useState("");
     useFocusEffect(() => {
         searchproduct(); // Fetch product data from Flask API
       });
     const searchproduct = async () => {
         try {
-          const response = await fetch(`http://192.168.56.1:3000/api/companyproducts/${company_id}`);
+          const response = await fetch(`http://192.168.56.1:3000/api/companyproducts/${customer_id}`);
           const data = await response.json();
           setProductData(data);
         } catch (error) {
@@ -22,7 +22,7 @@ const CompanyStore = ({route ,navigation}) => {
       };
       //UPdate this handleproductclick
       const handleProductClick = (product_id) => {
-        navigation.navigate('ProductDetailscompany', {company_id, product_id });
+        navigation.navigate('ProductDetailscompany', {customer_id, product_id });
       };
       const renderItem = ({ item }) => {
         return (

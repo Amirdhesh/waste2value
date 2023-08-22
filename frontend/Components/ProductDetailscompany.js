@@ -5,7 +5,7 @@ import { Button } from 'react-native';
 import { color } from 'react-native-elements/dist/helpers';
 import Cart from './Cart';
 function ProductDetailscompany({ route,navigation}) {
-  const {company_id, product_id} = route.params;
+  const {customer_id, product_id} = route.params;
   const [productDetails, setProductDetails] = useState({});
   const deleteproduct=(()=>{
     fetch(`http://192.168.56.1:3000/api/delete_product`, {
@@ -20,7 +20,7 @@ function ProductDetailscompany({ route,navigation}) {
     })
     .then((response) => response.json())
     .then((data) => {
-      navigation.navigate("CompanyStore",{company_id});
+      navigation.navigate("CompanyStore",{customer_id});
       // Handle success or error response from the API
     })
     .catch((error) => {

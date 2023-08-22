@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import { TextInput } from "react-native-paper";
 const CompanyWallet=({route,navigation})=>{
 
-    const {company_id}= route.params;
+    const {customer_id}= route.params;
     const [coins,setCoins] = useState(0);
     const [requiredcoins,setRequiredCoins]= useState(0);
 
@@ -18,8 +18,8 @@ const CompanyWallet=({route,navigation})=>{
     );
    
   const fetchCoins = async () => {
-    console.log(company_id);
-    fetch(`http://192.168.56.1:3000/api/fetchcustomercoins/${company_id}`)
+    console.log(customer_id);
+    fetch(`http://192.168.56.1:3000/api/fetchcustomercoins/${customer_id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -49,7 +49,7 @@ const CompanyWallet=({route,navigation})=>{
             <Text style={{fontSize:18,  fontWeight:700}}>
                 Total Price:  Rs.{requiredcoins}          </Text>
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate("CustomerPayment",company_id)}>
+            <TouchableOpacity onPress={()=>navigation.navigate("WalletPayment",{customer_id,requiredcoins})}>
                 <View style={{margin:20,borderColor:'#BD5CB7',borderRadius:12,elevation:12,shadowColor:'grey',height:50,width:100,borderWidth:1,justifyContent:'center',alignItems:'center',backgroundColor:'#D268CC'}}>
                 <Text>Add coins</Text>
                 </View>
