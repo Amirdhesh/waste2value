@@ -6,8 +6,27 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const WalletPayment = ({navigation,route}) => {
 
-  const {customer_id,coins} = route.params;
- 
+  const {customer_id,requiredcoins} = route.params;
+ const addcoins=()=>{
+  fetch(`http://192.168.56.1:3000/api/addcoins`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customer_id: customer_id,
+        coins:requiredcoins,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      // Handle success or error response from the API
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+ }
     
   return (
     <View style={{flex:1}}>
@@ -31,8 +50,8 @@ const WalletPayment = ({navigation,route}) => {
       <View style={{flexDirection:'row',alignItems:'center'}}>
         
           <View style={{left:30,paddingTop:50,bottom:20}}>
-            <Text style={{fontSize:23 , fontWeight:600}}>Number of coins  :  {coins}</Text>
-            <Text style={{fontSize:23, fontWeight:600}}>Price                       :   Rs. {coins}</Text>
+            <Text style={{fontSize:23 , fontWeight:600}}>Number of coins  :  {requiredcoins}</Text>
+            <Text style={{fontSize:23, fontWeight:600}}>Price                       :   Rs. {requiredcoins}</Text>
             </View>
      </View> 
      <FontAwesome name="remove" size={24} color="black" style={{marginRight:10,bottom:20}}/>
@@ -79,10 +98,10 @@ const WalletPayment = ({navigation,route}) => {
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-evenly',height:'10%'}}>
           <View style={{flexDirection:'column',alignItems:'center'}}>
             <Text style={{fontSize:16}}>Total Cost:</Text>
-            <Text style={{fontSize:30}}>Rs.{coins}</Text>
+            <Text style={{fontSize:30}}>Rs.{requiredcoins}</Text>
           </View>
           <View style={{ height: 70,width: 220,shadowColor: '#52006A', elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={()=>addcoins()}>
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Pay</Text>
             </TouchableOpacity>
             </View>

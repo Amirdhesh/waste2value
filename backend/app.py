@@ -372,6 +372,24 @@ def fetchcustomercoins(customer_id):
     data=cursor.fetchone()
     print("data",data)
     return jsonify(data)
+
+@app.route('/api/addcoins',methods=['POST'])
+def addcoins():
+    try:
+        data=request.get_json()
+        customer_id=data.get('customer_id')
+        coins=data.get('coins')
+        query="update wallet set wallet_amount=wallet_amount+%s where customer_id=%s"
+        cursor=mydb.cursor()
+        cursor.execute(query,(customer_id,coins))
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Coins added successfully"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Process failed"})
+
  
 #admin
 
