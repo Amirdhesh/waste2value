@@ -57,7 +57,7 @@ function ProductDetailsScreen({ route,navigation}) {
     </View>
     <View style={styles.buttonview}>
     <Button title="Add to Cart" onPress={()=>handleAddToCart()} color="#D268CC" />
-    <Button title="ViewCart" onPress={()=>navigation.navigate('CustomerCart',{customer_id,product_id})} color="#D268CC" />
+    <Button title="ViewCart" onPress={()=>navigation.navigate('CustomerCart',{customer_id})} color="#D268CC" />
   </View>
   </View>
   );

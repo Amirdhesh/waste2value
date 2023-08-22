@@ -8,7 +8,7 @@ import { FlatList } from "react-native";
 import { Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-const CompanyRequest=({navigation})=>{
+const Adminuserdetialsdispaly=({navigation})=>{
    
   const [companydata,setcompanydata] = useState({});
    useFocusEffect(
@@ -20,7 +20,7 @@ const CompanyRequest=({navigation})=>{
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch('http://192.168.56.1:3000/admin/companyrequest')
+    fetch('http://192.168.56.1:3000/admin/adminuserrequest')
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)
@@ -29,7 +29,7 @@ const CompanyRequest=({navigation})=>{
   }
  const handlePress=(email)=>
  {
-  navigation.navigate('Companydetailsdisplay',{email});
+  navigation.navigate('admincompanydisplay',{email});
  }
 
   const renderItem =({item})=>
@@ -43,7 +43,7 @@ const CompanyRequest=({navigation})=>{
       }}>
         <TouchableOpacity onPress={()=>handlePress(item.email)}>
         <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:10}}>
-        <Text style={{fontSize:28, fontWeight:"600"}}>Company Name: {item.company_name}</Text>
+        <Text style={{fontSize:28, fontWeight:"600"}}>Customer Name: {item.username}</Text>
         <Text style={{fontSize:24,color:"green"}}>Address: {item.address}</Text>
         </View>
         </TouchableOpacity>
@@ -68,7 +68,9 @@ return (
           }
     </View>
         </View>
+
+
         )
         
         }
-export default CompanyRequest;
+export default Adminuserdetialsdispaly;

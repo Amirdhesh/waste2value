@@ -6,10 +6,11 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
-const Account = ({navigation}) => {
+const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
+    const {customer_id} = route.params;
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
     settype(false)}} >
@@ -89,7 +90,7 @@ const Account = ({navigation}) => {
 
           </View> 
         }
-        <TouchableOpacity onPress={()=>navigation.navigate('Orders')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Orders',{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
           <Text style={{fontSize:25,marginLeft:8}}>
               Orders
             </Text>
