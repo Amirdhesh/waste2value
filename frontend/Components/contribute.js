@@ -19,7 +19,7 @@ const Contribute=({navigation,route})=>
                 </View>
             </TouchableOpacity>
 
-
+            <Companyinterfase navigation={navigation} company_id={company_id}/>
         </View>
     )
 }
