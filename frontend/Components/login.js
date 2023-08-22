@@ -11,7 +11,7 @@ const Login = ({navigation}) => {
   const [password,setPassword]=useState("")
   const login=()=>{
     console.log('Trying to login');
-    fetch("http://192.168.56.1:3000/login",{
+    fetch("http://172.16.124.254:3000/login",{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
