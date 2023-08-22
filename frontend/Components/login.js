@@ -27,7 +27,7 @@ const Login = ({navigation}) => {
       navigation.navigate("Companyinterfase",{customer_id:data.customer_id})
     }
     else if (data.message=="admin") {
-      navigation.navigate("CustomerStore")
+      navigation.navigate("Companyrequest")
     }
     console.log(data)
     

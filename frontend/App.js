@@ -31,7 +31,6 @@ import Contribute from './Components/contribute';
 import CustomerWallet from './Components/customerwallet';
 import CompanyWallet from './Components/companywallet';
 import WalletPayment from './Components/walletpayment';
-import ImageUpload from './Components/imageupload';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (/*
