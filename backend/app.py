@@ -3,7 +3,7 @@ import mysql.connector
 #from flask_mysqldb import MySQL
 import os
 import mysql.connector
-
+import datetime
 app=Flask(__name__)
 '''import mysql.connector
 mydb = mysql.connector.connect(
@@ -11,8 +11,7 @@ mydb = mysql.connector.connect(
   user="root",
   password="tiger",
   database="wtv"
-)
-'''
+)'''
 '''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -226,7 +225,7 @@ def add_product(company_id):
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
         values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()
@@ -354,9 +353,43 @@ def cartdetails(customer_id):
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
+@app.route('/api/contributions/<customer_id>',methods=['GET'])
+def fetchcontributiondata(customer_id):
+    cursor = mydb.cursor(dictionary=True)
+    query="Select * from contributions where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchall()
+    jsonify(data)
+    print(data)
+    return jsonify(data)
 
+@app.route('/api/fetchcustomercoins/<customer_id>',methods=['GET'])
+def fetchcustomercoins(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select wallet_amount from wallet where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchone()
+    print("data",data)
+    return jsonify(data)
 
+@app.route('/api/addcoins',methods=['POST'])
+def addcoins():
+    try:
+        data=request.get_json()
+        customer_id=data.get('customer_id')
+        coins=data.get('coins')
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        cursor=mydb.cursor()
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Coins added successfully"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Process failed"})
 
+ 
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])

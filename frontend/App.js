@@ -24,6 +24,9 @@ import Productupload from './Components/Productupload'
 import ProductDetailscompany from './Components/ProductDetailscompany';
 import Companydetailsdisplay from './Components/companydetailsdisplay';
 import Contribute from './Components/contribute';
+import CustomerWallet from './Components/customerwallet';
+import CompanyWallet from './Components/companywallet';
+import WalletPayment from './Components/walletpayment';
 import Admininterface from './Components/Admininterface';
 import Admincompanydisplay from './Components/admincompanydisplay';
 import Adminallcompany from './Components/adminallcompany';
@@ -80,6 +83,11 @@ export default function App() {
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/> 
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
+    <Stack.Screen name="Contribution" component={Contribution} options={{headerShown:false}}/>
+    <Stack.Screen name="CustomerWallet" component={CustomerWallet} options={{headerShown:false}}/>
+    <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>
+    <Stack.Screen name="WalletPayment" component={WalletPayment} options={{headershown:false}}/>
+    <Stack.Screen name="Product" component={Productupload} />
     <Stack.Screen name="Product" component={Productupload} options={{headerShown:false}}/>  
     <Stack.Screen name="Companyinterface" component={Companyinterfase} options={{headerShown:false}}/>
     <Stack.Screen name="Contribution" component={CompanyContribution} options={{headerShown:false}}/>  
@@ -102,8 +110,9 @@ export default function App() {
   <Stack.Navigator initialRouteName='CompanyRequest'>
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
-  </Stack.Navigator>
-</NavigationContainer>*/
+ </Stack.Navigator>
+</NavigationContainer>
+
   );
 }
 

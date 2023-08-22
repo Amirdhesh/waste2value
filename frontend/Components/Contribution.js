@@ -1,55 +1,66 @@
 import { View, Text,Image,FlatList, FlatListComponent,TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
+import { ScrollView } from 'react-native';
+
+const Cart = ({navigation,route}) => {
+
+  const{customer_id} = route.params;
+  const [data,setData] = useState({});
+
+  useEffect(()=>{
+    fetchContributionData();
+  },[])
+
+  const fetchContributionData=()=>{
+    fetch(`http://192.168.56.1:3000/api/contributions/${customer_id}`)
+    .then((response)=>response.json())
+    .then((data)=>{
+      setData(data);
+      console.log(customer_id,data);
+    })
+    .catch((error)=>console.log(error))
+  }
 
 
+  const Product=({item})=>{
 
+    const dateObject = new Date(item.date_info);
 
-const Cart = ({navigation}) => {
+    // Format the date in "DD MMM YYYY" format
+    const formattedDate = dateObject.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
 
-  
-  const cartdata = [
-    {
-    "product_name":'25/04/03',
-    "product_code":123,
-    "product_price":12,
-    "quantity":10	
-    },
-    {
-        "product_name":'25/04/03',
-        "product_code":123,
-        "product_price":12,
-        "quantity":10	
-        },
-        {
-            "product_name":'25/04/03',
-            "product_code":123,
-            "product_price":12,
-            "quantity":10	
-            },
-            {
-                "product_name":'25/04/03',
-                "product_code":123,
-                "product_price":12,
-                "quantity":10	
-                },
-    ]
-  const Product=({item})=>(
+    return (
     <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
-    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-evenly',marginRight:20}}>
-        <View style={{height:64,width:67,backgroundColor:"#D9D9D9",borderRadius:10,marginLeft:-20}}>
-
-        </View>
-          <Text style={{fontSize:18,marginLeft:-10}}>{item.product_name}</Text>
-          <Text style={{fontSize:22,marginLeft:-5}}>{item.quantity}</Text>
-          <Text style={{fontSize:22,marginRight:-22,marginLeft:17}}>Status</Text>
-                   
+    <View style={{alignItems:'left',marginRight:20}}>
+     
+          <View style={{flexDirection:'row'}}>
+            <Text style={{fontSize:22 , fontWeight:800}}>Contribution Id  :</Text>
+            <Text style={{fontSize:22 , fontWeight:800}}>{item.contribution_id}</Text>
+            </View>  
+          <View style={{flexDirection:'row'}}> 
+            <Text style={{fontSize:22}}>Date                     :</Text>
+            <Text style={{fontSize:22}}>{formattedDate}</Text>
+            </View>  
+          <View style={{flexDirection:'row'}}>
+            <Text style={{fontSize:22}}>Status                  :</Text>
+            <Text style={{fontSize:22, color:item.status=='pending'?'red':'green'}}>{item.status}</Text>
+            </View>  
+          <View style={{flexDirection:'row'}}> 
+            <Text style={{fontSize:22}}>Coins                   :</Text>
+            <Text style={{fontSize:22}}>{item.coins}</Text>
+            </View>  
         
-     </View> 
+          </View>  
      </View>
 
   )
+  }
 
   function quantityminus(code){
     console.log(code);
@@ -59,32 +70,27 @@ const Cart = ({navigation}) => {
   }
 
   return (
-    <View style={{flex:1}}>
+    <ScrollView style={{flex:1}}>
       <StatusBar hidden={true}/>
       <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',borderWidth: 1, borderColor: '#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:45,height:50,shadowColor: '#52006A', elevation: 20 }}>
           <TouchableOpacity onPress={()=>navigation.goBack()}>
-              <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
-
+              <MaterialIcons name= "keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
           </TouchableOpacity>
+
+
         </View>
-        <Text style={{fontSize:35,}}>Contributions</Text>
-        <View></View>
-        </View>
+        <View style={{paddingRight:70}}>
+          <Text style={{fontSize:35,fontWeight:900}}>Contributions</Text> 
+
+          </View>
+                </View>
         </View> 
-        <View style={{height:'5%'}}>
-        <View style={{flexDirection:'row',alignItems:'center', marginHorizontal:'4%',justifyContent:'space-evenly',paddingVertical:2,borderTopWidth:2,borderBottomWidth:2,borderColor:'black'}}>
-            <Text style={{fontSize:22,marginRight:10}}>Img</Text>
-            <Text style={{fontSize:22,marginLeft:9}}>Date</Text>
-            <Text style={{fontSize:22,marginLeft:8}}>Coins</Text>
-            <Text style={{fontSize:22}}>Status</Text>
-        </View>
-        </View>
-        <View style={{height:'85%'}}>
+        <View style={{height:'100%'}}>
         <FlatList
-           style={{paddingHorizontal:15}}
-            data={cartdata}
+           style={{flex:1,marginLeft:20,marginBottom:20,paddingBottom:30}}
+            data={data}
             renderItem={({item})=><Product item={item}/>}
             keyExtractor={item=>item.id}
         />
@@ -96,7 +102,8 @@ const Cart = ({navigation}) => {
        
         
       
-    </View>
+    </ScrollView>
+
   )
 }
 

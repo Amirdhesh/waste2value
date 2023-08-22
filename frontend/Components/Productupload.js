@@ -27,8 +27,8 @@ export function AddProductScreen({route , navigation}){
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const {company_id} = route.params;
-  console.log(company_id);
+  const {customer_id} = route.params;
+  console.log(customer_id);
   //test image
   const [photo, setPhoto] = React.useState(null);
 
@@ -87,7 +87,7 @@ export function AddProductScreen({route , navigation}){
         console.log(err)
     }
   }*/
-  const addProduct=()=>{
+  const addProduct=async()=>{
     navigation.navigate("ProductAdded");
     const formData ={
       product_name: productName,
@@ -99,7 +99,7 @@ export function AddProductScreen({route , navigation}){
       type: image.mime,
       name: 'product.jpg',
     });*/
-    fetch(`http://192.168.56.1:3000/api/add_product/${company_id}`, {
+    fetch(`http://192.168.56.1:3000/api/add_product/${customer_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export function AddProductScreen({route , navigation}){
           .then(resp=>resp.json())
           .then(data => {
             console.log(data)
-            navigation.navigate('CompanyStore',{ company_id:company_id })
+            navigation.navigate('CompanyStore',{ customer_id:customer_id })
           })
           .catch(error=>console.log(error))
            
