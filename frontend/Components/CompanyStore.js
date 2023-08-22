@@ -2,12 +2,13 @@ import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity 
 import React,{useState,useEffect} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
-import Companyinterface from './Companyinterface';
+import Companyinterfase from './Companyinterface';
 import { AntDesign } from '@expo/vector-icons';
-const CompanyStore = ({route ,navigation}) => {
+const CompanyStore = ({navigation,route}) => {
     const [Data, setProductData] = useState([]);
     const {company_id} = route.params;
     const [search,setsearch]=useState("");
+    
     useEffect(() => {
         searchproduct(); // Fetch product data from Flask API
       });
@@ -73,7 +74,7 @@ const CompanyStore = ({route ,navigation}) => {
           numColumns={2} 
           style={ {flex: 1}}
         />
-        <Companyinterface navigation={navigation} company_id={company_id}/>
+        <Companyinterfase navigation={navigation} company_id={company_id}/>
 
         </View>
       )

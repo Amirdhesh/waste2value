@@ -24,7 +24,7 @@ mydb=mysql.connector.connect(
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "192.168.0.156",
+    host= "localhost",
     user= "root",
     password= "tiger",
     database="wtv"
