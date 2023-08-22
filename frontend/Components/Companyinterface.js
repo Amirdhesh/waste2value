@@ -7,6 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Companyinterfase = ({route,navigation}) => {
     const {company_id} = route.params;  
+    const wallet=()=>{
+        navigation.navigate("CompanyWallet",{company_id});
+    }
     return(
     <View style={{flex:1}}>
         <Text style={{fontSize:20}}>Company</Text>
@@ -18,6 +21,9 @@ const Companyinterfase = ({route,navigation}) => {
     </TouchableOpacity>
     <TouchableOpacity onPress={()=>login()}>
         <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Orders</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={()=>wallet()}>
+        <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 200, fontSize: 29 }}>View Wallet</Text>
     </TouchableOpacity>
     </View>
     )

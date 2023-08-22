@@ -83,7 +83,7 @@ export function AddProductScreen({route , navigation}){
         console.log(err)
     }
   }*/
-  const addProduct=()=>{
+  const addProduct=async()=>{
     navigation.navigate("ProductAdded");
     const formData ={
       product_name: productName,

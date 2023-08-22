@@ -29,6 +29,8 @@ import ProductDetailscompany from './Components/ProductDetailscompany';
 import Companydetailsdisplay from './Components/companydetailsdisplay';
 import Contribute from './Components/contribute';
 import CustomerWallet from './Components/customerwallet';
+import CompanyWallet from './Components/companywallet';
+import WalletPayment from './Components/walletpayment';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (/*
@@ -78,6 +80,8 @@ export function App() {
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
     <Stack.Screen name="Contribution" component={Contribution} options={{headerShown:false}}/>
     <Stack.Screen name="CustomerWallet" component={CustomerWallet} options={{headerShown:false}}/>
+    <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>
+    <Stack.Screen name="WalletPayment" component={WalletPayment} options={{headershown:false}}/>
     <Stack.Screen name="Product" component={Productupload} />
     <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
     <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>

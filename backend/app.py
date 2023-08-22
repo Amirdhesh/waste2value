@@ -226,7 +226,7 @@ def add_product(company_id):
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
         values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()

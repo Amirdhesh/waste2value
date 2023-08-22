@@ -1,14 +1,19 @@
-import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState,useEffect} from 'react'
-import { MaterialIcons } from '@expo/vector-icons'
-import CustomerNavbar from './CustomerNavbar' 
+import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React,{useState,useEffect} from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
+import { useCallback } from 'react';
 const CustomerStore = ({route,navigation}) => {
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
-  useEffect(() => {
-    searchproduct(); // Fetch product data from Flask API
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+        searchproduct();
+    },[])
+);
+
   const {customer_id} = route.params;
   //to search the product7
 const searchproduct = async () => {
