@@ -91,6 +91,9 @@ export function App() {
     <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>
     <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
     <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/>
+    <Stack.Screen name='Account' component={Account} options={{headerShown:false}}/>
+    <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
+    <Stack.Screen name='Contribution' component={Contribution} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
