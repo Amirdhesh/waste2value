@@ -31,6 +31,7 @@ import Contribute from './Components/contribute';
 import CustomerWallet from './Components/customerwallet';
 import CompanyWallet from './Components/companywallet';
 import WalletPayment from './Components/walletpayment';
+import ImageUpload from './Components/imageupload';
 const Stack = createNativeStackNavigator();
 export function App() {
   return (/*
@@ -87,15 +88,11 @@ export function App() {
     <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
     <Stack.Screen name="CompanyStore" component={CompanyStore}/>
     <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
+      <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
+    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
-/*<NavigationContainer>
-  <Stack.Navigator initialRouteName='CompanyRequest'>
 
-    <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
-    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
-  </Stack.Navigator>
-</NavigationContainer>*/
   );
 }
 
