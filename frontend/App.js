@@ -18,12 +18,14 @@ import CustomerStore from './Components/CustomerStore';
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Header } from 'react-native-elements';
-
+import Companyinterface from './Components/Companyinterface';
+import CompanyContribution from './Components/CompanyContribution';
+import CompanyStore from './Components/CompanyStore';
+import Productupload from './Components/Productupload'
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-    <NavigationContainer>
+    /*<NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
         <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
@@ -56,22 +58,23 @@ export default function App() {
   </Stack.Navigator>
 </NavigationContainer>*/
  <NavigationContainer>
- <Stack.Navigator initialRoutName="Login">
-   <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+ <Stack.Navigator initialRoutName="Product">
+   {/* <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
-    <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/>
+    <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/> 
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
-    <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
-    <Stack.Screen name="Product" component={Productupload} />
-    <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
-    <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
-    <Stack.Screen name="CompanyStore" component={CompanyStore}/>
-    <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
+    <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/> */}
+     <Stack.Screen name="Product" component={Productupload} options={{headerShown:false}}/>  
+    {/* <Stack.Screen name="Companyinterface" component={Companyinterface} options={{headerShown:false}}/>*/}
+    {/* <Stack.Screen name="Contribution" component={CompanyContribution} options={{headerShown:false}}/>  */}
+    {/* <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>*/}
+    {/* <Stack.Screen name="CompanyStore" component={CompanyStore} options={{headerShown:false}}/> */}
+    {/* <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>   */}
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
@@ -83,7 +86,3 @@ export default function App() {
 </NavigationContainer>*/
   );
 }
-
-
-
-export default App;

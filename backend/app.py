@@ -5,14 +5,14 @@ import os
 import mysql.connector
 
 app=Flask(__name__)
-import mysql.connector
+'''import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
 )
-
+'''
 '''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -20,15 +20,15 @@ mydb=mysql.connector.connect(
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
+)'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "172.31.99.34",
-    user= "Madumitha",
-    password= "1234",
-    database="WASTETOVALUE"
-)'''
+    host= "192.168.0.156",
+    user= "root",
+    password= "tiger",
+    database="wtv"
+)
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
