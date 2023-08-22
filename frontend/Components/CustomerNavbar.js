@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import React from 'react'
 
+
 const CustomerNavbar = ({navigation,customer_id,product_id}  ) => {
   return (
     <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
@@ -14,7 +15,7 @@ const CustomerNavbar = ({navigation,customer_id,product_id}  ) => {
             <MaterialCommunityIcons name="storefront-outline" size={34} color="white" style={{marginRight:14}}/>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate("Contribute")} >
+        <TouchableOpacity onPress={()=>navigation.navigate("Contribute",{customer_id})} >
         <View>
             <Octicons name="diff-added" size={30} color="white" style={{marginHorizontal:14,marginTop:3}}/>
         </View>

@@ -3,7 +3,8 @@ import mysql.connector
 #from flask_mysqldb import MySQL
 import os
 import mysql.connector
-
+import base64
+import datetime
 app=Flask(__name__)
 '''import mysql.connector
 mydb = mysql.connector.connect(
@@ -11,8 +12,7 @@ mydb = mysql.connector.connect(
   user="root",
   password="tiger",
   database="wtv"
-)
-'''
+)'''
 '''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -24,7 +24,7 @@ mydb=mysql.connector.connect(
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "192.168.0.156",
+    host= "localhost",
     user= "root",
     password= "tiger",
     database="wtv"
@@ -176,30 +176,48 @@ def signup():
 
 @app.route('/company', methods=['POST'])
 def company():
-    data = request.get_json()
-    name=data.get('Companyname')
+    data = request.form
+    name=data.get('name')
     email = data.get('email')
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
+    image = request.files['images']
+    print(name,ph_no,address,pin,email)
+
+    """if 'images' in request.files:
+        return {'statsu':True}
+    else:
+        return False
+    print(name)"""
+    
+    if image.filename == '':
+        return jsonify({'message': 'No selected image'})
+    
     query1="select * from login where email=%s"
     cur.execute(query1,(email,))
     user=cur.fetchone()
+    print(user)
+    
     if not user:
         return jsonify({"message":"Register as user"})
     else:
-        print(user[3])
         if user[3]=='pending' or user[3]=='company':
-            return jsonify({"message":"Already register"})
+            return jsonify({"message":"Already registered"})
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
-            cur.execute(query,(name,ph_no,address,pin,email))
-            mydb.commit()
-            return jsonify("Registered successfully")
-        
+            if image and allowed_file(image.filename):
+                bdimage = base64.b64encode(image.read()) 
+                query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image=%s where email=%s"
+                cur.execute(query,(name,ph_no,address,pin,email,bdimage))
+                mydb.commit()
+                return jsonify({'message': 'Your account will be approved soon'})
+            else:
+                return jsonify({'message': 'Invalid image format'})
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 '''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
@@ -226,7 +244,7 @@ def add_product(company_id):
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
         values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()
@@ -354,9 +372,43 @@ def cartdetails(customer_id):
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
+@app.route('/api/contributions/<customer_id>',methods=['GET'])
+def fetchcontributiondata(customer_id):
+    cursor = mydb.cursor(dictionary=True)
+    query="Select * from contributions where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchall()
+    jsonify(data)
+    print(data)
+    return jsonify(data)
 
+@app.route('/api/fetchcustomercoins/<customer_id>',methods=['GET'])
+def fetchcustomercoins(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select wallet_amount from wallet where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchone()
+    print("data",data)
+    return jsonify(data)
 
+@app.route('/api/addcoins',methods=['POST'])
+def addcoins():
+    try:
+        data=request.get_json()
+        customer_id=data.get('customer_id')
+        coins=data.get('coins')
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        cursor=mydb.cursor()
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Coins added successfully"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Process failed"})
 
+ 
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])

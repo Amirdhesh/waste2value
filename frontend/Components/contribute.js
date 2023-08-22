@@ -1,6 +1,5 @@
 import React from "react";
 import { Text,TouchableOpacity,View } from "react-native";
-
 const Contribute=({navigation,route})=>
 {
     const {customer_id} = route.params;
@@ -19,7 +18,7 @@ const Contribute=({navigation,route})=>
                 </View>
             </TouchableOpacity>
 
-
+            <Companyinterfase navigation={navigation} company_id={company_id}/>
         </View>
     )
 }
