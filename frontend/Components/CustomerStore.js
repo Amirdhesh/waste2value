@@ -1,17 +1,21 @@
-import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState,useEffect} from 'react'
-import { MaterialIcons } from '@expo/vector-icons'
-import CustomerNavbar from './CustomerNavbar' 
+import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React,{useState,useEffect} from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
+import { useCallback } from 'react';
 const CustomerStore = ({route,navigation}) => {
-  const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
-  useEffect(() => {
-    searchproduct(); // Fetch product data from Flask API
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+        searchproduct();
+    },[])
+);
+
   const {customer_id} = route.params;
-  //to search the product
+  //to search the product7
 const searchproduct = async () => {
   try {
     const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
@@ -23,7 +27,9 @@ const searchproduct = async () => {
   }
 };
 
-// search close 
+   const wallet=async()=>{
+    navigation.navigate('CustomerWallet',{customer_id});
+   }
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
@@ -74,10 +80,9 @@ const searchproduct = async () => {
         </TouchableOpacity>
         </View>
        
-      
-        <TouchableOpacity onPress={() => setfilter(true)}>
-          <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47,shadowColor: !filter ? '#52006A' : undefined, elevation: 20 }}>
-             <MaterialIcons name="tune" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>
+        <TouchableOpacity onPress={() => wallet()}>
+          <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
+             <MaterialIcons name="attach-money" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>
           </View>
         </TouchableOpacity>
         

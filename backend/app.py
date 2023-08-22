@@ -3,16 +3,15 @@ import mysql.connector
 #from flask_mysqldb import MySQL
 import os
 import mysql.connector
-
+import datetime
 app=Flask(__name__)
-import mysql.connector
+'''import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)
-
+)'''
 '''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -20,15 +19,15 @@ mydb=mysql.connector.connect(
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
+)'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "172.31.99.34",
-    user= "Madumitha",
-    password= "1234",
-    database="WASTETOVALUE"
-)'''
+    host= "localhost",
+    user= "root",
+    password= "tiger",
+    database="wtv"
+)
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -226,7 +225,7 @@ def add_product(company_id):
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
         values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()
@@ -354,15 +353,49 @@ def cartdetails(customer_id):
     print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
+@app.route('/api/contributions/<customer_id>',methods=['GET'])
+def fetchcontributiondata(customer_id):
+    cursor = mydb.cursor(dictionary=True)
+    query="Select * from contributions where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchall()
+    jsonify(data)
+    print(data)
+    return jsonify(data)
 
+@app.route('/api/fetchcustomercoins/<customer_id>',methods=['GET'])
+def fetchcustomercoins(customer_id):
+    cursor=mydb.cursor(dictionary=True)
+    query="Select wallet_amount from wallet where customer_id=%s"
+    cursor.execute(query,(customer_id,))
+    data=cursor.fetchone()
+    print("data",data)
+    return jsonify(data)
 
+@app.route('/api/addcoins',methods=['POST'])
+def addcoins():
+    try:
+        data=request.get_json()
+        customer_id=data.get('customer_id')
+        coins=data.get('coins')
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        cursor=mydb.cursor()
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Coins added successfully"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Process failed"})
 
+ 
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])
 def CompanyRequest():
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where type like '%pending%'"
+    query="select * from login where type='pending'"
     cursor.execute(query)
     data=cursor.fetchall()
     print(data)
@@ -398,15 +431,120 @@ def AcceptRequest(email):
         query="update login set type='company' where email=%s"
         cursor.execute(query,(email,))
         mydb.commit()
-        cursor.close()
+        print("Down")
         return jsonify({"message":"Offer Accepted Type updated to company"})
     except:
         mydb.rollback()
-        cursor.close()
         return jsonify({"message":"Error occured while accepting"})
+    
+#compnay details
+@app.route("/admin/companydetails/<int:id>",methods=["POST","GET"])
+def companydetails(id):
+    cursor=mydb.cursor(dictionary=True)
+    query="select type from login where id=%s"
+    cursor.execute(query,(id,))
+    data=cursor.fetchone()
+    print(data)
+    if data['type']=='admin':
+        cursor=mydb.cursor(dictionary=True)
+        query="select * from login where type='company'"
+        cursor.execute(query)
+        data=cursor.fetchone()
+        return jsonify(data)
+    
+@app.route('/admin/admincompanyrequest',methods=['GET'])
+def AllCompanyRequest():
+    cursor=mydb.cursor(dictionary=True)
+    query="select * from login where type='company'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
 
+@app.route('/admin/adminuserrequest',methods=['GET'])
+def AllUserRequest():
+    cursor=mydb.cursor(dictionary=True)
+    query="select * from login where type='user'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+#order
+@app.route('/companyorderdetails/<int:company_id>',methods=["GET","POST"])
+def companyorderdetails(company_id):
+    try:
+        cursor = mydb.cursor(dictionary=True)
+        query = "SELECT product_id FROM productdetails where company_id=%s"
+        cursor.execute(query,(company_id,))
+        products = cursor.fetchall()
+        cursor=mydb.cursor()
+        if products:
+            for i in products:
+                query='select customer_id from order_details where product_id=%s'
+                cursor.execute(query,(i["product_id"],))
+                data=cursor.fetchall()
+        if data:
+            rtu=[]
+            for i in data:
+                try:
+                    cursor = mydb.cursor(dictionary=True)
+                    query = "SELECT * FROM login where id=%s"
+                    cursor.execute(query,(i[0],))
+                    pt = cursor.fetchall()
+                    cursor.close()
+                    rtu.append(pt[0])
+                except Exception as e:
+                    pass
+            print(rtu)
+            return jsonify(rtu)
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
+
+@app.route('/plaseorder/<int:id>',methods=["GET","POST"])
+def plaseorder(id):
+    cursor=mydb.cursor()
+    query='select * from addtocart where customer_id=%s'
+    cursor.execute(query,(id,))
+    data=cursor.fetchall()
+    if data:
+        for i in data:
+            query='insert into order_details(customer_id,product_id) values(%s,%s)'
+            cursor.execute(query,(i[0],i[1]))
+            mydb.commit()
+            query='delete from addtocart where customer_id=%s'
+            cursor.execute(query,(id,))
+            print("product ordered success")
+            return jsonify("product ordered success")
+
+@app.route('/userorderdetails/<int:id>',methods=["GET","POST"])
+def userorderdetails(id):    
+    cursor=mydb.cursor()
+    try:
+        query='select product_id from order_details where customer_id=%s'
+        cursor.execute(query,(id,))
+        data=cursor.fetchall()
+        print(data)
+        if data:
+            rtu=[]
+            for i in data:
+                try:
+                    cursor = mydb.cursor(dictionary=True)
+                    query = "select product_name,product_description as product_code,product_price as product_price from productdetails where product_id=%s"
+                    cursor.execute(query,(i[0],))
+                    pt = cursor.fetchall()
+                    cursor.close()
+                    rtu.append(pt[0])
+                except Exception as e:
+                    pass
+            print(rtu)
+            return jsonify(rtu)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 if __name__=="__main__":
     app.run(host='192.168.56.1',port='3000',debug=True)
+
 
 
 '''
