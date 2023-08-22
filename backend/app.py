@@ -23,7 +23,7 @@ mydb=mysql.connector.connect(
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "localhost",
+    host= "192.168.0.155",
     user= "root",
     password= "tiger",
     database="wtv"
@@ -543,7 +543,7 @@ def userorderdetails(id):
     except Exception as e:
         return jsonify({'error': str(e)})
 if __name__=="__main__":
-    app.run(host='192.168.56.1',port='3000',debug=True)
+    app.run(host='192.168.0.1',port='3000',debug=True)
 
 
 
