@@ -83,11 +83,9 @@ export default function App() {
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/> 
     <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
-    <Stack.Screen name="Contribution" component={Contribution} options={{headerShown:false}}/>
     <Stack.Screen name="CustomerWallet" component={CustomerWallet} options={{headerShown:false}}/>
     <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>
     <Stack.Screen name="WalletPayment" component={WalletPayment} options={{headershown:false}}/>
-    <Stack.Screen name="Product" component={Productupload} />
     <Stack.Screen name="Product" component={Productupload} options={{headerShown:false}}/>  
     <Stack.Screen name="Companyinterface" component={Companyinterfase} options={{headerShown:false}}/>
     <Stack.Screen name="Contribution" component={CompanyContribution} options={{headerShown:false}}/>  
@@ -114,5 +112,5 @@ export default function App() {
 </NavigationContainer>
 
   );
-}
-
+}*/
+)}
