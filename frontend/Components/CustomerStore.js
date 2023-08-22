@@ -80,7 +80,6 @@ const searchproduct = async () => {
         </TouchableOpacity>
         </View>
        
-      
         <TouchableOpacity onPress={() => wallet()}>
           <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
              <MaterialIcons name="attach-money" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>

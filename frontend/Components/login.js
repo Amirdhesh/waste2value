@@ -17,14 +17,17 @@ const Login = ({navigation}) => {
         {'Content-Type':'application/json'
     },
     body:JSON.stringify({email:email,password:password})
+    
   })
   .then(resp => resp.json())
   .then(data => {
+    console.log(data);
     if(data.message=="Login Successful"){
     navigation.navigate("ProductList",{customer_id:data.customer_id})
     }
     else if(data.message=="company"){
-      navigation.navigate("Companyinterfase",{customer_id:data.customer_id})
+      console.log(data.customer_id);
+      navigation.navigate("CompanyStore",{company_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("Admininterface",{admin_id:data.customer_id})

@@ -12,23 +12,22 @@ mydb = mysql.connector.connect(
   password="tiger",
   database="wtv"
 )'''
-
-from flask import Flask, request, jsonify
+'''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)
-'''from flask import Flask, request, jsonify
+)'''
+from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
-    host= "172.31.99.34",
-    user= "Madumitha",
-    password= "1234",
-    database="WASTETOVALUE"
-)'''
+    host= "localhost",
+    user= "root",
+    password= "tiger",
+    database="wtv"
+)
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
