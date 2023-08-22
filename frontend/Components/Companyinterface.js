@@ -5,11 +5,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import React from 'react'
 
-const Companyinterfase = ({route,navigation}) => {
-    const {customer_id} = route.params;  
-    const wallet=()=>{
-        navigation.navigate("CompanyWallet",{customer_id});
-    }
+    // const wallet=()=>{
+    //     navigation.navigate("CompanyWallet",{customer_id});
+    // }
 const Companyinterfase = ({company_id,navigation}) => {
     return(
         <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
@@ -57,4 +55,5 @@ const Companyinterfase = ({company_id,navigation}) => {
     </View>*/
     )
 }
+
 export default Companyinterfase 
