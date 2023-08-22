@@ -75,7 +75,7 @@ const searchproduct = async () => {
         </View>
        
       
-        <TouchableOpacity onPress={() => setfilter(true)}>
+        <TouchableOpacity onPress={() => navigation.navigate('Product',{company_id:company_id})}>
           <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47,shadowColor: !filter ? '#52006A' : undefined, elevation: 20 }}>
              <MaterialIcons name="tune" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>
           </View>
