@@ -5,6 +5,8 @@ import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-a
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+
 const Register = ({navigation}) => {
   const [checked, setchecked] = useState(false)
   const [visible, setvisible] = useState(true)
@@ -15,38 +17,51 @@ const Register = ({navigation}) => {
   const [address, setAddress] = useState('')
   const [pin, setPin] = useState('')
   const [password, setPassword] = useState('')
+  const [imageUri, setImageUri] = useState(null);
+
   const RegisterCompany=() =>{
-    fetch('http://192.168.56.1:3000/company',{
-      method: "POST",
-      headers: 
-        {'Content-Type':'application/json'},
-      body:
-        JSON.stringify({
-          email:email,
-          Companyname: companyname,
-          ph_no:ph_no,
-          address:address,
-          pin:pin,
-          password:password
-        })
-    })
-    .then((response)=>response.json())
-    .then((data)=>{
-      console.log(data);
-      if(data=="Register successfully")
-      {
-        navigation.navigate('Signup')
-      }
-      else if(data=="Incorrect password")
-      {
-        navigation.navigate('Register')
-      }
-      else 
-      {
-        navigation.navigate('Login')
-      }
-    })
+    const formData = new FormData();
+  formData.append('image', {
+    uri: imageUri,
+    name: 'image.jpg',
+    type: 'image/jpeg',
+  });
+
+  formData.append('email', email);
+  formData.append('Companyname', companyname);
+  formData.append('ph_no', ph_no);
+  formData.append('address', address);
+  formData.append('pin', pin);
+  formData.append('password', password);
+
+  fetch('http://192.168.56.1:3000/company', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    body: formData,
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    // Handle response data accordingly
+  });
   }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImageUri(result.uri);
+    }
+  };
+
+  
 
   return (
     <KeyboardAwareScrollView
@@ -115,6 +130,10 @@ const Register = ({navigation}) => {
         invalid===true && <Text style={{color:'red',fontSize:20}}>Invalid OTP</Text>
       }
       <View>
+      <View>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {imageUri && <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />}
+    </View>
         <View style={{flexDirection:'row',justifyContent:'flex-start,',marginLeft:18}}>
             <BouncyCheckbox isChecked={checked} fillColor='#D268CC' style={{marginTop:5}} onPress={()=>setchecked(!checked)}/>
             <Text style={{marginTop:8,marginLeft:-10}}>I accept the <Text style={{color:"#B33BAE"}}>Terms and Condition</Text></Text>

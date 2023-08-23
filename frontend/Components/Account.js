@@ -20,7 +20,7 @@ const Account = ({route,navigation}) => {
       <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',borderWidth: 1, borderColor:logout===true?'rgba(0,0,0,0.5)': '#BC5EB6',backgroundColor: logout === true ? 'transparent' :'#F4F4F4',borderRadius:15,width:45,height:50,shadowColor: logout===true?null:'#52006A', elevation: 20 }}>
-          <TouchableOpacity onPress={()=>navigation.goBack()}>
+          <TouchableOpacity onPress={()=>navigation.goBack() }>
               <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
 
           </TouchableOpacity>
@@ -76,10 +76,12 @@ const Account = ({route,navigation}) => {
             <View style={{flexDirection:'column',width:"100%",alignItems:"center",height:'100%'}}>
             <View style={{height:"40%",width:"100%",flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:22,textAlign:'center',}}>Log out of your account?</Text>
-              </View>              
-              <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
+              </View>  
+              <TouchableOpacity onPress={()=>navigation.navigate("Login")}>
+              <View style={{bottom:20,height:"30%",width:"100%",flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Log Out</Text>
               </View>
+              </TouchableOpacity>
               <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
                 <TouchableOpacity onPress={()=>setlogout(false)}>
                 <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Cancel</Text>

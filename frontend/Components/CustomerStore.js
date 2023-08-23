@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
 import { useIsFocused } from '@react-navigation/native';
+import { BackHandler } from 'react-native';
 import { useCallback } from 'react';
 const CustomerStore = ({route,navigation}) => {
   const [Data, setProductData] = useState([]); // State for product data

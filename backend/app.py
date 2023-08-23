@@ -176,29 +176,35 @@ def signup():
 
 @app.route('/company', methods=['POST'])
 def company():
-    data = request.get_json()
-    name=data.get('Companyname')
-    email = data.get('email')
-    ph_no=data.get('ph_no')
-    address=data.get('address')
-    pin=data.get('pin')
-    password=data.get('password')
-    query1="select * from login where email=%s"
-    cur.execute(query1,(email,))
-    user=cur.fetchone()
-    if not user:
-        return jsonify({"message":"Register as user"})
-    else:
-        print(user[3])
-        if user[3]=='pending' or user[3]=='company':
-            return jsonify({"message":"Already register"})
-        if user[2]!=password:
-            return jsonify({"message":"Incorrect password"})
+    try:
+        data = request.get_json()
+        name=data.get('Companyname')
+        email = data.get('email')
+        ph_no=data.get('ph_no')
+        address=data.get('address')
+        pin=data.get('pin')
+        password=data.get('password')
+        image = request.files['image']
+        image_data = image.read()
+        query1="select * from login where email=%s"
+        cur.execute(query1,(email,))
+        user=cur.fetchone()
+        if not user:
+            return jsonify({"message":"Register as user"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
-            cur.execute(query,(name,ph_no,address,pin,email))
-            mydb.commit()
-            return jsonify("Registered successfully")
+            print(user[3])
+            if user[3]=='pending' or user[3]=='company':
+                return jsonify({"message":"Already register"})
+            if user[2]!=password:
+                return jsonify({"message":"Incorrect password"})
+            else:
+                query=f"update login set company_name={name}, phonenumber={ph_no}, address={address}, pincode={pin} ,type='pending',image={image_data} where email={email}"
+                cur.execute(query)
+                mydb.commit()
+                return jsonify("Registered successfully")
+    except Exception as e:
+        return jsonify({"message": "An error occurred", "error": str(e)})
+
         
 '''
 @app.route('/api/products', methods=['GET'])
