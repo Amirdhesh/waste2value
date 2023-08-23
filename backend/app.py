@@ -3,6 +3,7 @@ import mysql.connector
 #from flask_mysqldb import MySQL
 import os
 import mysql.connector
+import base64
 import datetime
 '''app=Flask(__name__)
 import mysql.connector
@@ -176,30 +177,48 @@ def signup():
 
 @app.route('/company', methods=['POST'])
 def company():
-    data = request.get_json()
-    name=data.get('Companyname')
+    data = request.form
+    name=data.get('name')
     email = data.get('email')
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
+    image = request.files['images']
+    print(name,ph_no,address,pin,email)
+
+    """if 'images' in request.files:
+        return {'statsu':True}
+    else:
+        return False
+    print(name)"""
+    
+    if image.filename == '':
+        return jsonify({'message': 'No selected image'})
+    
     query1="select * from login where email=%s"
     cur.execute(query1,(email,))
     user=cur.fetchone()
+    print(user)
+    
     if not user:
         return jsonify({"message":"Register as user"})
     else:
-        print(user[3])
         if user[3]=='pending' or user[3]=='company':
-            return jsonify({"message":"Already register"})
+            return jsonify({"message":"Already registered"})
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
-            cur.execute(query,(name,ph_no,address,pin,email))
-            mydb.commit()
-            return jsonify("Registered successfully")
-        
+            if image and allowed_file(image.filename):
+                bdimage = base64.b64encode(image.read()) 
+                query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image=%s where email=%s"
+                cur.execute(query,(name,ph_no,address,pin,email,bdimage))
+                mydb.commit()
+                return jsonify({'message': 'Your account will be approved soon'})
+            else:
+                return jsonify({'message': 'Invalid image format'})
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 '''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():

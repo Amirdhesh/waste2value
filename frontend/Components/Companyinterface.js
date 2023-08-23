@@ -57,4 +57,6 @@ const Companyinterface = ({company_id,navigation}) => {
     </View>*/
     )
 }
+
 export default Companyinterface 
+
