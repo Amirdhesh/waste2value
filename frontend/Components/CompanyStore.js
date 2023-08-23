@@ -1,19 +1,44 @@
 import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useCallback} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
 import Companyinterfase from './Companyinterface';
 import { AntDesign } from '@expo/vector-icons';
+import { BackHandler } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 const CompanyStore = ({navigation,route}) => {
     const [Data, setProductData] = useState([]);
-    const {customer_id} = route.params;
+    const {company_id} = route.params;
     const [search,setsearch]=useState("");
-    useEffect(() => {
+    const isFocused = useIsFocused();
+
+    useFocusEffect(
+      useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
-      });
+    }));
+
+    useEffect(()=>{
+      const backAction=()=>{
+        return true;
+      }
+      if(isFocused){
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () => backHandler.remove(); // Remove the event listener when component unmounts
+      }
+    }, [isFocused]);
+  
+      const handleGoBackToLogin = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+  };
+
+
     const searchproduct = async () => {
         try {
-          const response = await fetch(`http://192.168.0.155:3000/api/companyproducts/${customer_id}`);
+          const response = await fetch(`http://192.168.56.1:3000/api/companyproducts/${company_id}`);
           const data = await response.json();
           setProductData(data);
         } catch (error) {
@@ -22,7 +47,7 @@ const CompanyStore = ({navigation,route}) => {
       };
       //UPdate this handleproductclick
       const handleProductClick = (product_id) => {
-        navigation.navigate('ProductDetailscompany', {customer_id, product_id });
+        navigation.navigate('ProductDetailscompany', {company_id, product_id });
       };
 //Data=[{product_id:1,product_name:'oiisuef',product_price:100},{product_id:2,product_name:'oiisuef',product_price:100},{product_id:3,product_name:'oiisuef',product_price:100},]
 

@@ -1,40 +1,79 @@
 import { View, Text,TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard,FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import {useFocusEffect} from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { useCallback } from 'react';
 import Companyinterface from './Companyinterface';
-const CompanyContribution = ({navigation}) => {
+const CompanyContribution = ({navigation,route}) => {
+  const {company_id}= route.params;
   const [accept, setaccept] = useState(false)
-  Data=[{product_id:1,product_name:'oiisuef',product_Status:true},{product_id:2,product_name:'oiisuef',product_Status:false},{product_id:3,product_name:'oiisuef',product_Status:true},]
+  const [Data,setData] = useState({})
+  useFocusEffect(
+    useCallback(() => {
+        viewContribution();
+    },[])
+);
 
-    const Product=({item})=>(
+const viewContribution=async()=>{
+        fetch('http://192.168.56.1:3000/api/ViewAllContributions')
+        .then((response)=>response.json())
+        .then((data)=>{
+          console.log(data);
+          setData(data)
+        })
+        .catch((error)=>console.error(error))
+}
+  
+ const handleAll=()=>{
+  setaccept(false);
+  viewContribution();
+ }
+  const handleAccepted=()=>{
+    setaccept(true);
+    fetch(`http://192.168.56.1:3000/api/ViewAcceptedContributions/${company_id}`)
+    .then((response)=>response.json())
+    .then((data)=>{
+      setData(data)
+      console.log(data)
+    })
+    .catch((error)=>console.error(error))
+
+  }
+    const Product=({item})=>{
+      const dateObject = new Date(item[1]);
+
+      // Format the date in "DD MMM YYYY" format
+      const formattedDate = dateObject.toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+      const contribution_id=item[0]
+      return(
+        <TouchableOpacity>
         <View style={{paddingVertical:15,borderBottomWidth:1, borderColor:'black',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
         <View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{height:80,width:87,backgroundColor:"#D9D9D9",borderRadius:10}}>
     
             </View>
             <View style={{left:15}}>
-              <Text style={{fontSize:27 ,fontWeight:600 }}>{item.product_name}</Text>
-              <Text style={{fontSize:20 , color:'green' , fontWeight:400 }}>Price: Rs.{item.product_price}</Text>
+            <Text style={{fontSize:25  , fontWeight:600}} onPress={()=>accept==false?navigation.navigate("ViewContributionDetails",{contribution_id,company_id}):navigation.navigate("WasteCollection",{contribution_id,company_id})}>District:{item[2]}</Text>
+              <Text style={{fontSize:20 ,fontWeight:400}} onPress={()=>accept==false?navigation.navigate("ViewContributionDetails",{contribution_id,company_id}):navigation.navigate("WasteCollection",{contribution_id,company_id})}>Contribution id:{contribution_id}</Text>
+              <Text style={{fontSize:20 , color:'green' , fontWeight:400 }} onPress={()=>accept==false?navigation.navigate("ViewContributionDetails",{contribution_id,company_id}):navigation.navigate("WasteCollection",{contribution_id,company_id})}>Date:{formattedDate}</Text>
               
               
             </View>
-           
-         </View> 
-         {
-              item.product_Status && 
-              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-evenly'}}>
-              <View style={{width:96,height:37,backgroundColor:"#D268CC",borderRadius:10,flexDirection:'column',justifyContent:'center',alignItems:'center'}}><Text style={{fontSize:20,color:'white'}}>Accept</Text></View>
-              <Entypo name="cross" size={40} color="black" />
-              </View>
-            }
-         </View>
+            </View>
+            </View>
+            </TouchableOpacity> 
     
       )
+          }
   return (
     <View style={{flex:1}}>
     <StatusBar hidden={true}/>
@@ -53,8 +92,8 @@ const CompanyContribution = ({navigation}) => {
     </View>
     <View style={{width:'100%',height:'10%',flexDirection:'column',alignItems:'center',top:15}}>
         <View style={{width:'70%',height:'50%',borderColor:'#BC5EB6',borderWidth:1,borderRadius:20,flexDirection:'row',alignItems:'center',justifyContent:'space-evenly'}}>
-            <Text onPress={()=>setaccept(false)} style={{fontSize:20,color:accept==false ? '#BC5EB6':'black' }}>All</Text>
-            <Text onPress={()=>setaccept(true)} style={{fontSize:20,color:accept==true ? '#BC5EB6':'black' }}>Accepted</Text>
+            <Text onPress={()=>handleAll()} style={{fontSize:20,color:accept==false ? '#BC5EB6':'black' }}>All</Text>
+            <Text onPress={()=>handleAccepted()} style={{fontSize:20,color:accept==true ? '#BC5EB6':'black' }}>Accepted</Text>
         </View>
     </View>
     <View style={{flex:1}}>
@@ -62,7 +101,7 @@ const CompanyContribution = ({navigation}) => {
           style={{paddingHorizontal:15}}
             data={Data}
             renderItem={({item})=><Product item={item}/>}
-            keyExtractor={item=>item.id}
+            keyExtractor={item=>item[0]}
           /> 
     </View>
     <Companyinterface navigation={navigation}/>

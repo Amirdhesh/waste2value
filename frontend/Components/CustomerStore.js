@@ -4,15 +4,29 @@ import React,{useState,useEffect} from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
+import { useIsFocused } from '@react-navigation/native';
 import { useCallback } from 'react';
 const CustomerStore = ({route,navigation}) => {
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
+  const isFocused = useIsFocused();
+
   useFocusEffect(
     useCallback(() => {
         searchproduct();
     },[])
 );
+
+useEffect(()=>{
+  const backAction=()=>{
+    return true;
+  }
+  if(isFocused){
+  const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+  return () => backHandler.remove(); // Remove the event listener when component unmounts
+  }
+}, [isFocused]);
 
   const {customer_id} = route.params;
   //to search the product7
