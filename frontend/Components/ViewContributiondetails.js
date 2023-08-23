@@ -8,7 +8,7 @@ const ViewContributionDetails=({navigation,route})=>{
 
     const {contribution_id,company_id} = route.params;
     const [Data,setData] = useState({});
-
+    console.log(contribution_id,company_id);
    useEffect(()=>{
     getcontributiondetails()
    },[]);

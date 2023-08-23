@@ -270,7 +270,7 @@ def get_productslist():
 def get_companylist(company_id):
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where company_id=%s"
+        query = "SELECT * FROM productdetails where retailer_id=%s"
         cursor.execute(query,(company_id,))
         products = cursor.fetchall()
         cursor.close()
@@ -418,6 +418,7 @@ def getcontributiondetails(contribution_id):
 def acceptcontribution():
     try:
         data=request.get_json()
+        print("data",data)
         contribution_id=data.get('contribution_id')
         company_id=data.get('company_id')
         cursor=mydb.cursor()

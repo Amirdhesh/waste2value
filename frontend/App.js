@@ -27,6 +27,7 @@ import Contribute from './Components/contribute';
 import CustomerWallet from './Components/customerwallet';
 import CompanyWallet from './Components/companywallet';
 import WalletPayment from './Components/walletpayment';
+import ProductAddedScreen from './Components/ProductAddedScreen';
 import Admininterface from './Components/Admininterface';
 import Admincompanydisplay from './Components/admincompanydisplay';
 import Adminallcompany from './Components/adminallcompany';
@@ -103,6 +104,7 @@ export default function App() {
     <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
     <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/>
     <Stack.Screen name='Account' component={Account} options={{headerShown:false}}/>
+    <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
     <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
     <Stack.Screen name='UserContribution' component={Contribution} options={{headerShown:false}}/>
     <Stack.Screen name='ViewContributionDetails' component={ViewContributionDetails} options={{headerShown:false}}/>
