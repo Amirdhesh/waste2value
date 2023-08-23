@@ -4,13 +4,13 @@ import { Octicons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons';
 import React from 'react'
-
+/*
 const Companyinterfase = ({route,navigation}) => {
     const {customer_id} = route.params;  
     const wallet=()=>{
         navigation.navigate("CompanyWallet",{customer_id});
-    }
-const Companyinterfase = ({company_id,navigation}) => {
+    }*/
+const Companyinterface = ({company_id,navigation}) => {
     return(
         <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
         <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
@@ -57,4 +57,4 @@ const Companyinterfase = ({company_id,navigation}) => {
     </View>*/
     )
 }
-export default Companyinterfase 
+export default Companyinterface 

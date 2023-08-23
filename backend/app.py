@@ -4,22 +4,23 @@ import mysql.connector
 import os
 import mysql.connector
 import datetime
-app=Flask(__name__)
-'''import mysql.connector
+'''app=Flask(__name__)
+import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
 )'''
-'''from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)'''
+)
+'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -27,7 +28,7 @@ mydb=mysql.connector.connect(
     user= "root",
     password= "tiger",
     database="wtv"
-)
+)'''
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -378,8 +379,14 @@ def addcoins():
         data=request.get_json()
         customer_id=data.get('customer_id')
         coins=data.get('coins')
-        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
         cursor=mydb.cursor()
+        query=f"select * from wallet where customer_id={customer_id}"
+        cursor.execute(query)
+        user=cursor.fetchone()
+        if user:
+            query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        else:
+            query=f"insert into wallet values({customer_id},{coins})"
         cursor.execute(query)
         mydb.commit()
         cursor.close()
@@ -389,7 +396,84 @@ def addcoins():
         cursor.close()
         return jsonify({"message":"Process failed"})
 
- 
+@app.route('/api/ViewAllContributions',methods=['GET'])
+def AllContributions():
+    cursor=mydb.cursor()
+    query="select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where status='pending' order by date_info"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/getcontributiondetails/<contribution_id>',methods=['GET'])
+def getcontributiondetails(contribution_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id,contributions.customer_id,login.username,login.address,login.district,login.landmark,login.pincode from contributions inner join login on contributions.customer_id=login.id where contribution_id={contribution_id}"
+    cursor.execute(query)
+    data=cursor.fetchone()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/acceptcontribution/',methods=['POST'])
+def acceptcontribution():
+    try:
+        data=request.get_json()
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        cursor=mydb.cursor()
+        query=f"update contributions set company_id={company_id}, status='accepted' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Contribution Accepted"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"task failed"})
+    
+@app.route('/api/ViewAcceptedContributions/<company_id>',methods=['GET'])
+def ViewAcceptedContributions(company_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where contributions.company_id={company_id} and status='accepted'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/sendcoins/',methods=['POST'])
+def ProvideCoins():
+    print(request.get_data())
+    try:
+        cursor=mydb.cursor(dictionary=True)
+        data=request.get_json()
+        print(data)
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        coins=data.get('coins')
+        print(contribution_id,company_id,coins)
+        query=f"select wallet_amount from wallet where customer_id={company_id}"
+        cursor.execute(query)
+        amount=cursor.fetchone()
+        print(amount)
+        if amount=='null' or amount['wallet_amount']<coins:
+            return jsonify({"message":"Insufficient coins"})
+        query=f"update wallet set wallet_amount=wallet_amount-{coins} where customer_id={company_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor=mydb.cursor()
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id=(select customer_id from contributions where contribution_id={contribution_id})"
+        cursor.execute(query)
+        mydb.commit()
+        query=f"update contributions set status='Collected' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        return jsonify({"message":"Provided coins successfully"})
+    except Exception as e:
+        print(e)    
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Task failed"})
+
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])

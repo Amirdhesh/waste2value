@@ -12,13 +12,13 @@ const Contribute=({navigation,route})=>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={{paddingTop:60}} onPress={()=>navigation.navigate("Contribution",{customer_id})}>
+            <TouchableOpacity style={{paddingTop:60}} onPress={()=>navigation.navigate("UserContribution",{customer_id})}>
                 <View style={{justifyContent:'center',alignItems:'center',height:100,width:200, backgroundColor:"pink", borderColor:'salmon',borderWidth:2,borderRadius:12,elevation:20,shadowColor:'red'}} >
                     <Text style={{fontSize:28,fontWeight:600}}>View your contributions</Text>
                 </View>
             </TouchableOpacity>
 
-            <Companyinterfase navigation={navigation} company_id={company_id}/>
+            {/* <Companyinterfase navigation={navigation} company_id={company_id}/> */}
         </View>
     )
 }
