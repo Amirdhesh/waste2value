@@ -92,18 +92,7 @@ const Account = ({route,navigation}) => {
 
           </View> 
         }
-        <TouchableOpacity onPress={()=>navigation.navigate('Orders',{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
-          <Text style={{fontSize:25,marginLeft:8}}>
-              Orders
-            </Text>
-            <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />   
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('Contribution')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
-            <Text style={{fontSize:25,marginLeft:8}}>
-               Contributions
-            </Text>
-            <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />
-        </TouchableOpacity>
+        
         <TouchableOpacity onPress={() => wallet()} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Wallet
