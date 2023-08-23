@@ -6,9 +6,10 @@ const SignUp = ({navigation}) => {
   const [email,setemail]=useState("")
   const [password1,setPassword1]=useState("")
   const [password2,setPassword2]=useState("")
+  const imageUri='null';
   const signup=()=>{
     if (password1==password2){
-    fetch("http://192.168.56.1:3000/signup",{
+    fetch("http://192.168.0.155:3000/signup",{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
@@ -56,7 +57,7 @@ const SignUp = ({navigation}) => {
           </TouchableOpacity>
           <Text style={{fontSize: 18,marginTop:9}}>Or</Text>
           <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
-          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register')}>Company</Text></Text>
+          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register',{imageUri:imageUri})}>Company</Text></Text>
           </TouchableOpacity>
         </View>
         </View>

@@ -1,4 +1,6 @@
 {
+  "name": "EjectDemo",
+  "displayName": "EjectDemo",
   "expo": {
     "name": "waste2value",
     "slug": "waste2value",
