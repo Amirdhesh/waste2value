@@ -70,7 +70,7 @@ const searchproduct = async () => {
         
     return (
       <View style={{
-      flex: 1,
+      flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
@@ -83,8 +83,8 @@ const searchproduct = async () => {
   return (
     <View style={{flex:1}}> 
       <StatusBar hidden={true}/>     
-      <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"8%"}}>
-        <View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 296, borderRadius: 20 }}>
+      <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"10%"}}>
+        <View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: '92%', borderRadius: 20 }}>
         
        
        
@@ -94,22 +94,21 @@ const searchproduct = async () => {
         </TouchableOpacity>
         </View>
        
-        <TouchableOpacity onPress={() => wallet()}>
-          <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
-             <MaterialIcons name="attach-money" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>
-          </View>
-        </TouchableOpacity>
+        
         
         
 
       </View>
+      <View style={ {height:'72%',marginTop:10}}>
       <FlatList
       data={Data}
       renderItem={renderItem}
       keyExtractor={item => ( item.product_id)}
       numColumns={2} 
-      style={ {flex: 1}}
+      
     />
+      </View>
+      
 
       <CustomerNavbar  navigation={navigation} customer_id={customer_id}/>
     </View>
