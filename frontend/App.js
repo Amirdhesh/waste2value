@@ -76,7 +76,7 @@ export default function App() {
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     <Stack.Screen name="CustomerCart" component={Cart} />
   </Stack.Navigator>
-</NavigationContainer>
+</NavigationContainer>*/
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Product">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
@@ -115,13 +115,13 @@ export default function App() {
     <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
-<NavigationContainer>
+/*<NavigationContainer>
   <Stack.Navigator initialRouteName='CompanyRequest'>
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>*/
-<ImageView/>
+
 );
 }
 
