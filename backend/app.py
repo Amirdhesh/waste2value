@@ -1,25 +1,28 @@
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,render_template,Response
 import mysql.connector
 #from flask_mysqldb import MySQL
 import os
+import json
 import mysql.connector
+import base64
 import datetime
-app=Flask(__name__)
-'''import mysql.connector
+'''app=Flask(__name__)
+import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
 )'''
-'''from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="WASTETOVALUE"
-)'''
+)
+'''
 from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
@@ -27,7 +30,7 @@ mydb=mysql.connector.connect(
     user= "root",
     password= "tiger",
     database="wtv"
-)
+)'''
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -84,7 +87,15 @@ def userdetails(id):
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
-
+    
+@app.route('/display_image/<int:image_id>')
+def display_image(image_id):
+    cursor = mydb.cursor()
+    cursor.execute("SELECT image FROM login WHERE id=39")
+    image_data = cursor.fetchone()[0]
+    cursor.close()
+    encoded_image = base64.b64encode(image_data).decode('utf-8')
+    return render_template('image.html', encoded_image=encoded_image)
 #for login
 '''@app.route('/login', methods=['POST'])
 def login():
@@ -172,33 +183,71 @@ def signup():
 
 #UPLOAD_FOLDER = 'uploads'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+@app.route('/uplodeimage/<int:id>',methods=['POST','GET'])
+def addimage(id):
+    data=request.form
+    image=request.files['images']
 
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/company', methods=['POST'])
 def company():
-    data = request.get_json()
-    name=data.get('Companyname')
+    cur=mydb.cursor()
+    data = request.form
+    name=data.get('name')
     email = data.get('email')
     ph_no=data.get('ph_no')
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
+    image = request.files['image']
+    print(name,ph_no,address,pin,email,image)
+    
+    """if 'images' in request.files:
+        return {'statsu':True}
+    else:
+        return False
+    print(name)"""
+    
+    if image.filename == '':
+        return jsonify({'message': 'No selected image'})
+    
     query1="select * from login where email=%s"
     cur.execute(query1,(email,))
     user=cur.fetchone()
+    print(user)
+    
     if not user:
         return jsonify({"message":"Register as user"})
     else:
-        print(user[3])
         if user[3]=='pending' or user[3]=='company':
-            return jsonify({"message":"Already register"})
+            return jsonify({"message":"Already registered"})
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
-            cur.execute(query,(name,ph_no,address,pin,email))
+            #if image and allowed_file(image.filename):
+            bdimage = base64.b64encode(image.read()) 
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image1=%s where email=%s"
+            cur.execute(query,(name,ph_no,address,pin,bdimage,email))
             mydb.commit()
-            return jsonify("Registered successfully")
-        
+            return jsonify({'message': 'Your account will be approved soon'})
+        #else:
+         #   return jsonify({'message': 'Invalid image format'})
+def allowed_file(filename):
+    return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+@app.route("/viewimage",methods=["POST","GET"])
+def viewimage():
+    query="select image1 from login where id=34"
+    cur.execute(query)
+    image=cur.fetchone()
+    if image:
+        print(image)
+        base64_cncoded=base64.decodebytes(image[0])
+        print(base64_cncoded)
+        return Response(base64_cncoded, mimetype="image/jpg")
+    else:
+        return jsonify({"message":"Image not found"})
+
 '''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
@@ -269,7 +318,7 @@ def get_productslist():
 def get_companylist(company_id):
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where company_id=%s"
+        query = "SELECT * FROM productdetails where retailer_id=%s"
         cursor.execute(query,(company_id,))
         products = cursor.fetchall()
         cursor.close()
@@ -378,8 +427,14 @@ def addcoins():
         data=request.get_json()
         customer_id=data.get('customer_id')
         coins=data.get('coins')
-        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
         cursor=mydb.cursor()
+        query=f"select * from wallet where customer_id={customer_id}"
+        cursor.execute(query)
+        user=cursor.fetchone()
+        if user:
+            query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        else:
+            query=f"insert into wallet values({customer_id},{coins})"
         cursor.execute(query)
         mydb.commit()
         cursor.close()
@@ -389,7 +444,85 @@ def addcoins():
         cursor.close()
         return jsonify({"message":"Process failed"})
 
- 
+@app.route('/api/ViewAllContributions',methods=['GET'])
+def AllContributions():
+    cursor=mydb.cursor()
+    query="select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where status='pending' order by date_info"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/getcontributiondetails/<contribution_id>',methods=['GET'])
+def getcontributiondetails(contribution_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id,contributions.customer_id,login.username,login.address,login.district,login.landmark,login.pincode from contributions inner join login on contributions.customer_id=login.id where contribution_id={contribution_id}"
+    cursor.execute(query)
+    data=cursor.fetchone()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/acceptcontribution/',methods=['POST'])
+def acceptcontribution():
+    try:
+        data=request.get_json()
+        print("data",data)
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        cursor=mydb.cursor()
+        query=f"update contributions set company_id={company_id}, status='accepted' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Contribution Accepted"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"task failed"})
+    
+@app.route('/api/ViewAcceptedContributions/<company_id>',methods=['GET'])
+def ViewAcceptedContributions(company_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where contributions.company_id={company_id} and status='accepted'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/sendcoins/',methods=['POST'])
+def ProvideCoins():
+    print(request.get_data())
+    try:
+        cursor=mydb.cursor(dictionary=True)
+        data=request.get_json()
+        print(data)
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        coins=data.get('coins')
+        print(contribution_id,company_id,coins)
+        query=f"select wallet_amount from wallet where customer_id={company_id}"
+        cursor.execute(query)
+        amount=cursor.fetchone()
+        print(amount)
+        if amount=='null' or amount['wallet_amount']<coins:
+            return jsonify({"message":"Insufficient coins"})
+        query=f"update wallet set wallet_amount=wallet_amount-{coins} where customer_id={company_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor=mydb.cursor()
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id=(select customer_id from contributions where contribution_id={contribution_id})"
+        cursor.execute(query)
+        mydb.commit()
+        query=f"update contributions set status='Collected' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        return jsonify({"message":"Provided coins successfully"})
+    except Exception as e:
+        print(e)    
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Task failed"})
+
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])
@@ -543,7 +676,9 @@ def userorderdetails(id):
     except Exception as e:
         return jsonify({'error': str(e)})
 if __name__=="__main__":
-    app.run(host='192.168.0.1',port='3000',debug=True)
+
+    app.run(host='192.168.0.155',port='3000',debug=True)
+
 
 
 

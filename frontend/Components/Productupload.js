@@ -27,9 +27,7 @@ export function AddProductScreen({route , navigation}){
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const {customer_id} = route.params;
-  console.log(customer_id);
-  //test image
+  const {company_id} = route.params;
   const [photo, setPhoto] = React.useState(null);
 
   /*const handleChoosePhoto = () => {
@@ -89,27 +87,29 @@ export function AddProductScreen({route , navigation}){
   }*/
   const addProduct=async()=>{
     navigation.navigate("ProductAdded");
-    const formData ={
-      product_name: productName,
-      product_description: description,
-      product_price: price,
-    };
+    add_product();
+  }
     /*formData.append('image',{
       uri:image.path,
       type: image.mime,
       name: 'product.jpg',
     });*/
-    fetch(`http://192.168.56.1:3000/api/add_product/${customer_id}`, {
+    const add_product=()=>{
+    fetch(`http://192.168.56.1:3000/api/add_product/${company_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({
+              product_name: productName,
+      product_description: description,
+      product_price: price,
+            }),
           })
           .then(resp=>resp.json())
           .then(data => {
             console.log(data)
-            navigation.navigate('CompanyStore',{ customer_id:customer_id })
+            navigation.navigate('CompanyStore',{ company_id:company_id })
           })
           .catch(error=>console.log(error))
            
@@ -172,7 +172,7 @@ export function AddProductScreen({route , navigation}){
       />
       
     
-      <TouchableOpacity style={{width:'92%',height:53,marginTop:20,flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,}}>
+      <TouchableOpacity style={{width:'92%',height:53,marginTop:20,flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,}} onPress={()=>addProduct()}> 
         <Text style={{color:'white',fontSize:20}}>Add Product</Text>
       </TouchableOpacity>
       </View>
