@@ -2,7 +2,7 @@ import { View, Text,TextInput,StatusBar,TouchableOpacity,TouchableWithoutFeedbac
 import React,{useState} from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-aware-scroll-view'
-
+import Url from './Url';
 const Details = ({route,navigation}) => {
   const {customer_id} = route.params;
   const [username,setusername]=useState("")
@@ -29,7 +29,7 @@ const Details = ({route,navigation}) => {
     })
   })*/
     //amir
-    fetch(`http://192.168.56.1:3000/userdetails/${customer_id}`,{
+    fetch(`${Url()}/userdetails/${customer_id}`,{
       method:"POST",
       headers: 
       {'Content-Type':'application/json'

@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet,TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import Url from './Url';
 import { FontAwesome } from '@expo/vector-icons';
 //import { launchImageLibrary } from 'react-native-image-picker';
 //var ImagePicker = require('react-native-image-picker');
@@ -86,7 +86,6 @@ export function AddProductScreen({route , navigation}){
     }
   }*/
   const addProduct=async()=>{
-    navigation.navigate("ProductAdded");
     add_product();
   }
     /*formData.append('image',{
@@ -95,7 +94,7 @@ export function AddProductScreen({route , navigation}){
       name: 'product.jpg',
     });*/
     const add_product=()=>{
-    fetch(`http://192.168.56.1:3000/api/add_product/${company_id}`, {
+    fetch(`${Url()}/api/add_product/${company_id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

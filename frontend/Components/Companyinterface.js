@@ -3,6 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';  
 import { Feather } from '@expo/vector-icons';
 import React from 'react'
+import Url from './Url';
 /*
 const Companyinterfase = ({route,navigation}) => {
     const {customer_id} = route.params;  

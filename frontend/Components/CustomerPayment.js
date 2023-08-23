@@ -3,7 +3,7 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome } from '@expo/vector-icons';
-
+import Url from './Url';
 const CustomerPayment = ({navigation}) => {
   const cartdata = [
     {

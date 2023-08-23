@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView } from 'react-native';
-
+import Url from './Url';
 const Cart = ({navigation,route}) => {
 
   const{customer_id} = route.params;
@@ -14,7 +14,7 @@ const Cart = ({navigation,route}) => {
   },[])
 
   const fetchContributionData=()=>{
-    fetch(`http://192.168.56.1:3000/api/contributions/${customer_id}`)
+    fetch(`${Url()}/api/contributions/${customer_id}`)
     .then((response)=>response.json())
     .then((data)=>{
       setData(data);

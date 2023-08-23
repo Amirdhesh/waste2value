@@ -4,6 +4,7 @@ import {useFocusEffect} from "@react-navigation/native";
 import { Alert } from 'react-native';
 import { Header } from 'react-native-elements';
 import { ScrollView } from 'react-native';
+import Url from './Url';
 const WasteCollection=({navigation,route})=>{
     const [coins,setCoins]= useState(0);
     const {contribution_id,company_id} = route.params;
@@ -18,7 +19,7 @@ const WasteCollection=({navigation,route})=>{
           navigation.navigate("ProvideCoins",{contribution_id,company_id,coins});
    }
    const accept=()=>{
-    fetch('http://192.168.56.1:3000/api/acceptcontribution/',{
+    fetch(`${Url()}/api/acceptcontribution/`,{
         method:'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +35,7 @@ const WasteCollection=({navigation,route})=>{
    }
 
     const getcontributiondetails=()=>{
-        fetch(`http://192.168.56.1:3000/api/getcontributiondetails/${contribution_id}`)
+        fetch(`${Url()}/api/getcontributiondetails/${contribution_id}`)
         .then((response)=>response.json())
         .then((data)=>{
             console.log(data);

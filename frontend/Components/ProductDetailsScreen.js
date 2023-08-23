@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView,TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
-
+import Url from './Url';
 function ProductDetailsScreen({ route,navigation}) {
   const [stack, setstack] = useState(true)
 
@@ -12,7 +12,7 @@ function ProductDetailsScreen({ route,navigation}) {
   console.log(product_id,customer_id);
 
   const handleAddToCart= () => {
-    fetch(`http://192.168.56.1:3000/api/add_to_cart`, {
+    fetch(`${Url()}/api/add_to_cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function ProductDetailsScreen({ route,navigation}) {
 
 
   useEffect(() => {
-    fetch(`http://192.168.56.1:3000/api/selectedproduct/${product_id}`)
+    fetch(`${Url()}/api/selectedproduct/${product_id}`)
     
       .then((response) => {
         console.log('Response Status:', response.status);

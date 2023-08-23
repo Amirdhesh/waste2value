@@ -27,7 +27,6 @@ import Contribute from './Components/contribute';
 import CustomerWallet from './Components/customerwallet';
 import CompanyWallet from './Components/companywallet';
 import WalletPayment from './Components/walletpayment';
-import ProductAddedScreen from './Components/ProductAddedScreen';
 import Admininterface from './Components/Admininterface';
 import Admincompanydisplay from './Components/admincompanydisplay';
 import Adminallcompany from './Components/adminallcompany';
@@ -103,15 +102,12 @@ export default function App() {
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
     <Stack.Screen name="admincompanydisplay" component={Admincompanydisplay} options={{headerShown:false}}/>
-    <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>}
+    <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>
     <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
     <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/> 
     <Stack.Screen name='Account' component={Account} options={{headerShown:false}}/>
     <Stack.Screen name='CompanyAccount' component={CompanyAccount} options={{headerShown:false}}/>
      <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
-    <Stack.Screen name='UserContribution' component={Contribution} options={{headerShown:false}}/>
-    <Stack.Screen name="ProductAdded" component={ProductAddedScreen}/>
-    <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
     <Stack.Screen name='UserContribution' component={Contribution} options={{headerShown:false}}/>
     <Stack.Screen name='ImageUpload' component={ImageUpload} options={{headerShown:false}}/>
     <Stack.Screen name='ViewContributionDetails' component={ViewContributionDetails} options={{headerShown:false}}/>

@@ -141,7 +141,6 @@ def login():
             return jsonify({"message":"company","customer_id":userid})
         elif type[0]=='user':
             return jsonify({"message":"Login Successful","customer_id":userid})
-    
     else:
         return jsonify("Incorrect email or password")
 # for signup
@@ -317,6 +316,7 @@ def get_productslist():
 @app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
 def get_companylist(company_id):
     try:
+        print(company_id)
         cursor = mydb.cursor(dictionary=True)
         query = "SELECT * FROM productdetails where retailer_id=%s"
         cursor.execute(query,(company_id,))

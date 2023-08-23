@@ -2,7 +2,7 @@ import { View, Text,Image,FlatList, FlatListComponent, TouchableOpacity } from '
 import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
-
+import Url from './Url';
 
 
 
@@ -15,7 +15,7 @@ const Cart = ({navigation,route}) => {
 const CompanyData=async()=>
 {
   console.log("Function called");
-  fetch(`http://192.168.56.1:3000/userorderdetails/${customer_id}`)
+  fetch(`${Url()}/userorderdetails/${customer_id}`)
   .then((response)=>response.json())
   .then((data)=>{
     setcartdata(data)

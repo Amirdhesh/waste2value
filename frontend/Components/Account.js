@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
+import Url from './Url';
 const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
@@ -79,15 +80,12 @@ const Account = ({route,navigation}) => {
             <View style={{height:"40%",width:"100%",flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:22,textAlign:'center',}}>Log out of your account?</Text>
               </View>              
-              <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
+              <TouchableOpacity onPress={()=>navigation.replace('Login')} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Log Out</Text>
-              </View>
-              <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
-                <TouchableOpacity onPress={()=>setlogout(false)}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>setlogout(false)} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
                 <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Cancel</Text>
-                </TouchableOpacity>
-                
-              </View>
+               </TouchableOpacity>
           </View>
 
           </View> 
