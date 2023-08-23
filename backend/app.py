@@ -173,7 +173,10 @@ def signup():
 
 #UPLOAD_FOLDER = 'uploads'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+@app.route('/uplodeimage/<int:id>',methods=['POST','GET'])
+def addimage(id):
+    data=request.form
+    image=request.files['images']
 @app.route('/company', methods=['POST'])
 def company():
     data = request.form
@@ -562,7 +565,7 @@ def userorderdetails(id):
     except Exception as e:
         return jsonify({'error': str(e)})
 if __name__=="__main__":
-    app.run(host='192.168.56.1',port='3000',debug=True)
+    app.run(host='192.168.0.155',port='3000',debug=True)
 
 
 
