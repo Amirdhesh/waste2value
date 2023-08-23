@@ -32,7 +32,7 @@ useEffect(()=>{
   //to search the product7
 const searchproduct = async () => {
   try {
-    const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
+    const response = await fetch(`http://192.168.0.155:3000/api/searchproduct/${search}`);
     const data = await response.json();
     setProductData(data);
     console.log(data);

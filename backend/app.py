@@ -1,7 +1,8 @@
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,render_template,Response
 import mysql.connector
 #from flask_mysqldb import MySQL
 import os
+import json
 import mysql.connector
 import base64
 import datetime
@@ -86,7 +87,15 @@ def userdetails(id):
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
-
+    
+@app.route('/display_image/<int:image_id>')
+def display_image(image_id):
+    cursor = mydb.cursor()
+    cursor.execute("SELECT image FROM login WHERE id=39")
+    image_data = cursor.fetchone()[0]
+    cursor.close()
+    encoded_image = base64.b64encode(image_data).decode('utf-8')
+    return render_template('image.html', encoded_image=encoded_image)
 #for login
 '''@app.route('/login', methods=['POST'])
 def login():
@@ -178,8 +187,12 @@ def signup():
 def addimage(id):
     data=request.form
     image=request.files['images']
+
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/company', methods=['POST'])
 def company():
+    cur=mydb.cursor()
     data = request.form
     name=data.get('name')
     email = data.get('email')
@@ -187,9 +200,9 @@ def company():
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
-    image = request.files['images']
-    print(name,ph_no,address,pin,email)
-
+    image = request.files['image']
+    print(name,ph_no,address,pin,email,image)
+    
     """if 'images' in request.files:
         return {'statsu':True}
     else:
@@ -212,16 +225,29 @@ def company():
         if user[2]!=password:
             return jsonify({"message":"Incorrect password"})
         else:
-            if image and allowed_file(image.filename):
-                bdimage = base64.b64encode(image.read()) 
-                query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image=%s where email=%s"
-                cur.execute(query,(name,ph_no,address,pin,email,bdimage))
-                mydb.commit()
-                return jsonify({'message': 'Your account will be approved soon'})
-            else:
-                return jsonify({'message': 'Invalid image format'})
+            #if image and allowed_file(image.filename):
+            bdimage = base64.b64encode(image.read()) 
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image1=%s where email=%s"
+            cur.execute(query,(name,ph_no,address,pin,bdimage,email))
+            mydb.commit()
+            return jsonify({'message': 'Your account will be approved soon'})
+        #else:
+         #   return jsonify({'message': 'Invalid image format'})
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+    return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+@app.route("/viewimage",methods=["POST","GET"])
+def viewimage():
+    query="select image1 from login where id=34"
+    cur.execute(query)
+    image=cur.fetchone()
+    if image:
+        print(image)
+        base64_cncoded=base64.decodebytes(image[0])
+        print(base64_cncoded)
+        return Response(base64_cncoded, mimetype="image/jpg")
+    else:
+        return jsonify({"message":"Image not found"})
+
 '''
 @app.route('/api/products', methods=['GET'])
 def get_productslist():
