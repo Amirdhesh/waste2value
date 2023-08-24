@@ -32,7 +32,7 @@ export function AddProductScreen({route , navigation}){
 
   /*const handleChoosePhoto = () => {
     launchImageLibrary({ noData: true }, (response) => {
-      // console.log(response);
+      // console.log(resp
       if (response) {
         setPhoto(response);
       }

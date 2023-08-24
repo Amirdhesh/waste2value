@@ -9,7 +9,7 @@ const Contribute=({navigation,route})=>
         .then((response)=> response.json())
         .then((data)=>{
           if(data.message=='Payment'){
-            navigation.navigate("ContributeWaste",{customer_id})
+            navigation.navigate("ContributeWaste",{customer_id:data.customer_id})
           }
           else{
             navigation.navigate("Details",{customer_id:data.customer_id})

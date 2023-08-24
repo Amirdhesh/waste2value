@@ -1,7 +1,7 @@
 // ProductDetailsScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView,TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView,TouchableOpacity,StatusBar } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
 import Url from './Url';
 function ProductDetailsScreen({ route,navigation}) {
@@ -70,9 +70,10 @@ function ProductDetailsScreen({ route,navigation}) {
                 <Text style={{fontSize:24}}>{productDetails.product_name}</Text>
                 <Text style={{fontSize:23}}>₹{productDetails.product_price}</Text>
             </View>
-            {stack ? <Text style={{fontSize:21,marginTop:24,marginRight:8,color:'green'}}>In Stack</Text>:
+            {/* {stack ? <Text style={{fontSize:21,marginTop:24,marginRight:8,color:'green'}}>In Stack</Text>:
             <Text style={{fontSize:21,marginTop:24,marginRight:8,color:'red'}}>OutofStack</Text>
-            }        </View>
+            }       */}
+              </View>
         <View style={{width:'92%',marginTop:-10,marginHorizontal:22}}>
             <Text style={{fontSize:18}}>Product Description:</Text>
         </View>

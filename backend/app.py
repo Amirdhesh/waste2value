@@ -6,6 +6,12 @@ import json
 import mysql.connector
 import base64
 import datetime
+import model
+import random
+import time
+import cv2
+import numpy as np
+from ultralytics import YOLO
 '''app=Flask(__name__)
 import mysql.connector
 mydb = mysql.connector.connect(
@@ -273,7 +279,7 @@ def add_product(company_id):
         product_price = data.get('product_price')
         products.append(data)
         cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
+        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
         values = (product_name, product_description, product_price,company_id)
         cursor.execute(query, values)
         mydb.commit()
@@ -316,9 +322,9 @@ def get_productslist():
 @app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
 def get_companylist(company_id):
     try:
-        print(company_id)
+        
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where retailer_id=%s"
+        query = "SELECT * FROM productdetails where company_id=%s"
         cursor.execute(query,(company_id,))
         products = cursor.fetchall()
         cursor.close()
@@ -399,16 +405,14 @@ def cartdetails(customer_id):
     value=(customer_id,)
     cursor.execute(query,value)
     cartdata=cursor.fetchall()
-    print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
 @app.route('/api/contributions/<customer_id>',methods=['GET'])
 def fetchcontributiondata(customer_id):
     cursor = mydb.cursor(dictionary=True)
-    query="Select * from contributions where customer_id=%s"
+    query="Select customer_id, contribution_id,date_info,status,coins from contributions where customer_id=%s"
     cursor.execute(query,(customer_id,))
     data=cursor.fetchall()
-    jsonify(data)
     print(data)
     return jsonify(data)
 
@@ -675,9 +679,73 @@ def userorderdetails(id):
             return jsonify(rtu)
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+#contrubite
+@app.route('/contribute', methods=['POST'])
+def contribute():
+    cur=mydb.cursor()
+    data = request.form
+    customer_id=data.get('customer_id')
+    status = data.get('status')
+    image = request.files['image']
+    if image.filename == '':
+        return jsonify({'message': 'No selected image'})
+    bdimage = base64.b64encode(image.read()) 
+    if checkimage(image):
+        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+        cur.execute(query1,(customer_id,status ,bdimage))
+        mydb.commit()
+        return jsonify("Susses")
+    else:
+        print("NO")
+        return jsonify("not added")
+
+def checkimage(image):
+    my_file = open("coco.txt", "r")
+    # reading the file
+    data = my_file.read()
+    # replacing end splitting the text | when newline ('\n') is seen.
+    class_list = data.split("\n")
+    my_file.close()
+
+    # print(class_list)
+
+    # Generate random colors for class list
+    detection_colors = []
+    for i in range(len(class_list)):
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        detection_colors.append((b, g, r))
+
+    model = YOLO("best.pt", "v8")
+
+    frame_wid = 640
+    frame_hyt = 480
+
+    cap = image
+    #cap = cv2.VideoCapture("test-video.m4v")
+        # Capture frame-by-frame
+    # ret, frame = cap.read()
+    # if not ret:
+    #     print("Can't receive frame (stream end?). Exiting ...")
+    print("H")
+    detect_params = model.predict(source=[image], conf=0.55, save=False)
+    print("H")
+
+    # Convert tensor array to numpy
+    DP = detect_params[0].numpy()
+    
+    return True
+        
+        # Terminate run when "Q" pressed
+        
+
+    # When everything done, release the capture
+    
 if __name__=="__main__":
 
-    app.run(host='192.168.0.155',port='3000',debug=True)
+    app.run(host='10.203.1.16',port='3000',debug=True)
 
 
 
