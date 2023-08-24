@@ -241,14 +241,28 @@ def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 @app.route("/viewimage",methods=["POST","GET"])
 def viewimage():
-    query="select image1 from login where id=34"
+    query="select image from productdetails where product_id=1"
     cur.execute(query)
     image=cur.fetchone()
     if image:
-        print(image)
+        
         base64_cncoded=base64.decodebytes(image[0])
-        print(base64_cncoded)
         return Response(base64_cncoded, mimetype="image/jpg")
+    else:
+        return jsonify({"message":"Image not found"})
+    
+@app.route("/viewproductimage",methods=["POST","GET"])
+def viewproductimage():
+    query="select image,product_id from productdetails"
+    cur.execute(query)
+    i=cur.fetchall()
+    image_list=[]
+    
+    for image in i:
+        if image:
+            base64_cncoded=base64.decodebytes(image[0])
+            image_list.append([base64_cncoded,image[1]])
+        return Response(image_list, mimetype="image/jpg")
     else:
         return jsonify({"message":"Image not found"})
 
@@ -397,10 +411,11 @@ def delete_product():
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):
     cursor=mydb.cursor(dictionary=True)
-    query="Select * from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
+    query="Select productdetails.product_id,productdetails.product_name,productdetails.product_description,productdetails.product_price,productdetails.company_id from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id=%s"
     value=(customer_id,)
     cursor.execute(query,value)
     cartdata=cursor.fetchall()
+    print(cartdata)
     return jsonify(cartdata)
 
 @app.route('/api/contributions/<customer_id>',methods=['GET'])
@@ -687,14 +702,14 @@ def contribute():
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
     bdimage = base64.b64encode(image.read()) 
-    if checkimage(image):
-        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
-        cur.execute(query1,(customer_id,status ,bdimage))
-        mydb.commit()
-        return jsonify("Susses")
-    else:
-        print("NO")
-        return jsonify("not added")
+    #if checkimage(image):
+    query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+    cur.execute(query1,(customer_id,status ,bdimage))
+    mydb.commit()
+    return jsonify("Susses")
+    # else:
+    #     print("NO")
+    #     return jsonify("not added")
 
 def checkimage(image):
     my_file = open("coco.txt", "r")
@@ -743,7 +758,7 @@ def checkimage(image):
     
 if __name__=="__main__":
 
-    app.run(host='192.168.219.17',port='3000',debug=True)
+    app.run(host='192.168.56.1',port='3000',debug=True)
 
 
 

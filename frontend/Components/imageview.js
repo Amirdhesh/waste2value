@@ -16,7 +16,7 @@ const ImageView = () => {
     })
     .catch(error => console.error(error));
 }, []);
-  console.log(imagedata)
+
 
   
   return (

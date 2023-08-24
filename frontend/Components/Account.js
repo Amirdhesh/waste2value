@@ -11,7 +11,7 @@ const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
-    //const {customer_id} = route.params;
+    const {customer_id} = route.params;
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
     settype(false)}} >
@@ -96,7 +96,7 @@ const Account = ({route,navigation}) => {
             </Text>
             <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />   
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('Contribution')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Contribution',{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Contributions
             </Text>

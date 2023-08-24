@@ -14,7 +14,7 @@ const Cart = ({navigation,route}) => {
 
 const CompanyData=async()=>
 {
-  console.log("Function called");
+  console.log(customer_id);
   fetch(`${Url()}/userorderdetails/${customer_id}`)
   .then((response)=>response.json())
   .then((data)=>{
