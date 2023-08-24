@@ -5,6 +5,7 @@ import {useState, useEffect} from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Admininterface from "./Admininterface";
+import Url from "./Url";
 const Adminuserdetialsdispaly=({navigation})=>{
    
   const [companydata,setcompanydata] = useState({});
@@ -17,7 +18,7 @@ const Adminuserdetialsdispaly=({navigation})=>{
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch('http://192.168.56.1:3000/admin/adminuserrequest')
+    fetch(`${Url()}/admin/adminuserrequest`)
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)

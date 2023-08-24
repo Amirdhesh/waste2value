@@ -5,7 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
 import { useIsFocused } from '@react-navigation/native';
-import { useCallback } from 'react';
+import { useCallback ,BackHandler} from 'react';
+import Url from './Url';
 const CustomerStore = ({route,navigation}) => {
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
@@ -21,18 +22,14 @@ useEffect(()=>{
   const backAction=()=>{
     return true;
   }
-  if(isFocused){
-  const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
-  return () => backHandler.remove(); // Remove the event listener when component unmounts
-  }
-}, [isFocused]);
+  
+});
 
   const {customer_id} = route.params;
   //to search the product7
 const searchproduct = async () => {
   try {
-    const response = await fetch(`http://192.168.0.155:3000/api/searchproduct/${search}`);
+    const response = await fetch(`${Url()}/api/searchproduct/${search}`);
     const data = await response.json();
     setProductData(data);
     console.log(data);

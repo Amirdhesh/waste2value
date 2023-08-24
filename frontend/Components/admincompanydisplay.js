@@ -4,20 +4,21 @@ import { useState,useEffect } from "react";
 import { Alert } from "react-native";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
+import Url from "./Url";
 const Admincompanydisplay=({route,navigation})=>{
 //     const {email}= route.params;
 //     const [companyinfo,setCompanyInfo]= useState({});
 
-// useEffect(()=>{
-//     fetch(`http://192.168.56.1:3000/admin/companydetailsdisplay/${email}`)
-//     .then((response)=>response.json())
-//     .then((data)=>{
-//         console.log(data)
-//         setCompanyInfo(data);
-//     })
-//     .catch((error)=>{
-//         console.log(error)
-//     })
+useEffect(()=>{
+    fetch(`http://192.168.56.1:3000/admin/companydetailsdisplay/${email}`)
+    .then((response)=>response.json())
+    .then((data)=>{
+        console.log(data)
+        setCompanyInfo(data);
+    })
+    .catch((error)=>{
+        console.log(error)
+    })
 
 // },[]);
 

@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import CustomerNavbar from './CustomerNavbar' 
 import { Ionicons } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
+import Url from './Url';
 const Comapnyorderdetails = ({route ,navigation}) => {
     const [Data, setProductData] = useState([]);
     const {company_id} = route.params;
@@ -16,7 +17,7 @@ const Comapnyorderdetails = ({route ,navigation}) => {
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch(`http://192.168.56.1:3000/companyorderdetails/${company_id}`)
+    fetch(`${Url()}/companyorderdetails/${company_id}`)
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)

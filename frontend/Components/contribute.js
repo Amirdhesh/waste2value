@@ -1,14 +1,15 @@
 import React from "react";
 import { Text,TouchableOpacity,View } from "react-native";
+import Url from "./Url";
 const Contribute=({navigation,route})=>
 {
     const {customer_id} = route.params;
     const checkdetails=(()=>{
-        fetch(`http://192.168.56.1:3000/checkdetails/${customer_id}`)
+        fetch(`${Url()}/checkdetails/${customer_id}`)
         .then((response)=> response.json())
         .then((data)=>{
           if(data.message=='Payment'){
-            navigation.navigate("ContributeWaste",{customer_id})
+            navigation.navigate("ContributeWaste",{customer_id:data.customer_id})
           }
           else{
             navigation.navigate("Details",{customer_id:data.customer_id})

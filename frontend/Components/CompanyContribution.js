@@ -9,6 +9,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useCallback } from 'react';
 import Companyinterface from './Companyinterface';
+import Url from './Url';
 const CompanyContribution = ({navigation,route}) => {
   const {company_id}= route.params;
   const [accept, setaccept] = useState(false)
@@ -20,7 +21,7 @@ const CompanyContribution = ({navigation,route}) => {
 );
 
 const viewContribution=async()=>{
-        fetch('http://192.168.56.1:3000/api/ViewAllContributions')
+        fetch(`${Url()}/api/ViewAllContributions`)
         .then((response)=>response.json())
         .then((data)=>{
           console.log(data);
@@ -35,7 +36,7 @@ const viewContribution=async()=>{
  }
   const handleAccepted=()=>{
     setaccept(true);
-    fetch(`http://192.168.56.1:3000/api/ViewAcceptedContributions/${company_id}`)
+    fetch(`${Url()}/api/ViewAcceptedContributions/${company_id}`)
     .then((response)=>response.json())
     .then((data)=>{
       setData(data)

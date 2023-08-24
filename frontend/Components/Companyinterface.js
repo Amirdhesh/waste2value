@@ -3,6 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';  
 import { Feather } from '@expo/vector-icons';
 import React from 'react'
+import Url from './Url';
 /*
 const Companyinterfase = ({route,navigation}) => {
     const {customer_id} = route.params;  
@@ -29,7 +30,7 @@ const Companyinterface = ({company_id,navigation}) => {
           <Feather name="truck" size={34} color="white" style={{marginHorizontal:14,marginTop:1}}/>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('')}>
+          <TouchableOpacity onPress={()=>navigation.navigate('CompanyAccount')}>
           <View>
               <MaterialCommunityIcons name="account-box-multiple" size={32} color="white" style={{marginLeft:14,marginTop:1}} />
           </View>

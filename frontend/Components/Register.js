@@ -9,7 +9,7 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-
+import Url from './Url';
 const Register = ({route,navigation}) => {
   const [checked, setchecked] = useState(false)
   const [visible, setvisible] = useState(true)
@@ -50,7 +50,7 @@ const Register = ({route,navigation}) => {
   formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
   console.log(formdata)
   }
-  fetch('http://192.168.0.155:3000/company',{
+  fetch(`${Url()}/company`,{
   method: 'POST',
   headers: {
     'Content-Type': 'multipart/form-data',

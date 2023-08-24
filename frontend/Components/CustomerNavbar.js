@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Octicons } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
-
+import Url from './Url';
 import React from 'react'
 
 

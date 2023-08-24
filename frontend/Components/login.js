@@ -4,6 +4,7 @@ import bgimg from "./../Assests/Frame1.png"
 import { StatusBar } from 'expo-status-bar'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import Url from './Url';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
@@ -11,7 +12,7 @@ const Login = ({navigation}) => {
   const [password,setPassword]=useState("")
   const login=()=>{
     console.log('Trying to login');
-    fetch("http://192.168.0.155:3000/login",{
+    fetch(`${Url()}login`,{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
@@ -27,7 +28,7 @@ const Login = ({navigation}) => {
     }
     else if(data.message=="company"){
       console.log(data.customer_id);
-      navigation.navigate("CompanyStore",{customer_id:data.customer_id})
+      navigation.navigate("CompanyStore",{company_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("Admininterface",{admin_id:data.customer_id})

@@ -7,9 +7,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { useState, useEffect } from 'react';
 import { Alert } from "react-native";
+import Url from './Url';
 const Cart = ({route,navigation}) => {
   const plaseorder=(()=>{
-    fetch(`http://192.168.56.1:3000/plaseorder/${customer_id}`)
+    fetch(`${Url()}/plaseorder/${customer_id}`)
     .then((response)=> response.json())
     .then((data)=>{
       navigation.navigate("ProductList",{customer_id:customer_id})
@@ -19,7 +20,7 @@ const Cart = ({route,navigation}) => {
     })
   })
   const checkdetails=(()=>{
-    fetch(`http://192.168.56.1:3000/checkdetails/${customer_id}`)
+    fetch(`${Url()}/checkdetails/${customer_id}`)
     .then((response)=> response.json())
     .then((data)=>{
       if(data.message=='Payment'){
@@ -40,7 +41,7 @@ const Cart = ({route,navigation}) => {
     cartdetail()
   },[]);
   const cartdetail=(()=>{
-    fetch(`http://192.168.56.1:3000/api/cartdetails/${customer_id}`)
+    fetch(`${Url()}/api/cartdetails/${customer_id}`)
     .then((response)=> response.json())
     .then((data)=>{
       SetcartData(data);
@@ -50,7 +51,7 @@ const Cart = ({route,navigation}) => {
     })
   });
   const deletecart=((product_id)=>{
-    fetch(`http://192.168.56.1:3000/api/delete_to_cart`, {
+    fetch(`${Url()}/api/delete_to_cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
