@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, Text } from "react-native";
-
+import Url from "./Url";
 const ImageView = () => {
   const [imagedata, setimagedata] = useState('');
 
   useEffect(() => {
-    fetch('http://192.168.0.155:3000/viewimage')
+    fetch(`${Url()}/viewimage`)
     .then(response => response.blob()) // Convert response to Blob
     .then(data => {
       const reader = new FileReader();

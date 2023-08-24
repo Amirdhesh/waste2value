@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
+import Url from './Url';
 const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)

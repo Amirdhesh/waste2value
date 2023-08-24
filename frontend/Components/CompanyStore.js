@@ -6,12 +6,13 @@ import Companyinterfase from './Companyinterface';
 import { AntDesign } from '@expo/vector-icons';
 import { BackHandler } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import Url from './Url';
 const CompanyStore = ({navigation,route}) => {
     const [Data, setProductData] = useState([]);
     const {company_id} = route.params;
     const [search,setsearch]=useState("");
     const isFocused = useIsFocused();
-
+    console.log("Entry :",company_id);
     useFocusEffect(
       useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
@@ -38,9 +39,10 @@ const CompanyStore = ({navigation,route}) => {
 
     const searchproduct = async () => {
         try {
-          const response = await fetch(`http://192.168.56.1:3000/api/companyproducts/${company_id}`);
+          const response = await fetch(`${Url()}/api/companyproducts/${company_id}`);
           const data = await response.json();
           setProductData(data);
+          console.log(data)
         } catch (error) {
           console.error(error);
         }
@@ -78,7 +80,7 @@ const CompanyStore = ({navigation,route}) => {
         </View>
        
       
-        <TouchableOpacity onPress={()=>navigation.navigate('ImageUpload',{company_id:customer_id})}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Product',{company_id:company_id})}>
           <View style={{height: 57,borderWidth: 1,flexDirection:'column',alignItems:'center',justifyContent:'center', borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
               <AntDesign name="addfile" size={33} color="black" style={{marginVertical:0,marginHorizontal:0}}/>
           </View>
@@ -98,7 +100,7 @@ const CompanyStore = ({navigation,route}) => {
           numColumns={2} 
           style={ {flex: 1}}
         />
-        <Companyinterfase navigation={navigation} customer_id={customer_id}/>
+        <Companyinterfase navigation={navigation} company_id={company_id}/>
 
         </View>
       )

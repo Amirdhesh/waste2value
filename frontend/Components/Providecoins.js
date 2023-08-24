@@ -2,7 +2,7 @@ import React from 'react';
 import { View,Text, TouchableOpacity, Alert } from 'react-native';
 import { useState,useEffect } from 'react';
 import { TextInput, configureFonts } from 'react-native-paper';
-
+import Url from './Url';
 
 const ProvideCoins=({navigation,route})=>{
     const [otp,setOtp]=useState(0);
@@ -13,7 +13,7 @@ const ProvideCoins=({navigation,route})=>{
     }
 
     const ConfirmPay=()=>{
-        fetch(`http://192.168.56.1:3000/api/sendcoins/`,{
+        fetch(`${Url()}/api/sendcoins/`,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json',

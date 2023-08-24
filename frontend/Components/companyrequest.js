@@ -8,6 +8,7 @@ import { FlatList } from "react-native";
 import { Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import Url from "./Url";
 const CompanyRequest=({navigation})=>{
    
   const [companydata,setcompanydata] = useState({});
@@ -20,7 +21,7 @@ const CompanyRequest=({navigation})=>{
   const CompanyData=async()=>
   {
     console.log("Function called");
-    fetch('http://192.168.56.1:3000/admin/companyrequest')
+    fetch(`${Url()}/admin/companyrequest`)
     .then((response)=>response.json())
     .then((data)=>{
       setcompanydata(data)

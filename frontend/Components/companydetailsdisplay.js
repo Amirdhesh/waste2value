@@ -4,12 +4,13 @@ import { useState,useEffect } from "react";
 import { Alert } from "react-native";
 import { Button } from "react-native";
 import { TouchableOpacity } from "react-native";
+import Url from "./Url";
 const Companydetailsdisplay=({route,navigation})=>{
     const {email}= route.params;
     const [companyinfo,setCompanyInfo]= useState({});
 
 useEffect(()=>{
-    fetch(`http://192.168.56.1:3000/admin/companydetailsdisplay/${email}`)
+    fetch(`${Url()}/admin/companydetailsdisplay/${email}`)
     .then((response)=>response.json())
     .then((data)=>{
         console.log(data)
@@ -22,7 +23,7 @@ useEffect(()=>{
 },[]);
 
 const AcceptingOffer=()=>{
-    fetch(`http://192.168.56.1:3000/admin/acceptRequest/${email}`,{
+    fetch(`${Url()}/admin/acceptRequest/${email}`,{
         method:'POST'
     })
     .then((response)=>response.json())
@@ -33,7 +34,7 @@ const AcceptingOffer=()=>{
 }
 
 const DecliningOffer=()=>{
-    fetch(`http://192.168.56.1:3000/admin/declineRequest/${email}`,{
+    fetch(`${Url()}/admin/declineRequest/${email}`,{
         method:'POST'
     })
     .then((response)=>response.json())

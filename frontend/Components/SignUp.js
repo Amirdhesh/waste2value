@@ -2,6 +2,7 @@ import { StyleSheet, View, Image,Text, TextInput,KeyboardAvoidingView,Keyboard,T
 import React,{useState} from 'react'
 import bgimg from "./../Assests/Frame2.png"
 import { StatusBar } from 'expo-status-bar'
+import Url from './Url'
 const SignUp = ({navigation}) => {
   const [email,setemail]=useState("")
   const [password1,setPassword1]=useState("")
@@ -9,7 +10,7 @@ const SignUp = ({navigation}) => {
   const imageUri='null';
   const signup=()=>{
     if (password1==password2){
-    fetch("http://192.168.0.155:3000/signup",{
+    fetch(`${Url()}/signup`,{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'

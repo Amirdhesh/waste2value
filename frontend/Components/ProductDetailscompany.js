@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Alert,StatusBar,ScrollView,TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'
+import Url from './Url';
 function ProductDetailscompany({ route,navigation}) {
   const [stack, setstack] = useState(true)
   const {customer_id, product_id} = route.params;
   const [productDetails, setProductDetails] = useState({});
   const deleteproduct=(()=>{
-    fetch(`http://192.168.56.1:3000/api/delete_product`, {
+    fetch(`${Url()}/api/delete_product`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ function ProductDetailscompany({ route,navigation}) {
     });
   })
   useEffect(() => {
-    fetch(`http://192.168.56.1:3000/api/selectedproduct/${product_id}`)
+    fetch(`${Url()}/api/selectedproduct/${product_id}`)
     
       .then((response) => {
         console.log('Response Status:', response.status);
