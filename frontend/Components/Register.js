@@ -22,6 +22,7 @@ const Register = ({route,navigation}) => {
   const [password, setPassword] = useState('')
   const [pikes, setpicker] = useState('');
   const [image,setimage]=useState('');
+  const flag=1;
 
   const uplodedocument=async () => {
     const pickerResult = await DocumentPicker.getDocumentAsync({
@@ -50,7 +51,7 @@ const Register = ({route,navigation}) => {
   formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
   console.log(formdata)
   }
-  fetch(`${Url()}/company`,{
+  fetch(`${Url()}company`,{
   method: 'POST',
   headers: {
     'Content-Type': 'multipart/form-data',
@@ -133,7 +134,7 @@ const Register = ({route,navigation}) => {
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Licence No:</Text>
             <Button style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 189, borderRadius: 9 }}
         title="Uplode image"
-        onPress={()=>navigation.navigate('ImageUpload')}
+        onPress={()=>navigation.navigate('ImageDocumentUpload')}
       />
         </View>
         <View style={{marginLeft: 10}}>

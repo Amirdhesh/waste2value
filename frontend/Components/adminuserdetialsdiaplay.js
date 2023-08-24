@@ -51,7 +51,7 @@ return (
   <View style={{flex:1}}> 
   <StatusBar hidden={true}/>     
 <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"10%"}}>
-<View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 296, borderRadius: 20 }}>
+<View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 343, borderRadius: 20 }}>
 
 
 
@@ -60,20 +60,6 @@ return (
 <Ionicons name="search" size={30} color="black" style={{width:'100%',marginRight:5}}/>
 </TouchableOpacity>
 </View>
-
-
-<TouchableOpacity >
-  <View style={{height: 57,borderWidth: 1,flexDirection:'column',alignItems:'center',justifyContent:'center', borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
-  <Ionicons name="notifications" size={24} color="black" style={{marginVertical:0,marginHorizontal:0}}/>
-  </View>
-</TouchableOpacity>
-
-
-
-
-    
-    
-
   </View>
        <View style={{height:'73%'}}>
        <FlatList

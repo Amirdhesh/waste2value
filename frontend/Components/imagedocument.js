@@ -3,15 +3,13 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function ImageUpload({ navigation,route }) {
+export default function ImageDocumentUpload({ navigation }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
 
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const {flag,company_id}= route.params;
-  console.log("route.params :",route.params);
   const permisionFunction = async () => {
     const cameraPermission = await Camera.requestPermissionsAsync();
 
@@ -54,14 +52,7 @@ export default function ImageUpload({ navigation,route }) {
     if (!result.cancelled) {
       setImageUri(result.uri);
       console.log("image"+result.uri);
-      console.log(flag)
-      if(flag==1){
-      navigation.navigate("Register",{company_id,imageUri:result.uri});
-      }
-      else{
-        console.log("CUSTOMER ID: ",company_id);
-        navigation.navigate("Product",{company_id,imageUri:result.uri});
-      }
+      navigation.navigate("Register",{imageUri:result.uri});
     }
   };
 

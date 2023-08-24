@@ -44,6 +44,7 @@ import ProvideCoins from './Components/Providecoins';
 import WasteCollection from './Components/WasteCollection';
 import ContributeImageUplode from './Components/imageuplodecontribute';
 import ImageProductView from './Components/imageproductvies';
+import ImageDocumentUpload from './Components/imagedocument';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -117,6 +118,7 @@ export default function App() {
     <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
     <Stack.Screen name="ContributeImageUplode" component={ContributeImageUplode} options={{headershown:false}}/>
     <Stack.Screen name="ImageProductView" component={ImageProductView} options={{headershown:false}}/>
+    <Stack.Screen name="ImageDocumentUpload" component={ImageDocumentUpload} options={{headershown:false}}/>
     
  </Stack.Navigator>
 </NavigationContainer>

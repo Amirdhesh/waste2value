@@ -22,7 +22,18 @@ const ContributeWaste=({route,navigation})=>{
           'Content-Type': 'multipart/form-data',
         },
         body: formdata,
-        }).catch(err => {
+        })
+        .then((response)=> response.json())
+        .then((data)=>{
+          if (data=='Susses'){
+          console.log("Sucess")
+          navigation.navigate("Contribute",{customer_id})
+          }
+          else{
+            console.log("No plastic deteceted")
+          }
+          })
+        .catch(err => {
           console.log(err)
 })
       }

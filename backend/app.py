@@ -11,6 +11,10 @@ import time
 import cv2
 import numpy as np
 from ultralytics import YOLO
+import torch
+from torchvision.transforms import functional as F
+from PIL import Image
+from io import BytesIO
 '''app=Flask(__name__)
 import mysql.connector
 mydb = mysql.connector.connect(
@@ -543,17 +547,16 @@ def ProvideCoins():
 @app.route('/admin/companyrequest',methods=['GET'])
 def CompanyRequest():
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where type='pending'"
+    query="select id,username,password,type,email,phonenumber,pincode,landmark,district,state,company_name,address from login where type='pending'"
     cursor.execute(query)
     data=cursor.fetchall()
-    print(data)
     return jsonify(data)
 
-@app.route('/admin/companydetailsdisplay/<email>',methods=['GET'])
-def companydetailsdisplay(email):
+@app.route('/admin/companydetailsdisplay/<int:id>',methods=['GET'])
+def companydetailsdisplay(id):
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where email like '%"+email+"%'"
-    cursor.execute(query)
+    query="select id,email,phonenumber,pincode,landmark,district,state,company_name,address from login where email id=%s"
+    cursor.execute(query,(id,))
     data=cursor.fetchone()
     print(data)
     return jsonify(data)
@@ -589,13 +592,13 @@ def AcceptRequest(email):
 @app.route("/admin/companydetails/<int:id>",methods=["POST","GET"])
 def companydetails(id):
     cursor=mydb.cursor(dictionary=True)
-    query="select type from login where id=%s"
+    query="select id,,type,email,phonenumber,district,state,company_name,address type from login where id=%s"
     cursor.execute(query,(id,))
     data=cursor.fetchone()
     print(data)
     if data['type']=='admin':
         cursor=mydb.cursor(dictionary=True)
-        query="select * from login where type='company'"
+        query="select id,username,password,type,email,phonenumber,pincode,landmark,district,state,company_name,address from login where type='company'"
         cursor.execute(query)
         data=cursor.fetchone()
         return jsonify(data)
@@ -603,7 +606,7 @@ def companydetails(id):
 @app.route('/admin/admincompanyrequest',methods=['GET'])
 def AllCompanyRequest():
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where type='company'"
+    query="select id,username,password,type,email,phonenumber,pincode,landmark,district,state,company_name,address from login where type='company'"
     cursor.execute(query)
     data=cursor.fetchall()
     print(data)
@@ -656,6 +659,7 @@ def plaseorder(id):
     query='select * from addtocart where customer_id=%s'
     cursor.execute(query,(id,))
     data=cursor.fetchall()
+    print(data)
     if data:
         for i in data:
             query='insert into order_details(customer_id,product_id) values(%s,%s)'
@@ -663,8 +667,8 @@ def plaseorder(id):
             mydb.commit()
             query='delete from addtocart where customer_id=%s'
             cursor.execute(query,(id,))
-            print("product ordered success")
-            return jsonify("product ordered success")
+        print("product ordered success")
+        return jsonify("product ordered success")
 
 @app.route('/userorderdetails/<int:id>',methods=["GET","POST"])
 def userorderdetails(id):    
@@ -702,53 +706,40 @@ def contribute():
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
     bdimage = base64.b64encode(image.read()) 
-    #if checkimage(image):
-    query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
-    cur.execute(query1,(customer_id,status ,bdimage))
-    mydb.commit()
-    return jsonify("Susses")
-    # else:
-    #     print("NO")
-    #     return jsonify("not added")
+    if checkimage(bdimage):
+        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+        cur.execute(query1,(customer_id,status ,bdimage))
+        mydb.commit()
+        return jsonify("Susses")
+    else:
+        print("NO")
+        return jsonify("not added")
 
 def checkimage(image):
-    my_file = open("coco.txt", "r")
-    # reading the file
-    data = my_file.read()
-    # replacing end splitting the text | when newline ('\n') is seen.
-    class_list = data.split("\n")
-    my_file.close()
+    #model = torch.load('best.pt')
+    image_data = base64.b64decode(image)
 
-    # print(class_list)
+# Create a BytesIO object to work with PIL
+    image_stream = BytesIO(image_data)
 
-    # Generate random colors for class list
-    detection_colors = []
-    for i in range(len(class_list)):
-        r = random.randint(0, 255)
-        g = random.randint(0, 255)
-        b = random.randint(0, 255)
-        detection_colors.append((b, g, r))
+    # Open the image using PIL
+    image = Image.open(image_stream)
 
+    # Save the image as JPG
+    image.save('output.jpg', 'JPEG') 
+    cap=cv2.imread('output.jpg')
     model = YOLO("best.pt", "v8")
-
-    frame_wid = 640
-    frame_hyt = 480
-
-    cap = image.read()
-    #cap = cv2.VideoCapture("test-video.m4v")
-        # Capture frame-by-frame
-    # ret, frame = cap.read()
-    # if not ret:
-    #     print("Can't receive frame (stream end?). Exiting ...")
     print("H")
     detect_params = model.predict(source=[cap], conf=0.55, save=False)
-    print("H")
-
-    # Convert tensor array to numpy
-    DP = detect_params[0].numpy()
     
-    return True
-        
+    DP = detect_params[0].numpy()
+    boxes = detect_params[0].boxes
+    
+    if len(detect_params[0])!=0:
+        print("H")
+        print(len(detect_params[0]))
+        return True
+    return False
         # Terminate run when "Q" pressed
         
 
@@ -758,7 +749,7 @@ def checkimage(image):
     
 if __name__=="__main__":
 
-    app.run(host='192.168.56.1',port='3000',debug=True)
+    app.run(host='10.203.1.12' ,port='3000',debug=True)
 
 
 

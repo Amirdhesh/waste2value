@@ -28,9 +28,9 @@ const CompanyRequest=({navigation})=>{
       console.log(data)
         })
   }
- const handlePress=(email)=>
+ const handlePress=(id)=>
  {
-  navigation.navigate('Companydetailsdisplay',{email});
+  navigation.navigate('Companydetailsdisplay',{id});
  }
 
   const renderItem =({item})=>
@@ -42,12 +42,10 @@ const CompanyRequest=({navigation})=>{
       alignItems: 'left',
       marginTop:12,
       }}>
-        <TouchableOpacity onPress={()=>handlePress(item.email)}>
         <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:10}}>
-        <Text style={{fontSize:28, fontWeight:"600"}}>Company Name: {item.company_name}</Text>
-        <Text style={{fontSize:24,color:"green"}}>Address: {item.address}</Text>
+        <Text style={{fontSize:28, fontWeight:"600"}} onPress={()=>handlePress(item.id)}>Company Name: {item.company_name}</Text>
+        <Text style={{fontSize:24,color:"green"}} onPress={()=>handlePress(item.id)}>Address: {item.address}</Text>
         </View>
-        </TouchableOpacity>
       </View>
   )
 return (
@@ -63,7 +61,7 @@ return (
            <FlatList
       data={companydata}
       renderItem={renderItem}
-      keyExtractor={item => ( item.email)}
+      keyExtractor={item => ( item.id)}
       numColumns={1}
     />
           }

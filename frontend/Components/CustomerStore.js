@@ -69,7 +69,7 @@ const searchproduct = async () => {
       <View style={{
       flexDirection:'column',
       justifyContent: 'center',
-      alignItems: 'center',}}>
+      alignItems: 'center',marginHorizontal:5,marginTop:5}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
         <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.product_id)}>{item.product_name}</Text>
         <Text style={{fontSize:14,color:"green"}} onPress={()=>handleProductClick(item.product_id)}>Price:Rs.{item.product_price}</Text>
@@ -96,7 +96,7 @@ const searchproduct = async () => {
         
 
       </View>
-      <View style={ {height:'72%',marginTop:10}}>
+      <View style={ {height:'72%',marginTop:10,flexDirection:'column',alignItems:'center'}}>
       <FlatList
       data={Data}
       renderItem={renderItem}
