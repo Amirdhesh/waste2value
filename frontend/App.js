@@ -79,9 +79,9 @@ export default function App() {
   </Stack.Navigator>
 </NavigationContainer>*/
  <NavigationContainer>
- <Stack.Navigator initialRoutName="Product">
-   <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-   <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
+ <Stack.Navigator initialRoutName="Account">
+   {/*<Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
+    <Stack.Screen name='SignUp' component={SignUp} options={{headerShown:false}}/>
    <Stack.Screen name='Register' component={Register} options={{headerShown:false}}/>
     <Stack.Screen name="ProductList" component={CustomerStore} options={{headerShown:false}}/>
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{headerShown:false}}/>
@@ -101,9 +101,9 @@ export default function App() {
     <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany} options={{headerShown:false}}/>
     <Stack.Screen name="Admininterface" component={Admininterface} options={{headerShown:false}}/>
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
-    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
+    <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>*/}
     <Stack.Screen name="admincompanydisplay" component={Admincompanydisplay} options={{headerShown:false}}/>
-    <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>}
+    {/*<Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>
     <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
     <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/> 
     <Stack.Screen name='Account' component={Account} options={{headerShown:false}}/>
@@ -116,7 +116,8 @@ export default function App() {
     <Stack.Screen name='ImageUpload' component={ImageUpload} options={{headerShown:false}}/>
     <Stack.Screen name='ViewContributionDetails' component={ViewContributionDetails} options={{headerShown:false}}/>
     <Stack.Screen name='WasteCollection' component={WasteCollection} options={{headershown:false}}/>
-    <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
+    <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/> 
+    <Stack.Screen name='account' component={Account} options={{headershown:false}}/>*/}
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
@@ -124,8 +125,8 @@ export default function App() {
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
  </Stack.Navigator>
-</NavigationContainer>*/
-<ImageView/>
+</NavigationContainer>
+ <ImageView/> */
 );
 }
 
