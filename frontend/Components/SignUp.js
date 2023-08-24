@@ -6,6 +6,7 @@ const SignUp = ({navigation}) => {
   const [email,setemail]=useState("")
   const [password1,setPassword1]=useState("")
   const [password2,setPassword2]=useState("")
+  const imageUri='null';
   const signup=()=>{
     if (password1==password2){
     fetch("http://192.168.56.1:3000/signup",{
@@ -31,7 +32,7 @@ const SignUp = ({navigation}) => {
     behavior="position"
   >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View>
+      <View style={{bottom:15}}>
   <StatusBar hidden={true}/>
     
       
@@ -55,8 +56,8 @@ const SignUp = ({navigation}) => {
           <Text style={{ paddingVertical: 15,paddingHorizontal: 143 ,marginTop:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 500, fontSize: 20 }}>SignUp</Text>
           </TouchableOpacity>
           <Text style={{fontSize: 18,marginTop:9}}>Or</Text>
-          <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
-          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register')}>Company</Text></Text>
+          <TouchableOpacity onPress={()=>navigation.navigate("Register",null)}>
+          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register',{imageUri:imageUri})}>Company</Text></Text>
           </TouchableOpacity>
         </View>
         </View>

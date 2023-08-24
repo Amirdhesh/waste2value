@@ -27,7 +27,7 @@ const Login = ({navigation}) => {
     }
     else if(data.message=="company"){
       console.log(data.customer_id);
-      navigation.navigate("CompanyStore",{company_id:data.customer_id})
+      navigation.navigate("CompanyStore",{customer_id:data.customer_id})
     }
     else if (data.message=="admin") {
       navigation.navigate("Admininterface",{admin_id:data.customer_id})
@@ -78,9 +78,9 @@ const Login = ({navigation}) => {
           <TouchableOpacity onPress={()=>login()}>
           <Text style={{ paddingVertical: 10,paddingHorizontal: 139 ,margin:20, backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9, color: 'white' ,fontWeight: 500, fontSize: 29 }}>Login</Text>
           </TouchableOpacity>
-          <Text>Or</Text>
+          <Text style={{fontSize:20,bottom:20}}>Or</Text>
           <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
-          <Text style={{fontSize: 25}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('SignUp')} >Account</Text></Text>
+          <Text style={{fontSize: 25, bottom:20}}>Create new <Text style={{color:"#B33BAE",}} onPress={()=>navigation.navigate('SignUp')} >Account</Text></Text>
           </TouchableOpacity>
         </View>
         </View>

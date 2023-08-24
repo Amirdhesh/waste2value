@@ -1,13 +1,12 @@
-import { View, Text,StatusBar,TextInput,TouchableWithoutFeedback,Keyboard,TouchableOpacity } from 'react-native'
+import { View, Text,StatusBar,TextInput,TouchableWithoutFeedback,Keyboard,TouchableOpacity ,Button} from 'react-native'
 import React,{useState} from 'react'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { KeyboardAwareScrollView } from '../node_modules/react-native-keyboard-aware-scroll-view'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-
-const Register = ({navigation}) => {
+import { Image } from 'react-native-elements';
+const Register = ({navigation,route}) => {
   const [checked, setchecked] = useState(false)
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
@@ -17,35 +16,47 @@ const Register = ({navigation}) => {
   const [address, setAddress] = useState('')
   const [pin, setPin] = useState('')
   const [password, setPassword] = useState('')
-  const [imageUri, setImageUri] = useState(null);
+  const {imageUri} = route.params;
 
   const RegisterCompany=() =>{
-    const formData = new FormData();
-  formData.append('image', {
-    uri: imageUri,
-    name: 'image.jpg',
-    type: 'image/jpeg',
-  });
+      console.log(imageUri);
+  let formdata = new FormData();
 
-  formData.append('email', email);
-  formData.append('Companyname', companyname);
-  formData.append('ph_no', ph_no);
-  formData.append('address', address);
-  formData.append('pin', pin);
-  formData.append('password', password);
-
-  fetch('http://192.168.56.1:3000/company', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    body: formData,
-  })
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    // Handle response data accordingly
-  });
+  formdata.append("name", companyname)
+  formdata.append("email", email)
+  formdata.append("ph_no", ph_no)
+  formdata.append("address",address)
+  formdata.append("pin",pin)
+  formdata.append("password",password)
+  if (imageUri!='null'){
+    console.log("sdvwvgwe"+imageUri);
+  formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
+  console.log(formdata)
+  }
+  fetch('http://192.168.56.1:3000/company',{
+  method: 'POST',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+  body: formdata,
+  }).catch(err => {
+    console.log(err)
+  }) 
+  .then((data)=>{
+      console.log(data);
+      if(data=="Register successfully")
+      {
+        navigation.navigate('Signup')
+      }
+      else if(data=="Incorrect password")
+      {
+        navigation.navigate('Register')
+      }
+      else 
+      {
+        navigation.navigate('Login')
+      }
+    })
   }
 
   const pickImage = async () => {
@@ -118,7 +129,10 @@ const Register = ({navigation}) => {
       <View style={{flexDirection:'row',justifyContent:'center',marginTop:5}}>
         <View>
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Licence No:</Text>
-            <TextInput style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 189, borderRadius: 9 }} />
+            <Button style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 189, borderRadius: 9 }}
+        title="Uplode image"
+        onPress={()=>navigation.navigate('ImageUpload')}
+      />
         </View>
         <View style={{marginLeft: 10}}>
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>OTP:</Text>

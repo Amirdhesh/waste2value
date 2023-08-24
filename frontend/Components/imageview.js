@@ -5,7 +5,7 @@ const ImageView = () => {
   const [imagedata, setimagedata] = useState('');
 
   useEffect(() => {
-    fetch('http://192.168.0.155:3000/viewimage')
+    fetch('http://192.168.56.1/viewimage')
     .then(response => response.blob()) // Convert response to Blob
     .then(data => {
       const reader = new FileReader();

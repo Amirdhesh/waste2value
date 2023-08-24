@@ -78,7 +78,7 @@ const CompanyStore = ({navigation,route}) => {
         </View>
        
       
-        <TouchableOpacity onPress={()=>navigation.navigate('Product',{company_id:company_id})}>
+        <TouchableOpacity onPress={()=>navigation.navigate('ImageUpload',{company_id:customer_id})}>
           <View style={{height: 57,borderWidth: 1,flexDirection:'column',alignItems:'center',justifyContent:'center', borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
               <AntDesign name="addfile" size={33} color="black" style={{marginVertical:0,marginHorizontal:0}}/>
           </View>
@@ -98,7 +98,7 @@ const CompanyStore = ({navigation,route}) => {
           numColumns={2} 
           style={ {flex: 1}}
         />
-        <Companyinterfase navigation={navigation} company_id={company_id}/>
+        <Companyinterfase navigation={navigation} customer_id={customer_id}/>
 
         </View>
       )
