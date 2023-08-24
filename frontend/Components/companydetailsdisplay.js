@@ -12,8 +12,9 @@ useEffect(()=>{
     fetch(`http://192.168.56.1:3000/admin/companydetailsdisplay/${email}`)
     .then((response)=>response.json())
     .then((data)=>{
-        console.log(data)
+        console.log('Data: ',data)
         setCompanyInfo(data);
+        console.log(companyinfo);
     })
     .catch((error)=>{
         console.log(error)
@@ -43,6 +44,7 @@ const DecliningOffer=()=>{
     })
     .catch((error)=>console.error(error))
 }
+
 
 
 

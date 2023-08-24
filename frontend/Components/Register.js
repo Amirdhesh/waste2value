@@ -131,7 +131,7 @@ const Register = ({navigation,route}) => {
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Licence No:</Text>
             <Button style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 189, borderRadius: 9 }}
         title="Uplode image"
-        onPress={()=>navigation.navigate('ImageUpload')}
+        onPress={()=>navigation.navigate('ImageUpload',1,{email})}
       />
         </View>
         <View style={{marginLeft: 10}}>

@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ScrollView, StyleSheet,TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import { Icon } from 'react-native-elements';
+import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 //import { launchImageLibrary } from 'react-native-image-picker';
 //var ImagePicker = require('react-native-image-picker');
@@ -27,9 +28,10 @@ export function AddProductScreen({route , navigation}){
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const {company_id} = route.params;
-  const [photo, setPhoto] = React.useState(null);
+  const {company_id,imageUri} = route.params;
+console.log("id:",company_id);
 
+const flag = 2;
   /*const handleChoosePhoto = () => {
     launchImageLibrary({ noData: true }, (response) => {
       // console.log(response);
@@ -86,7 +88,7 @@ export function AddProductScreen({route , navigation}){
     }
   }*/
   const addProduct=async()=>{
-    navigation.navigate("ProductAdded");
+    navigation.navigate("ProductAdded",{company_id:company_id});
     add_product();
   }
     /*formData.append('image',{
@@ -94,26 +96,43 @@ export function AddProductScreen({route , navigation}){
       type: image.mime,
       name: 'product.jpg',
     });*/
-    const add_product=()=>{
-    fetch(`http://192.168.56.1:3000/api/add_product/${company_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              product_name: productName,
-      product_description: description,
-      product_price: price,
-            }),
-          })
-          .then(resp=>resp.json())
-          .then(data => {
-            console.log(data)
-            navigation.navigate('CompanyStore',{ company_id:company_id })
-          })
-          .catch(error=>console.log(error))
-           
-        }
+
+    const add_product=() =>{
+      const {company_id,imageUri} = route.params;
+      console.log(company_id)
+      console.log(imageUri);
+  let formdata = new FormData();
+
+  formdata.append("productName", productName)
+  formdata.append("product_description",description)
+  formdata.append("product_price",price)
+  if (imageUri!='null'){
+    console.log("sdvwvgwe"+imageUri);
+  formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
+  console.log(formdata)
+  }
+  console.log(company_id)
+
+  fetch(`http://192.168.56.1:3000/api/add_product/${company_id}`,{
+  method: 'POST',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+  body: formdata,
+  }).catch(err => {
+    console.log(err)
+  }) 
+  .then((data)=>{
+    console.log(data)
+    navigation.navigate('CompanyStore',{"company_id":company_id})
+    })
+  .catch(error=>console.log(error))
+  }
+
+
+
+
+    
   return (
     <View style={{flex:1,}}>
       <StatusBar hidden={true}/>
@@ -131,9 +150,12 @@ export function AddProductScreen({route , navigation}){
       </View>
       <View style={{height:'80%',}}>
         <View style={{flexDirection:'column',alignItems:'center',height:"45%"}}>
-            <View style={{height:"100%",width:"92%",backgroundColor:'gray'}}>
+          <TouchableOpacity onPress={()=>navigation.navigate("ImageUpload",{flag:flag,company_id:company_id})}>
+                  <View style={{height:250,width:300,backgroundColor:'gray',justifyContent:'center',alignItems:'center'}}>
+            <AntDesign name="jpgfile1" size={60} color="black" />
 
-            </View>
+                          </View>
+                          </TouchableOpacity>
         </View>
         <View style={{height:'55%',flexDirection:'column',alignItems:'center',marginTop:7}}>
           <View style={{flexDirection:'row',marginTop:5,alignItems:'center',justifyContent:'flex-start',width:'89%'}}><Text style={{fontSize:20}}>Product Name:</Text></View>
@@ -172,7 +194,7 @@ export function AddProductScreen({route , navigation}){
       />
       
     
-      <TouchableOpacity style={{width:'92%',height:53,marginTop:20,flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,}} onPress={()=>addProduct()}> 
+      <TouchableOpacity style={{width:'92%',height:53,marginTop:20,flexDirection:'column',alignItems:'center',justifyContent:'center',backgroundColor: "#D268CC",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,}} onPress={()=>addProduct(company_id)}> 
         <Text style={{color:'white',fontSize:20}}>Add Product</Text>
       </TouchableOpacity>
       </View>

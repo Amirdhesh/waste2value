@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Text,View,StyleSheet} from "react-native";
 
-export function ProductAddedScreen()
+export function ProductAddedScreen({navigation,route})
 {
+    const {company_id} = route.params;
+    useEffect(()=>{
+        navigation.navigate("CompanyStore",{company_id})
+    })
     return(
     <View style={Styles.container}>
         <Text style={Styles.text}> Product Added Successfully</Text>

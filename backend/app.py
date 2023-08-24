@@ -265,26 +265,29 @@ def get_productslist():
 '''
 
 products = []
-@app.route('/api/add_product/<int:company_id>', methods=['POST'])
+@app.route('/api/add_product/<company_id>', methods=['POST'])
 def add_product(company_id):
-    try:
-        data = request.get_json()
-        product_name = data.get('product_name')
-        product_description = data.get('product_description')
-        product_price = data.get('product_price')
-        products.append(data)
-        cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
-        values = (product_name, product_description, product_price,company_id)
-        cursor.execute(query, values)
-        mydb.commit()
-        cursor.close()
-        return jsonify({'message': 'Product added to database successfully'})
-    except Exception as e:
+    print("Entered",company_id)
+    data = request.form
+    print(data)
+    product_name = data.get('productName')
+    product_description = data.get('product_description')
+    product_price = data.get('product_price')
+    image=request.files['image']
+    print(product_name,product_description,product_price)
+    cursor = mydb.cursor()
+    bdimage = base64.b64encode(image.read()) 
+    query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id,image) VALUES (%s, %s, %s,%s,%s)"
+    values = (product_name, product_description, product_price,company_id,bdimage)
+    cursor.execute(query, values)
+    mydb.commit()
+    cursor.close()
+    return jsonify({'message': 'Product added to database successfully'})
+''' except Exception as e:
         mydb.rollback()
         if 'cursor' in locals():
             cursor.close()
-        return jsonify({'error': str()})
+        return jsonify({'error': str()})'''
 
 #search product 
 @app.route('/api/searchproduct/<search>',methods=['POST','GET'])
@@ -528,7 +531,7 @@ def ProvideCoins():
 @app.route('/admin/companyrequest',methods=['GET'])
 def CompanyRequest():
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where type='pending'"
+    query="select company_name,address from login where type='pending'"
     cursor.execute(query)
     data=cursor.fetchall()
     print(data)
@@ -537,7 +540,7 @@ def CompanyRequest():
 @app.route('/admin/companydetailsdisplay/<email>',methods=['GET'])
 def companydetailsdisplay(email):
     cursor=mydb.cursor(dictionary=True)
-    query="select * from login where email like '%"+email+"%'"
+    query="select company_name,address,district,email from login where email like '%"+email+"%'"
     cursor.execute(query)
     data=cursor.fetchone()
     print(data)
