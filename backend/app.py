@@ -6,23 +6,18 @@ import json
 import mysql.connector
 import base64
 import datetime
-from urllib.parse import quote
-import mimetypes
-app=Flask(__name__)
-'''import mysql.connector
+import random
+import time
+import cv2
+import numpy as np
+from ultralytics import YOLO
+'''app=Flask(__name__)
+import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)'''
-'''from flask import Flask, request, jsonify
-import mysql.connector 
-mydb=mysql.connector.connect(
-    host= "localhost",
-    user= "Madumitha",
-    password= "madumitha",
-    database="WASTETOVALUE"
 )'''
 from flask import Flask, request, jsonify
 import mysql.connector 
@@ -32,6 +27,15 @@ mydb=mysql.connector.connect(
     password= "tiger",
     database="wtv"
 )
+'''
+from flask import Flask, request, jsonify
+import mysql.connector 
+mydb=mysql.connector.connect(
+    host= "192.168.0.155",
+    user= "root",
+    password= "tiger",
+    database="wtv"
+)'''
 app = Flask(__name__)
 mycursor = mydb.cursor()
 cur=mydb.cursor()
@@ -142,7 +146,6 @@ def login():
             return jsonify({"message":"company","customer_id":userid})
         elif type[0]=='user':
             return jsonify({"message":"Login Successful","customer_id":userid})
-    
     else:
         return jsonify("Incorrect email or password")
 # for signup
@@ -265,34 +268,30 @@ def get_productslist():
 
 '''
 
-products = []
-@app.route('/api/add_product/<int:company_id>', methods=['POST'])
+@app.route('/api/add_product/<company_id>', methods=['POST'])
 def add_product(company_id):
-    try:
-        data = request.get_json()
-        product_name = data.get('product_name')
-        product_description = data.get('product_description')
-        product_price = data.get('product_price')
-        products.append(data)
-        cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,retailer_id) VALUES (%s, %s, %s,%s)"
-        values = (product_name, product_description, product_price,company_id)
-        cursor.execute(query, values)
-        mydb.commit()
-        cursor.close()
-        return jsonify({'message': 'Product added to database successfully'})
-    except Exception as e:
-        mydb.rollback()
-        if 'cursor' in locals():
-            cursor.close()
-        return jsonify({'error': str()})
-
+    print("Entered",company_id)
+    data = request.form
+    print(data)
+    product_name = data.get('productName')
+    product_description = data.get('product_description')
+    product_price = data.get('product_price')
+    image=request.files['image']
+    print(product_name,product_description,product_price)
+    cursor = mydb.cursor()
+    bdimage = base64.b64encode(image.read()) 
+    query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id,image) VALUES (%s, %s, %s,%s,%s)"
+    values = (product_name, product_description, product_price,company_id,bdimage)
+    cursor.execute(query, values)
+    mydb.commit()
+    cursor.close()
+    return jsonify({'message': 'Product added to database successfully'})
 #search product 
 @app.route('/api/searchproduct/<search>',methods=['POST','GET'])
 def searchproduct(search):
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where product_name like '"+search+"%'"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where product_name like '"+search+"%'"
         cursor.execute(query)
         products = cursor.fetchall()
         print(search,products)
@@ -306,7 +305,7 @@ def searchproduct(search):
 def get_productslist():
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails"
         cursor.execute(query)
         products = cursor.fetchall()
         cursor.close()
@@ -318,11 +317,13 @@ def get_productslist():
 @app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
 def get_companylist(company_id):
     try:
+        
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where company_id=%s"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where company_id=%s"
         cursor.execute(query,(company_id,))
         products = cursor.fetchall()
         cursor.close()
+        print(products)
         return jsonify(products)
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -330,7 +331,7 @@ def get_companylist(company_id):
 @app.route('/api/selectedproduct/<int:product_id>', methods=['GET'])
 def get_product_details(product_id):
     cursor = mydb.cursor(dictionary=True)
-    query = "SELECT * FROM productdetails WHERE product_id = %s"
+    query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails WHERE product_id = %s"
     cursor.execute(query, (product_id,))
     product_details = cursor.fetchone()
     return jsonify(product_details)
@@ -400,16 +401,14 @@ def cartdetails(customer_id):
     value=(customer_id,)
     cursor.execute(query,value)
     cartdata=cursor.fetchall()
-    print('cartdata fetching:',cartdata)
     return jsonify(cartdata)
 
 @app.route('/api/contributions/<customer_id>',methods=['GET'])
 def fetchcontributiondata(customer_id):
     cursor = mydb.cursor(dictionary=True)
-    query="Select * from contributions where customer_id=%s"
+    query="Select customer_id, contribution_id,date_info,status,coins from contributions where customer_id=%s"
     cursor.execute(query,(customer_id,))
     data=cursor.fetchall()
-    jsonify(data)
     print(data)
     return jsonify(data)
 
@@ -428,8 +427,14 @@ def addcoins():
         data=request.get_json()
         customer_id=data.get('customer_id')
         coins=data.get('coins')
-        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
         cursor=mydb.cursor()
+        query=f"select * from wallet where customer_id={customer_id}"
+        cursor.execute(query)
+        user=cursor.fetchone()
+        if user:
+            query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id={customer_id}"
+        else:
+            query=f"insert into wallet values({customer_id},{coins})"
         cursor.execute(query)
         mydb.commit()
         cursor.close()
@@ -439,7 +444,85 @@ def addcoins():
         cursor.close()
         return jsonify({"message":"Process failed"})
 
- 
+@app.route('/api/ViewAllContributions',methods=['GET'])
+def AllContributions():
+    cursor=mydb.cursor()
+    query="select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where status='pending' order by date_info"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/getcontributiondetails/<contribution_id>',methods=['GET'])
+def getcontributiondetails(contribution_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id,contributions.customer_id,login.username,login.address,login.district,login.landmark,login.pincode from contributions inner join login on contributions.customer_id=login.id where contribution_id={contribution_id}"
+    cursor.execute(query)
+    data=cursor.fetchone()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/acceptcontribution/',methods=['POST'])
+def acceptcontribution():
+    try:
+        data=request.get_json()
+        print("data",data)
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        cursor=mydb.cursor()
+        query=f"update contributions set company_id={company_id}, status='accepted' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor.close()
+        return jsonify({"message":"Contribution Accepted"})
+    except:
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"task failed"})
+    
+@app.route('/api/ViewAcceptedContributions/<company_id>',methods=['GET'])
+def ViewAcceptedContributions(company_id):
+    cursor=mydb.cursor()
+    query=f"select contributions.contribution_id ,contributions.date_info, login.district from contributions inner join login on contributions.customer_id=login.id where contributions.company_id={company_id} and status='accepted'"
+    cursor.execute(query)
+    data=cursor.fetchall()
+    print(data)
+    return jsonify(data)
+
+@app.route('/api/sendcoins/',methods=['POST'])
+def ProvideCoins():
+    print(request.get_data())
+    try:
+        cursor=mydb.cursor(dictionary=True)
+        data=request.get_json()
+        print(data)
+        contribution_id=data.get('contribution_id')
+        company_id=data.get('company_id')
+        coins=data.get('coins')
+        print(contribution_id,company_id,coins)
+        query=f"select wallet_amount from wallet where customer_id={company_id}"
+        cursor.execute(query)
+        amount=cursor.fetchone()
+        print(amount)
+        if amount=='null' or amount['wallet_amount']<coins:
+            return jsonify({"message":"Insufficient coins"})
+        query=f"update wallet set wallet_amount=wallet_amount-{coins} where customer_id={company_id}"
+        cursor.execute(query)
+        mydb.commit()
+        cursor=mydb.cursor()
+        query=f"update wallet set wallet_amount=wallet_amount+{coins} where customer_id=(select customer_id from contributions where contribution_id={contribution_id})"
+        cursor.execute(query)
+        mydb.commit()
+        query=f"update contributions set status='Collected' where contribution_id={contribution_id}"
+        cursor.execute(query)
+        mydb.commit()
+        return jsonify({"message":"Provided coins successfully"})
+    except Exception as e:
+        print(e)    
+        mydb.rollback()
+        cursor.close()
+        return jsonify({"message":"Task failed"})
+
 #admin
 
 @app.route('/admin/companyrequest',methods=['GET'])
@@ -592,8 +675,76 @@ def userorderdetails(id):
             return jsonify(rtu)
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+#contrubite
+@app.route('/contribute', methods=['POST'])
+def contribute():
+    cur=mydb.cursor()
+    data = request.form
+    customer_id=data.get('customer_id')
+    status = data.get('status')
+    image = request.files['image']
+    if image.filename == '':
+        return jsonify({'message': 'No selected image'})
+    bdimage = base64.b64encode(image.read()) 
+    if checkimage(image):
+        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+        cur.execute(query1,(customer_id,status ,bdimage))
+        mydb.commit()
+        return jsonify("Susses")
+    else:
+        print("NO")
+        return jsonify("not added")
+
+def checkimage(image):
+    my_file = open("coco.txt", "r")
+    # reading the file
+    data = my_file.read()
+    # replacing end splitting the text | when newline ('\n') is seen.
+    class_list = data.split("\n")
+    my_file.close()
+
+    # print(class_list)
+
+    # Generate random colors for class list
+    detection_colors = []
+    for i in range(len(class_list)):
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        detection_colors.append((b, g, r))
+
+    model = YOLO("best.pt", "v8")
+
+    frame_wid = 640
+    frame_hyt = 480
+
+    cap = image.read()
+    #cap = cv2.VideoCapture("test-video.m4v")
+        # Capture frame-by-frame
+    # ret, frame = cap.read()
+    # if not ret:
+    #     print("Can't receive frame (stream end?). Exiting ...")
+    print("H")
+    detect_params = model.predict(source=[cap], conf=0.55, save=False)
+    print("H")
+
+    # Convert tensor array to numpy
+    DP = detect_params[0].numpy()
+    
+    return True
+        
+        # Terminate run when "Q" pressed
+        
+
+    # When everything done, release the capture
+
+
+    
 if __name__=="__main__":
-    app.run(host='192.168.0.155',port='3000',debug=True)
+
+    app.run(host='192.168.219.17',port='3000',debug=True)
+
 
 
 

@@ -3,12 +3,13 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { FontAwesome } from '@expo/vector-icons';
+import Url from './Url';
 const WalletPayment = ({navigation,route}) => {
    
   const {customer_id,requiredcoins} = route.params;
  const addcoins=()=>{
   Alert.alert("Coins added successfully","Click ok to continue",[{text:"OK", onPress:()=>navigation.navigate("CustomerWallet",{customer_id})}])
-  fetch(`http://192.168.56.1:3000/api/addcoins`, {
+  fetch(`${Url()}/api/addcoins`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

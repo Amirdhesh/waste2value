@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { TextInput } from "react-native-paper";
+import Url from "./Url";
 const CustomerWallet=({navigation,route})=>{
 
     const {customer_id}= route.params;
@@ -19,7 +20,7 @@ const CustomerWallet=({navigation,route})=>{
 
    
   const fetchCoins = async () => {
-    fetch(`http://192.168.56.1:3000/api/fetchcustomercoins/${customer_id}`)
+    fetch(`${Url()}/api/fetchcustomercoins/${customer_id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

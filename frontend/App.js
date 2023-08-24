@@ -35,9 +35,14 @@ import Comapnyorderdetails from './Components/companyorderdetails';
 import ProductDetailsScreen from './Components/ProductDetailsScreen';
 import Companyinterfase from './Components/Companyinterface';
 import CompanyRequest from './Components/companyrequest';
+import ViewContributionDetails from './Components/ViewContributiondetails';
 import ContributeWaste from './Components/Contributewaste';
+import CompanyAccount from './Components/CompanyAccount'
 import ImageUpload from './Components/imageupload';
 import ImageView from './Components/imageview';
+import ProvideCoins from './Components/Providecoins';
+import WasteCollection from './Components/WasteCollection';
+import ContributeImageUplode from './Components/imageuplodecontribute';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -72,7 +77,7 @@ export default function App() {
     <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     <Stack.Screen name="CustomerCart" component={Cart} />
   </Stack.Navigator>
-</NavigationContainer>
+</NavigationContainer>*/
  <NavigationContainer>
  <Stack.Navigator initialRoutName="Product">
    <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
@@ -89,31 +94,38 @@ export default function App() {
     <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>
     <Stack.Screen name="WalletPayment" component={WalletPayment} options={{headershown:false}}/>
     <Stack.Screen name="Product" component={Productupload} options={{headerShown:false}}/>  
-    <Stack.Screen name="Companyinterface" component={Companyinterfase} options={{headerShown:false}}/>
+    <Stack.Screen name="Companyinterface" component={Companyinterface} options={{headerShown:false}}/>
     <Stack.Screen name="Contribution" component={CompanyContribution} options={{headerShown:false}}/>  
     <Stack.Screen name="CompanyStore" component={CompanyStore} options={{headerShown:false}}/> 
     <Stack.Screen name="Companyinterfase" component={Companyinterfase} options={{headerShown:false}}/>
-    <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany}/>
-    <Stack.Screen name="Admininterface" component={Admininterface}/>
+    <Stack.Screen name="ProductDetailscompany" component={ProductDetailscompany} options={{headerShown:false}}/>
+    <Stack.Screen name="Admininterface" component={Admininterface} options={{headerShown:false}}/>
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
     <Stack.Screen name="admincompanydisplay" component={Admincompanydisplay} options={{headerShown:false}}/>
     <Stack.Screen name="adminallcompany" component={Adminallcompany} options={{headerShown:false}}/>
     <Stack.Screen name="Adminuserdetialsdispaly" component={Adminuserdetialsdispaly} options={{headerShown:false}}/>
-    <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/>
+    <Stack.Screen name="Comapnyorderdetails" component={Comapnyorderdetails} options={{headerShown:false}}/> 
     <Stack.Screen name='Account' component={Account} options={{headerShown:false}}/>
-    <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
+    <Stack.Screen name='CompanyAccount' component={CompanyAccount} options={{headerShown:false}}/>
+     <Stack.Screen name='Orders' component={Orders} options={{headerShown:false}}/>
     <Stack.Screen name='UserContribution' component={Contribution} options={{headerShown:false}}/>
     <Stack.Screen name='ImageUpload' component={ImageUpload} options={{headerShown:false}}/>
+    <Stack.Screen name='ViewContributionDetails' component={ViewContributionDetails} options={{headerShown:false}}/>
+    <Stack.Screen name='WasteCollection' component={WasteCollection} options={{headershown:false}}/>
+    <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
+    <Stack.Screen name="ContributeImageUplode" component={ContributeImageUplode} options={{headershown:false}}/>
+    
  </Stack.Navigator>
 </NavigationContainer>
-<NavigationContainer>
+/*<NavigationContainer>
   <Stack.Navigator initialRouteName='CompanyRequest'>
     <Stack.Screen name="Companyrequest" component={CompanyRequest} options={{headerShown:false}}/>
     <Stack.Screen name="Companydetailsdisplay" component={Companydetailsdisplay} options={{headerShown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>*/
-<ImageView/>
+
 );
 }
+
 

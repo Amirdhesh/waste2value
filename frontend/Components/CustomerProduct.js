@@ -1,7 +1,7 @@
 import { View, Text,TextInput, StatusBar, ScrollView } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
-   
+import Url from './Url'
 const CustomerProduct = () => {
   return (
     <View style={{flex:1}}> 

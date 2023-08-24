@@ -1,28 +1,55 @@
 import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useCallback} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import { useFocusEffect } from '@react-navigation/native';
 import Companyinterfase from './Companyinterface';
 import { AntDesign } from '@expo/vector-icons';
+import { BackHandler } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import Url from './Url';
 const CompanyStore = ({navigation,route}) => {
     const [Data, setProductData] = useState([]);
-    const {customer_id} = route.params;
+    const {company_id} = route.params;
     const [search,setsearch]=useState("");
-    useEffect(() => {
+    const isFocused = useIsFocused();
+    console.log("Entry :",company_id);
+    useFocusEffect(
+      useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
-      });
+    }));
+
+    useEffect(()=>{
+      const backAction=()=>{
+        return true;
+      }
+      if(isFocused){
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () => backHandler.remove(); // Remove the event listener when component unmounts
+      }
+    }, [isFocused]);
+  
+      const handleGoBackToLogin = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+  };
+
+
     const searchproduct = async () => {
         try {
-          const response = await fetch(`http://192.168.0.155:3000/api/companyproducts/${customer_id}`);
+          const response = await fetch(`${Url()}/api/companyproducts/${company_id}`);
           const data = await response.json();
           setProductData(data);
+          console.log(data)
         } catch (error) {
           console.error(error);
         }
       };
       //UPdate this handleproductclick
       const handleProductClick = (product_id) => {
-        navigation.navigate('ProductDetailscompany', {customer_id, product_id });
+        navigation.navigate('ProductDetailscompany', {company_id, product_id });
       };
 //Data=[{product_id:1,product_name:'oiisuef',product_price:100},{product_id:2,product_name:'oiisuef',product_price:100},{product_id:3,product_name:'oiisuef',product_price:100},]
 
@@ -53,7 +80,7 @@ const CompanyStore = ({navigation,route}) => {
         </View>
        
       
-        <TouchableOpacity onPress={()=>navigation.navigate('ImageUpload',{company_id:customer_id})}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Product',{company_id:company_id})}>
           <View style={{height: 57,borderWidth: 1,flexDirection:'column',alignItems:'center',justifyContent:'center', borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
               <AntDesign name="addfile" size={33} color="black" style={{marginVertical:0,marginHorizontal:0}}/>
           </View>
@@ -73,7 +100,7 @@ const CompanyStore = ({navigation,route}) => {
           numColumns={2} 
           style={ {flex: 1}}
         />
-        <Companyinterfase navigation={navigation} customer_id={customer_id}/>
+        <Companyinterfase navigation={navigation} company_id={company_id}/>
 
         </View>
       )
