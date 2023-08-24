@@ -1,20 +1,35 @@
-import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native'
-import React,{useState,useEffect} from 'react'
-import { MaterialIcons } from '@expo/vector-icons'
-import CustomerNavbar from './CustomerNavbar' 
+import { View, Text,TextInput, StatusBar,ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React,{useState,useEffect} from 'react';
+import { MaterialIcons } from '@expo/vector-icons';
+import CustomerNavbar from './CustomerNavbar';
 import { Ionicons } from '@expo/vector-icons'; 
+import { useIsFocused } from '@react-navigation/native';
+import { useCallback ,BackHandler} from 'react';
+import Url from './Url';
 const CustomerStore = ({route,navigation}) => {
-  const [filter, setfilter] = useState(false)
   const [Data, setProductData] = useState([]); // State for product data
   const [search,setsearch]=useState("");
-  useEffect(() => {
-    searchproduct(); // Fetch product data from Flask API
-  }, []);
+  const isFocused = useIsFocused();
+
+  useFocusEffect(
+    useCallback(() => {
+        searchproduct();
+    },[])
+);
+
+useEffect(()=>{
+  const backAction=()=>{
+    return true;
+  }
+  
+});
+
   const {customer_id} = route.params;
-  //to search the product
+  //to search the product7
 const searchproduct = async () => {
   try {
-    const response = await fetch(`http://192.168.56.1:3000/api/searchproduct/${search}`);
+    const response = await fetch(`${Url()}/api/searchproduct/${search}`);
     const data = await response.json();
     setProductData(data);
     console.log(data);
@@ -23,7 +38,9 @@ const searchproduct = async () => {
   }
 };
 
-// search close 
+   const wallet=async()=>{
+    navigation.navigate('CustomerWallet',{customer_id});
+   }
 
   const handleProductClick = (product_id) => {
     console.log(customer_id);
@@ -50,7 +67,7 @@ const searchproduct = async () => {
         
     return (
       <View style={{
-      flex: 1,
+      flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',}}>
         <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
@@ -63,8 +80,8 @@ const searchproduct = async () => {
   return (
     <View style={{flex:1}}> 
       <StatusBar hidden={true}/>     
-      <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"8%"}}>
-        <View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 296, borderRadius: 20 }}>
+      <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"10%"}}>
+        <View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: '92%', borderRadius: 20 }}>
         
        
        
@@ -74,23 +91,21 @@ const searchproduct = async () => {
         </TouchableOpacity>
         </View>
        
-      
-        <TouchableOpacity onPress={() => setfilter(true)}>
-          <View style={{height: 57,borderWidth: 1, borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47,shadowColor: !filter ? '#52006A' : undefined, elevation: 20 }}>
-             <MaterialIcons name="tune" size={40} color="black" style={{marginVertical:6,marginHorizontal:1}}/>
-          </View>
-        </TouchableOpacity>
+        
         
         
 
       </View>
+      <View style={ {height:'72%',marginTop:10}}>
       <FlatList
       data={Data}
       renderItem={renderItem}
       keyExtractor={item => ( item.product_id)}
       numColumns={2} 
-      style={ {flex: 1}}
+      
     />
+      </View>
+      
 
       <CustomerNavbar  navigation={navigation} customer_id={customer_id}/>
     </View>

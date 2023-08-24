@@ -1,0 +1,103 @@
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+
+export default function ImageUpload({ navigation,route }) {
+  const [cameraPermission, setCameraPermission] = useState(null);
+  const [galleryPermission, setGalleryPermission] = useState(null);
+
+  const [camera, setCamera] = useState(null);
+  const [imageUri, setImageUri] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+  const {flag,company_id}= route.params;
+  console.log("route.params :",route.params);
+  const permisionFunction = async () => {
+    const cameraPermission = await Camera.requestPermissionsAsync();
+
+    setCameraPermission(cameraPermission.status === 'granted');
+
+    const imagePermission = await ImagePicker.getMediaLibraryPermissionsAsync();
+    console.log(imagePermission.status);
+
+    setGalleryPermission(imagePermission.status === 'granted');
+
+    if (
+      imagePermission.status !== 'granted' &&
+      cameraPermission.status !== 'granted'
+    ) {
+      alert('Permission for media access needed.');
+    }
+  };
+
+  useEffect(() => {
+    permisionFunction();
+  }, []);
+
+  const takePicture = async () => {
+    if (camera) {
+      const data = await camera.takePictureAsync(null);
+      console.log("imag"+data.uri);
+      setImageUri(data);
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log("image"+result);
+    if (!result.cancelled) {
+      setImageUri(result.uri);
+      console.log("image"+result.uri);
+      if(flag==1){
+      navigation.navigate("Register",{imageUri:result.uri});
+      }
+      else{
+        console.log("CUSTOMER ID: ",company_id);
+        navigation.navigate("Product",{company_id,imageUri:result.uri});
+      }
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.cameraContainer}>
+        <Camera
+          ref={(ref) => setCamera(ref)}
+          style={styles.fixedRatio}
+          type={type}
+          ratio={'1:1'}
+        />
+      </View>
+
+      <Button title={'Take Picture'} onPress={takePicture} />
+      <Button title={'Gallery'} onPress={pickImage} />
+      {imageUri && <Image source={{ uri: imageUri }} style={{ flex: 1 }} />}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  cameraContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  fixedRatio: {
+    flex: 1,
+    aspectRatio: 1,
+  },
+  button: {
+    flex: 0.1,
+    padding: 10,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+  },
+});

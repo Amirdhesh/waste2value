@@ -1,4 +1,4 @@
-import { View, Text,TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard } from 'react-native'
+import { View, Text,TouchableOpacity, TextInput,TouchableWithoutFeedback,Keyboard,ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -6,10 +6,12 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
-const Account = ({navigation}) => {
+import Url from './Url';
+const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
+    //const {customer_id} = route.params;
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
     settype(false)}} >
@@ -39,7 +41,8 @@ const Account = ({navigation}) => {
       </View>
       </View>
       <View style={{flex:1,alignItems:'center',}}>
-        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',width:230,height:230,marginTop:40,borderRadius:200,      backgroundColor: logout === true ? 'transparent' : '#D9D9D9'}}>
+      
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',width:230,height:230,marginTop:2,borderRadius:200,      backgroundColor: logout === true ? 'transparent' : '#D9D9D9'}}>
           <MaterialCommunityIcons name="account" size={200} color={ logout === true ? 'rgba(0,0,0,0.2)' : 'white'} />
         </View>
         
@@ -57,12 +60,13 @@ const Account = ({navigation}) => {
         </View>
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10}}>
             <Text style={{fontSize:30,color:'#3A3838'}}> 
-              Credits:<Text >
+              Wallet:<Text >
               100
             </Text>
             </Text>
             <FontAwesome5 name="coins" size={24} color="gold" style={{marginLeft:3}} />
         </View>
+        
         <TouchableOpacity onPress={()=>navigation.navigate('Details')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:23}}>
             <Text style={{fontSize:25,marginLeft:8}}>
               Details & Address 
@@ -76,20 +80,17 @@ const Account = ({navigation}) => {
             <View style={{height:"40%",width:"100%",flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:22,textAlign:'center',}}>Log out of your account?</Text>
               </View>              
-              <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
+              <TouchableOpacity onPress={()=>navigation.replace('Login')} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Log Out</Text>
-              </View>
-              <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
-                <TouchableOpacity onPress={()=>setlogout(false)}>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>setlogout(false)} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
                 <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Cancel</Text>
-                </TouchableOpacity>
-                
-              </View>
+               </TouchableOpacity>
           </View>
 
           </View> 
         }
-        <TouchableOpacity onPress={()=>navigation.navigate('Orders')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Orders',{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
           <Text style={{fontSize:25,marginLeft:8}}>
               Orders
             </Text>
@@ -101,6 +102,13 @@ const Account = ({navigation}) => {
             </Text>
             <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => wallet()} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+            <Text style={{fontSize:25,marginLeft:8}}>
+               Wallet
+            </Text>
+            <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />
+        </TouchableOpacity>
+        
      </View>
      <CustomerNavbar navigation={navigation}/>
     </View>

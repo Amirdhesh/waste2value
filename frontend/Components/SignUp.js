@@ -2,13 +2,15 @@ import { StyleSheet, View, Image,Text, TextInput,KeyboardAvoidingView,Keyboard,T
 import React,{useState} from 'react'
 import bgimg from "./../Assests/Frame2.png"
 import { StatusBar } from 'expo-status-bar'
+import Url from './Url'
 const SignUp = ({navigation}) => {
   const [email,setemail]=useState("")
   const [password1,setPassword1]=useState("")
   const [password2,setPassword2]=useState("")
+  const imageUri='null';
   const signup=()=>{
     if (password1==password2){
-    fetch("http://192.168.56.1:3000/signup",{
+    fetch(`${Url()}/signup`,{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
@@ -56,7 +58,7 @@ const SignUp = ({navigation}) => {
           </TouchableOpacity>
           <Text style={{fontSize: 18,marginTop:9}}>Or</Text>
           <TouchableOpacity onPress={()=>navigation.navigate("Register")}>
-          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register')}>Company</Text></Text>
+          <Text style={{fontSize: 21}}>Register as <Text style={{color:"#B33BAE"}} onPress={()=>navigation.navigate('Register',{imageUri:imageUri})}>Company</Text></Text>
           </TouchableOpacity>
         </View>
         </View>

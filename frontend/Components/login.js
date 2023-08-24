@@ -4,6 +4,7 @@ import bgimg from "./../Assests/Frame1.png"
 import { StatusBar } from 'expo-status-bar'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import Url from './Url';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
   const [invalid, setinvalid] = useState(false)
@@ -11,23 +12,26 @@ const Login = ({navigation}) => {
   const [password,setPassword]=useState("")
   const login=()=>{
     console.log('Trying to login');
-    fetch("http://192.168.56.1:3000/login",{
+    fetch(`${Url()}login`,{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
     },
     body:JSON.stringify({email:email,password:password})
+    
   })
   .then(resp => resp.json())
   .then(data => {
+    console.log(data);
     if(data.message=="Login Successful"){
     navigation.navigate("ProductList",{customer_id:data.customer_id})
     }
     else if(data.message=="company"){
-      navigation.navigate("Companyinterfase",{company_id:data.customer_id})
+      console.log(data.customer_id);
+      navigation.navigate("CompanyStore",{company_id:data.customer_id})
     }
     else if (data.message=="admin") {
-      navigation.navigate("CustomerStore")
+      navigation.navigate("Admininterface",{admin_id:data.customer_id})
     }
     console.log(data)
     

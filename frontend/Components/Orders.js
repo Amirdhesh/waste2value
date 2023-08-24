@@ -1,15 +1,29 @@
 import { View, Text,Image,FlatList, FlatListComponent, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { StatusBar } from 'expo-status-bar';
+import Url from './Url';
 
 
 
+const Cart = ({navigation,route}) => {
+  const {customer_id} = route.params;
+  useEffect(() => {
+    CompanyData();
+  }, [])
 
-const Cart = ({navigation}) => {
-
-  
-  const cartdata = [
+const CompanyData=async()=>
+{
+  console.log("Function called");
+  fetch(`${Url()}/userorderdetails/${customer_id}`)
+  .then((response)=>response.json())
+  .then((data)=>{
+    setcartdata(data)
+    console.log(data)
+      })
+}
+const [cartdata,setcartdata] = useState({});
+  /*const cartdata = [
     {
     "product_name":"amir",
     "product_code":123,
@@ -52,7 +66,7 @@ const Cart = ({navigation}) => {
                 "product_price":12,
                 "quantity":10	
                 },
-    ]
+    ]*/
   const Product=({item})=>(
     <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
     <View style={{flexDirection:'row',alignItems:'center'}}>

@@ -2,6 +2,7 @@ import { View, Text,Image,TextInput } from 'react-native'
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import bgimg from "./../Assests/Frame1.png"  
+import Url from './Url'
 const ForgetPassword = () => {
   return (
     <KeyboardAvoidingView 
