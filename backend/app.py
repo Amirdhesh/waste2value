@@ -10,7 +10,7 @@ import random
 import time
 import cv2
 import numpy as np
-from ultralytics import YOLO
+#from ultralytics import YOLO
 '''app=Flask(__name__)
 import mysql.connector
 mydb = mysql.connector.connect(
@@ -23,9 +23,9 @@ from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
-    user= "root",
-    password= "tiger",
-    database="wtv"
+    user= "Madumitha",
+    password= "madumitha",
+    database="wastetovalue"
 )
 '''
 from flask import Flask, request, jsonify
@@ -239,9 +239,9 @@ def company():
          #   return jsonify({'message': 'Invalid image format'})
 def allowed_file(filename):
     return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-@app.route("/viewimage",methods=["POST","GET"])
-def viewimage():
-    query="select image1 from login where id=34"
+@app.route("/viewimage<int:product_id>",methods=["POST","GET"])
+def viewimage(product_id):
+    query=f"select image from productdetails where product_id={product_id}"
     cur.execute(query)
     image=cur.fetchone()
     if image:
@@ -314,10 +314,9 @@ def get_productslist():
     except Exception as e:
         return jsonify({'error': str(e)})
     
-@app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
+@app.route('/api/companyproducts/<int:company_id>',methods=['GET'])
 def get_companylist(company_id):
     try:
-        
         cursor = mydb.cursor(dictionary=True)
         query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where company_id=%s"
         cursor.execute(query,(company_id,))
@@ -397,7 +396,7 @@ def delete_product():
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):
     cursor=mydb.cursor(dictionary=True)
-    query="Select * from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
+    query="Select productdetails.product_id,productdetails. from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
     value=(customer_id,)
     cursor.execute(query,value)
     cartdata=cursor.fetchall()
@@ -687,16 +686,13 @@ def contribute():
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
     bdimage = base64.b64encode(image.read()) 
-    if checkimage(image):
-        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
-        cur.execute(query1,(customer_id,status ,bdimage))
-        mydb.commit()
-        return jsonify("Susses")
-    else:
-        print("NO")
-        return jsonify("not added")
+    query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+    cur.execute(query1,(customer_id,status ,bdimage))
+    mydb.commit()
+    return jsonify("Susses")
 
-def checkimage(image):
+
+'''def checkimage(image):
     my_file = open("coco.txt", "r")
     # reading the file
     data = my_file.read()
@@ -737,13 +733,13 @@ def checkimage(image):
         # Terminate run when "Q" pressed
         
 
-    # When everything done, release the capture
+    # When everything done, release the capture'''
 
 
     
 if __name__=="__main__":
 
-    app.run(host='192.168.219.17',port='3000',debug=True)
+    app.run(host='192.168.207.194',port='3000',debug=True)
 
 
 
