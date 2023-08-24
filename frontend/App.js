@@ -115,6 +115,7 @@ export default function App() {
     <Stack.Screen name='WasteCollection' component={WasteCollection} options={{headershown:false}}/>
     <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
     <Stack.Screen name="ContributeImageUplode" component={ContributeImageUplode} options={{headershown:false}}/>
+    
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>

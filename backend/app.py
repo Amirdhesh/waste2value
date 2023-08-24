@@ -6,7 +6,6 @@ import json
 import mysql.connector
 import base64
 import datetime
-import model
 import random
 import time
 import cv2
@@ -269,34 +268,30 @@ def get_productslist():
 
 '''
 
-products = []
-@app.route('/api/add_product/<int:company_id>', methods=['POST'])
+@app.route('/api/add_product/<company_id>', methods=['POST'])
 def add_product(company_id):
-    try:
-        data = request.get_json()
-        product_name = data.get('product_name')
-        product_description = data.get('product_description')
-        product_price = data.get('product_price')
-        products.append(data)
-        cursor = mydb.cursor()
-        query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id) VALUES (%s, %s, %s,%s)"
-        values = (product_name, product_description, product_price,company_id)
-        cursor.execute(query, values)
-        mydb.commit()
-        cursor.close()
-        return jsonify({'message': 'Product added to database successfully'})
-    except Exception as e:
-        mydb.rollback()
-        if 'cursor' in locals():
-            cursor.close()
-        return jsonify({'error': str()})
-
+    print("Entered",company_id)
+    data = request.form
+    print(data)
+    product_name = data.get('productName')
+    product_description = data.get('product_description')
+    product_price = data.get('product_price')
+    image=request.files['image']
+    print(product_name,product_description,product_price)
+    cursor = mydb.cursor()
+    bdimage = base64.b64encode(image.read()) 
+    query = "INSERT INTO productdetails (product_name, product_description, product_price,company_id,image) VALUES (%s, %s, %s,%s,%s)"
+    values = (product_name, product_description, product_price,company_id,bdimage)
+    cursor.execute(query, values)
+    mydb.commit()
+    cursor.close()
+    return jsonify({'message': 'Product added to database successfully'})
 #search product 
 @app.route('/api/searchproduct/<search>',methods=['POST','GET'])
 def searchproduct(search):
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where product_name like '"+search+"%'"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where product_name like '"+search+"%'"
         cursor.execute(query)
         products = cursor.fetchall()
         print(search,products)
@@ -310,7 +305,7 @@ def searchproduct(search):
 def get_productslist():
     try:
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails"
         cursor.execute(query)
         products = cursor.fetchall()
         cursor.close()
@@ -324,10 +319,11 @@ def get_companylist(company_id):
     try:
         
         cursor = mydb.cursor(dictionary=True)
-        query = "SELECT * FROM productdetails where company_id=%s"
+        query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where company_id=%s"
         cursor.execute(query,(company_id,))
         products = cursor.fetchall()
         cursor.close()
+        print(products)
         return jsonify(products)
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -335,7 +331,7 @@ def get_companylist(company_id):
 @app.route('/api/selectedproduct/<int:product_id>', methods=['GET'])
 def get_product_details(product_id):
     cursor = mydb.cursor(dictionary=True)
-    query = "SELECT * FROM productdetails WHERE product_id = %s"
+    query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails WHERE product_id = %s"
     cursor.execute(query, (product_id,))
     product_details = cursor.fetchone()
     return jsonify(product_details)
@@ -723,14 +719,14 @@ def checkimage(image):
     frame_wid = 640
     frame_hyt = 480
 
-    cap = image
+    cap = image.read()
     #cap = cv2.VideoCapture("test-video.m4v")
         # Capture frame-by-frame
     # ret, frame = cap.read()
     # if not ret:
     #     print("Can't receive frame (stream end?). Exiting ...")
     print("H")
-    detect_params = model.predict(source=[image], conf=0.55, save=False)
+    detect_params = model.predict(source=[cap], conf=0.55, save=False)
     print("H")
 
     # Convert tensor array to numpy
@@ -742,10 +738,12 @@ def checkimage(image):
         
 
     # When everything done, release the capture
+
+
     
 if __name__=="__main__":
 
-    app.run(host='10.203.1.16',port='3000',debug=True)
+    app.run(host='192.168.219.17',port='3000',debug=True)
 
 
 

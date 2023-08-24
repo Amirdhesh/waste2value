@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import Url from './Url';
-export default function ImageUpload({ navigation }) {
+
+export default function ImageUpload({ navigation,route }) {
   const [cameraPermission, setCameraPermission] = useState(null);
   const [galleryPermission, setGalleryPermission] = useState(null);
 
   const [camera, setCamera] = useState(null);
   const [imageUri, setImageUri] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-
+  const {flag,company_id}= route.params;
+  console.log("route.params :",route.params);
   const permisionFunction = async () => {
-    // here is how you can get the camera permission
     const cameraPermission = await Camera.requestPermissionsAsync();
 
     setCameraPermission(cameraPermission.status === 'granted');
@@ -37,10 +37,8 @@ export default function ImageUpload({ navigation }) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
-      console.log("imag"+edata.uri);
+      console.log("imag"+data.uri);
       setImageUri(data);
-      if (imageUri!='null'){
-      navigation.navigate("Register",imageUri);}
     }
   };
 
@@ -56,7 +54,13 @@ export default function ImageUpload({ navigation }) {
     if (!result.cancelled) {
       setImageUri(result.uri);
       console.log("image"+result.uri);
+      if(flag==1){
       navigation.navigate("Register",{imageUri:result.uri});
+      }
+      else{
+        console.log("CUSTOMER ID: ",company_id);
+        navigation.navigate("Product",{company_id,imageUri:result.uri});
+      }
     }
   };
 

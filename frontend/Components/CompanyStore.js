@@ -12,6 +12,7 @@ const CompanyStore = ({navigation,route}) => {
     const {company_id} = route.params;
     const [search,setsearch]=useState("");
     const isFocused = useIsFocused();
+    console.log("Entry :",company_id);
     useFocusEffect(
       useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
@@ -41,6 +42,7 @@ const CompanyStore = ({navigation,route}) => {
           const response = await fetch(`${Url()}/api/companyproducts/${company_id}`);
           const data = await response.json();
           setProductData(data);
+          console.log(data)
         } catch (error) {
           console.error(error);
         }
