@@ -29,9 +29,6 @@ const Account = ({route,navigation}) => {
     else
     return 0;
     }
-
-
-
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();settype(false)}} >
     <View style={{flex:1,     backgroundColor: logout === true ? 'rgba(0,0,0,0.5)' : 'transparent'}}>
@@ -84,7 +81,7 @@ const Account = ({route,navigation}) => {
             <FontAwesome5 name="coins" size={24} color="gold" style={{marginLeft:3}} />
         </View>
         
-        <TouchableOpacity onPress={()=>navigation.navigate('Details',{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:23}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Details',{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:23}}>
             <Text style={{fontSize:25,marginLeft:8}}>
               Details & Address 
             </Text>
@@ -113,13 +110,13 @@ const Account = ({route,navigation}) => {
             </Text>
             <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />   
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('UserContribution',{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Contribution',{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Contributions
             </Text>
             <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("CustomerWallet",{customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={() => navigation.navigate("CustomerWallet",{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Wallet
             </Text>
