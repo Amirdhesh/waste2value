@@ -6,35 +6,21 @@ import Companyinterfase from './Companyinterface';
 import { AntDesign } from '@expo/vector-icons';
 import { BackHandler } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import { Image } from 'react-native';
 import Url from './Url';
 const CompanyStore = ({navigation,route}) => {
     const [Data, setProductData] = useState([]);
     const {company_id} = route.params;
     const [search,setsearch]=useState("");
+    const [imagedata, setimagedata] = useState('');
+
     const isFocused = useIsFocused();
     console.log("Entry :",company_id);
     useFocusEffect(
       useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
-    }));
+    },[]));
 
-    useEffect(()=>{
-      const backAction=()=>{
-        return true;
-      }
-      if(isFocused){
-      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
-      return () => backHandler.remove(); // Remove the event listener when component unmounts
-      }
-    }, [isFocused]);
-  
-      const handleGoBackToLogin = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
-  };
 
 
     const searchproduct = async () => {
@@ -51,7 +37,22 @@ const CompanyStore = ({navigation,route}) => {
       const handleProductClick = (product_id) => {
         navigation.navigate('ProductDetailscompany', {company_id, product_id });
       };
-//Data=[{product_id:1,product_name:'oiisuef',product_price:100},{product_id:2,product_name:'oiisuef',product_price:100},{product_id:3,product_name:'oiisuef',product_price:100},]
+
+      const fetchImage=(product_id)=>{
+      fetch(`${Url()}/viewimage/${product_id}`)
+    .then(response => response.blob()) // Convert response to Blob
+    .then(data => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setimagedata(reader.result);
+      };
+      reader.readAsDataURL(data);
+    })
+    .catch(error => console.error(error));
+
+    return imagedata;
+  }
+
 
       const renderItem = ({ item }) => {
         return (
@@ -59,7 +60,9 @@ const CompanyStore = ({navigation,route}) => {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center'}}>
-            <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}></View>
+            <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}>
+              <Image source={{uri:fetchImage(item.product_id)}} style={{height:200,width:178,borderRadius:10}}/>
+            </View>
             <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.product_id)}>{item.product_name}</Text>
             <Text style={{fontSize:14,color:"green"}} onPress={()=>handleProductClick(item.product_id)}>Price:Rs.{item.product_price}</Text>
           </View>

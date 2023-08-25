@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useFocusEffect } from '@react-navigation/native';
+import { Alert } from 'react-native';
 import { useCallback } from 'react';
 import Url from './Url';
 const Register = ({route,navigation}) => {
@@ -22,6 +23,7 @@ const Register = ({route,navigation}) => {
   const [password, setPassword] = useState('')
   const [pikes, setpicker] = useState('');
   const [image,setimage]=useState('');
+  const flag=1;
 
   const uplodedocument=async () => {
     const pickerResult = await DocumentPicker.getDocumentAsync({
@@ -35,8 +37,8 @@ const Register = ({route,navigation}) => {
   }
   
   const RegisterCompany=() =>{
-    const {imageUri} = route.params;
-      console.log(imageUri);
+    /*const {imageUri} = route.params;
+      console.log(imageUri);*/
   let formdata = new FormData();
 
   formdata.append("name", companyname)
@@ -45,11 +47,11 @@ const Register = ({route,navigation}) => {
   formdata.append("address",address)
   formdata.append("pin",pin)
   formdata.append("password",password)
-  if (imageUri!='null'){
+ /* if (imageUri!='null'){
     console.log("sdvwvgwe"+imageUri);
   formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
   console.log(formdata)
-  }
+  }*/
   fetch(`${Url()}/company`,{
   method: 'POST',
   headers: {
@@ -59,20 +61,22 @@ const Register = ({route,navigation}) => {
   }).catch(err => {
     console.log(err)
   }) 
+  .then((response)=>response.json())
   .then((data)=>{
       console.log(data);
-      if(data=="Register successfully")
+      if(data['message']=="Your account will be approved soon")
       {
-        navigation.navigate('Signup')
+        Alert.alert("Your account will be approved soon","",[{text:"ok", onPress:()=>navigation.navigate("Login")}]);
       }
-      else if(data=="Incorrect password")
+      else if(data['message']=="Incorrect password")
       {
-        navigation.navigate('Register')
+        Alert.alert("Incorrect password","",[{text:"ok"}]);
       }
-      else 
+      else if(data['message']=="Register as user")
       {
-        navigation.navigate('Login')
-      }
+        Alert.alert("Register as User","",[{text:"ok",onPress:()=>navigation.navigate("SignUp")}]);
+
+            }
     })
   }
 
@@ -133,7 +137,7 @@ const Register = ({route,navigation}) => {
             <Text style={{fontSize: 26 , fontWeight: 400, marginLeft: 2}}>Licence No:</Text>
             <Button style={{height: 57, fontSize:22,paddingLeft:10, borderWidth: 1, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 189, borderRadius: 9 }}
         title="Uplode image"
-        onPress={()=>navigation.navigate('ImageUpload')}
+        onPress={()=>navigation.navigate('ImageDocumentUpload')}
       />
         </View>
         <View style={{marginLeft: 10}}>

@@ -50,7 +50,7 @@ const CompanyWallet=({route,navigation})=>{
             <Text style={{fontSize:18,  fontWeight:700}}>
                 Total Price:  Rs.{requiredcoins}          </Text>
             </View>
-            <TouchableOpacity onPress={()=>navigation.navigate("WalletPayment",{company_id,requiredcoins})}>
+            <TouchableOpacity onPress={()=>navigation.navigate("WalletPayment",{company_id:company_id,requiredcoins})}>
                 <View style={{margin:20,borderColor:'#BD5CB7',borderRadius:12,elevation:12,shadowColor:'grey',height:50,width:100,borderWidth:1,justifyContent:'center',alignItems:'center',backgroundColor:'#D268CC'}}>
                 <Text>Add coins</Text>
                 </View>

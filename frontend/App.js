@@ -43,6 +43,8 @@ import ImageView from './Components/imageview';
 import ProvideCoins from './Components/Providecoins';
 import WasteCollection from './Components/WasteCollection';
 import ContributeImageUplode from './Components/imageuplodecontribute';
+import ImageProductView from './Components/imageproductvies';
+import ImageDocumentUpload from './Components/imagedocument';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
@@ -88,7 +90,7 @@ export default function App() {
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/> 
-    <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
+    <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:false}}/>
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
     <Stack.Screen name="CustomerWallet" component={CustomerWallet} options={{headerShown:false}}/>
     <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>
@@ -115,7 +117,8 @@ export default function App() {
     <Stack.Screen name='WasteCollection' component={WasteCollection} options={{headershown:false}}/>
     <Stack.Screen name="ProvideCoins" component={ProvideCoins} options={{headershown:false}}/>
     <Stack.Screen name="ContributeImageUplode" component={ContributeImageUplode} options={{headershown:false}}/>
-    
+    <Stack.Screen name="ImageProductView" component={ImageProductView} options={{headershown:false}}/>
+    <Stack.Screen name="ImageDocumentUpload" component={ImageDocumentUpload} options={{headershown:false}}/>
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>

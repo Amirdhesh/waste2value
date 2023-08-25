@@ -37,7 +37,7 @@ const Details = ({route,navigation}) => {
   body:JSON.stringify({username:username,ph_no:ph_no,address:address,pin:pin,district:district,state:state})
 })
 .then(resp => resp.json())
-.then(data => {
+.then(data => { 
   if(data=="Updated the details"){
 
   navigation.navigate("ProductList",{customer_id:customer_id});
@@ -118,7 +118,9 @@ const Details = ({route,navigation}) => {
 
         <View style={{ height: 60,width: 351,shadowColor: '#52006A',margin:20, elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 9,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
         <TouchableOpacity onPress={()=>Details()}>
-            <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Ok</Text>
+          <View>
+                        <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Ok</Text>
+                        </View>
         </TouchableOpacity>
         </View>
       </View> 
