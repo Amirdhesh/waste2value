@@ -730,7 +730,7 @@ def checkimage(image):
     cap=cv2.imread('output.jpg')
     model = YOLO("best.pt", "v8")
     print("H")
-    detect_params = model.predict(source=[cap], conf=0.55, save=False)
+    detect_params = model.predict(source=[cap], conf=0.55, save=True)
     
     DP = detect_params[0].numpy()
     boxes = detect_params[0].boxes
@@ -749,7 +749,7 @@ def checkimage(image):
     
 if __name__=="__main__":
 
-    app.run(host='10.203.1.12' ,port='3000',debug=True)
+    app.run(host='192.168.219.17' ,use_reloader=False , port='3000',debug=True)
 
 
 
