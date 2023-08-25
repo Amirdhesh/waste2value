@@ -19,25 +19,8 @@ const CompanyStore = ({navigation,route}) => {
     useFocusEffect(
       useCallback(() => {
         searchproduct(); // Fetch product data from Flask API
-    }));
+    },[]));
 
-    useEffect(()=>{
-      const backAction=()=>{
-        return true;
-      }
-      if(isFocused){
-      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
-      return () => backHandler.remove(); // Remove the event listener when component unmounts
-      }
-    }, [isFocused]);
-  
-      const handleGoBackToLogin = () => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
-  };
 
 
     const searchproduct = async () => {

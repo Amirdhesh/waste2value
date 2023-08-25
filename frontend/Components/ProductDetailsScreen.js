@@ -48,7 +48,7 @@ function ProductDetailsScreen({ route,navigation}) {
   }, [product_id]);
 
   return (
-    <View style={{flex:1}}> 
+    <Scrollview style={{flex:1}}> 
       <StatusBar hidden={true}/>     
       <View style={{height:'10%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
         <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',width:"90%"}}>
@@ -59,26 +59,23 @@ function ProductDetailsScreen({ route,navigation}) {
         </View>
       </View>
       <View style={{height:'80%',}}>
-        <View style={{flexDirection:'column',alignItems:'center',height:"49%"}}>
-            <View style={{height:"100%",width:"92%",backgroundColor:'gray'}}>
+        <View style={{flexDirection:'column',alignItems:'center',height:200}}>
+            <View style={{height:300,width:200,backgroundColor:'gray'}}>
 
             </View>
         </View>
 
-        <View style={{flexDirection:'row',width:"92%",justifyContent:'space-between',marginTop:0,marginHorizontal:13,height:'15%',alignItems:'center',}}>
-            <View style={{flexDirection:'column',justifyContent:'center',marginLeft:8}}>
-                <Text style={{fontSize:24}}>{productDetails.product_name}</Text>
-                <Text style={{fontSize:23}}>₹{productDetails.product_price}</Text>
+        <View style={{flexDirection:'row',width:"92%",justifyContent:'center',marginTop:0,marginHorizontal:13,height:700,alignItems:'center',}}>
+            <View style={{paddingTop:20,justifyContent:'center',marginLeft:8,top:150}}>
+              <Text style={{fontSize:24,fontWeight:700}}>Product Id         :          {productDetails.product_id}</Text>
+                <Text style={{top:20,fontSize:24,fontWeight:700}}>Product Name  :     {productDetails.product_name}</Text>
+                <Text style={{top:30,fontSize:23,fontWeight:600}}>Product Price    :     ₹{productDetails.product_price}</Text>
+                <ScrollView><Text style={{width:'92%',fontSize:20,marginTop:50,textAlign:'left'}}>{productDetails.product_description}</Text>
+            </ScrollView> 
             </View>
-            {/* {stack ? <Text style={{fontSize:21,marginTop:24,marginRight:8,color:'green'}}>In Stack</Text>:
-            <Text style={{fontSize:21,marginTop:24,marginRight:8,color:'red'}}>OutofStack</Text>
-            }       */}
               </View>
-        <View style={{width:'92%',marginTop:-10,marginHorizontal:22}}>
-            <Text style={{fontSize:18}}>Product Description:</Text>
-        </View>
-        <ScrollView>
-            <Text style={{width:'92%',marginTop:10,textAlign:'justify',marginHorizontal:22}}>
+        <ScrollView style={{top:20}}>
+            <Text style={{width:'92%',top:20,marginTop:10,textAlign:'justify',marginHorizontal:22}}>
             {productDetails.product_description}
             </Text>
         </ScrollView>
@@ -88,7 +85,7 @@ function ProductDetailsScreen({ route,navigation}) {
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Scrollview>
   );
 } 
 
