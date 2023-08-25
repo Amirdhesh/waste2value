@@ -12,20 +12,25 @@ const Account = ({route,navigation}) => {
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
     const {customer_id} = route.params;
-    const [coins,setCoins] = useState(0);
-    fetch(`${Url()}/api/fetchcustomercoins/${customer_id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setCoins(data['wallet_amount']); // Assuming the returned data is the number of coins
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  
+    const [coins,setcoins]= useState(0);
+
+    const getcoins=()=>{
+      fetch(`${Url()}/api/getcoins/${customer_id}`)
+      .then((response)=>response.json())
+      .then((data)=>{
+        setcoins(data);
+        console.log(coins);
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+      if(coins)
+      return coins;
+    else
+    return 0;
+    }
   return (
-    <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
-    settype(false)}} >
+    <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();settype(false)}} >
     <View style={{flex:1,     backgroundColor: logout === true ? 'rgba(0,0,0,0.5)' : 'transparent'}}>
   
       <StatusBar hidden={true}/>
@@ -71,9 +76,7 @@ const Account = ({route,navigation}) => {
         </View>
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10}}>
             <Text style={{fontSize:30,color:'#3A3838'}}> 
-              Wallet:<Text >
-              {coins}
-            </Text>
+              Wallet:{getcoins()}
             </Text>
             <FontAwesome5 name="coins" size={24} color="gold" style={{marginLeft:3}} />
         </View>
@@ -91,7 +94,7 @@ const Account = ({route,navigation}) => {
             <View style={{height:"40%",width:"100%",flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:22,textAlign:'center',}}>Log out of your account?</Text>
               </View>              
-              <TouchableOpacity onPress={()=>navigation.replace('Login')} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
+              <TouchableOpacity onPress={()=>navigation.navigate('Login')} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
               <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Log Out</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={()=>setlogout(false)} style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>

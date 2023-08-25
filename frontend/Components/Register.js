@@ -8,6 +8,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useFocusEffect } from '@react-navigation/native';
+import { Alert } from 'react-native';
 import { useCallback } from 'react';
 import Url from './Url';
 const Register = ({route,navigation}) => {
@@ -36,8 +37,8 @@ const Register = ({route,navigation}) => {
   }
   
   const RegisterCompany=() =>{
-    const {imageUri} = route.params;
-      console.log(imageUri);
+    /*const {imageUri} = route.params;
+      console.log(imageUri);*/
   let formdata = new FormData();
 
   formdata.append("name", companyname)
@@ -46,12 +47,12 @@ const Register = ({route,navigation}) => {
   formdata.append("address",address)
   formdata.append("pin",pin)
   formdata.append("password",password)
-  if (imageUri!='null'){
+ /* if (imageUri!='null'){
     console.log("sdvwvgwe"+imageUri);
   formdata.append("image", {uri: imageUri, name: 'image.jpg', type: 'image/jpeg'})
   console.log(formdata)
-  }
-  fetch(`${Url()}company`,{
+  }*/
+  fetch(`${Url()}/company`,{
   method: 'POST',
   headers: {
     'Content-Type': 'multipart/form-data',
@@ -60,20 +61,22 @@ const Register = ({route,navigation}) => {
   }).catch(err => {
     console.log(err)
   }) 
+  .then((response)=>response.json())
   .then((data)=>{
       console.log(data);
-      if(data=="Register successfully")
+      if(data['message']=="Your account will be approved soon")
       {
-        navigation.navigate('Signup')
+        Alert.alert("Your account will be approved soon","",[{text:"ok", onPress:()=>navigation.navigate("Login")}]);
       }
-      else if(data=="Incorrect password")
+      else if(data['message']=="Incorrect password")
       {
-        navigation.navigate('Register')
+        Alert.alert("Incorrect password","",[{text:"ok"}]);
       }
-      else 
+      else if(data['message']=="Register as user")
       {
-        navigation.navigate('Login')
-      }
+        Alert.alert("Register as User","",[{text:"ok",onPress:()=>navigation.navigate("SignUp")}]);
+
+            }
     })
   }
 

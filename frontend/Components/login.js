@@ -4,6 +4,7 @@ import bgimg from "./../Assests/Frame1.png"
 import { StatusBar } from 'expo-status-bar'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Alert } from 'react-native';
 import Url from './Url';
 const Login = ({navigation}) => {
   const [visible, setvisible] = useState(true)
@@ -12,30 +13,34 @@ const Login = ({navigation}) => {
   const [password,setPassword]=useState("")
   const login=()=>{
     console.log('Trying to login');
-    fetch(`${Url()}login`,{
+    fetch(`${Url()}/login`,{
         method:"POST",
         headers: 
         {'Content-Type':'application/json'
     },
     body:JSON.stringify({email:email,password:password})
-    
   })
-  .then(resp => resp.json())
-  .then(data => {
+  .then((response)=>response.json())
+  .then((data) => {
     console.log(data);
-    if(data.message=="Login Successful"){
-    navigation.navigate("ProductList",{customer_id:data.customer_id})
+    if(data["message"]=="Login Successful"){
+    navigation.navigate("ProductList",{customer_id:data["customer_id"]})
     }
-    else if(data.message=="company"){
-      console.log(data.customer_id);
-      navigation.navigate("CompanyStore",{company_id:data.customer_id})
+    else if(data["message"]=="company"){
+      console.log(data["customer_id"]);
+      navigation.navigate("CompanyStore",{company_id:data["customer_id"]})
     }
-    else if (data.message=="admin") {
-      navigation.navigate("Admininterface",{admin_id:data.customer_id})
+    else if (data["message"]=="admin") {
+      navigation.navigate("Admininterface",{admin_id:data["customer_id"]})
     }
-    console.log(data)
-    
-    
+    else if(data["message"]=="Incorrect email or password")
+    {
+      Alert.alert("Incorrect password or email id","",[{text:"ok"}])
+    }
+    else
+    {
+      Alert.alert("Sign Up to Login","",[{text:"ok",onPress:()=>navigation.navigate("SignUp")}]);
+    }    
   })
   .catch(error => console.log(error))
   }

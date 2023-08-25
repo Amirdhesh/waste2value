@@ -40,8 +40,8 @@ const Adminuserdetialsdispaly=({navigation})=>{
       }}>
         <TouchableOpacity onPress={()=>handlePress(item.email)} style={{borderColor:'#F4F4F4',width:'90%',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:3}}>
         
-        <Text style={{fontSize:28, fontWeight:"600",paddingLeft:8}}>Customer Name: {item.username}</Text>
-        <Text style={{fontSize:24,color:"green",paddingLeft:8}}>Address: {item.address}</Text>
+        <Text style={{fontSize:28, fontWeight:"600",paddingLeft:8}}>Customer Id: {item.id}</Text>
+        <Text style={{fontSize:24,color:"green",paddingLeft:8}}>email: {item.email}</Text>
         
         </TouchableOpacity>
       </View>

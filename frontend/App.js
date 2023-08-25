@@ -119,7 +119,6 @@ export default function App() {
     <Stack.Screen name="ContributeImageUplode" component={ContributeImageUplode} options={{headershown:false}}/>
     <Stack.Screen name="ImageProductView" component={ImageProductView} options={{headershown:false}}/>
     <Stack.Screen name="ImageDocumentUpload" component={ImageDocumentUpload} options={{headershown:false}}/>
-    
  </Stack.Navigator>
 </NavigationContainer>
 /*<NavigationContainer>
