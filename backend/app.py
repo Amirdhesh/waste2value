@@ -10,7 +10,7 @@ import random
 import time
 import cv2
 import numpy as np
-from ultralytics import YOLO
+#from ultralytics import YOLO
 '''app=Flask(__name__)
 import mysql.connector
 mydb = mysql.connector.connect(
@@ -23,9 +23,9 @@ from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
-    user= "root",
-    password= "tiger",
-    database="wtv"
+    user= "Madumitha",
+    password= "madumitha",
+    database="wastetovalue"
 )
 '''
 from flask import Flask, request, jsonify
@@ -89,6 +89,7 @@ def userdetails(id):
         val=(username,address,ph_no,pin,district,state,id)
         cur.execute(sql,val)
         mydb.commit()
+        cur.close()
         return jsonify("Updated the details")
     else:
         return jsonify("details allredy exist")
@@ -147,7 +148,7 @@ def login():
         elif type[0]=='user':
             return jsonify({"message":"Login Successful","customer_id":userid})
     else:
-        return jsonify("Incorrect email or password")
+        return jsonify({"message":"Incorrect email or password"})
 # for signup
 
 @app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
@@ -167,7 +168,7 @@ def signup():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-
+    password2=data.get("password2")
     check_email_sql = "SELECT * FROM login WHERE email = %s"
     cur.execute(check_email_sql, [email])  
 
@@ -175,6 +176,10 @@ def signup():
 
     if user:
         return jsonify("Email already exists")
+    elif email=="" or password=="" or password2=="":
+        return jsonify("Enter all details")
+    elif password!=password2:
+        return jsonify("Check password")
     else:
         sql = "INSERT INTO login (type, email, password) VALUES (%s, %s, %s)"
         val = ['user', email, password]  
@@ -192,8 +197,6 @@ def addimage(id):
     data=request.form
     image=request.files['images']
 
-UPLOAD_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/company', methods=['POST'])
 def company():
     cur=mydb.cursor()
@@ -204,8 +207,9 @@ def company():
     address=data.get('address')
     pin=data.get('pin')
     password=data.get('password')
-    image = request.files['image']
-    print(name,ph_no,address,pin,email,image)
+    print(name,email,ph_no,address,pin,password)
+    #image = request.files['image']
+    #print(name,ph_no,address,pin,email,image)
     
     """if 'images' in request.files:
         return {'statsu':True}
@@ -213,8 +217,8 @@ def company():
         return False
     print(name)"""
     
-    if image.filename == '':
-        return jsonify({'message': 'No selected image'})
+    #if image.filename == '':
+    #    return jsonify({'message': 'No selected image'})
     
     query1="select * from login where email=%s"
     cur.execute(query1,(email,))
@@ -222,6 +226,7 @@ def company():
     print(user)
     
     if not user:
+        print("no user")
         return jsonify({"message":"Register as user"})
     else:
         if user[3]=='pending' or user[3]=='company':
@@ -230,18 +235,16 @@ def company():
             return jsonify({"message":"Incorrect password"})
         else:
             #if image and allowed_file(image.filename):
-            bdimage = base64.b64encode(image.read()) 
-            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending',image1=%s where email=%s"
-            cur.execute(query,(name,ph_no,address,pin,bdimage,email))
+            #bdimage = base64.b64encode(image.read()) 
+            query="update login set company_name=%s, phonenumber=%s, address=%s, pincode=%s ,type='pending' where email=%s"
+            cur.execute(query,(name,ph_no,address,pin,email))
             mydb.commit()
             return jsonify({'message': 'Your account will be approved soon'})
         #else:
          #   return jsonify({'message': 'Invalid image format'})
-def allowed_file(filename):
-    return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-@app.route("/viewimage",methods=["POST","GET"])
-def viewimage():
-    query="select image1 from login where id=34"
+@app.route("/viewimage<int:product_id>",methods=["POST","GET"])
+def viewimage(product_id):
+    query=f"select image from productdetails where product_id={product_id}"
     cur.execute(query)
     image=cur.fetchone()
     if image:
@@ -314,10 +317,9 @@ def get_productslist():
     except Exception as e:
         return jsonify({'error': str(e)})
     
-@app.route('/api/companyproducts/<int:company_id>',methods=['GET',"POST"])
+@app.route('/api/companyproducts/<int:company_id>',methods=['GET'])
 def get_companylist(company_id):
     try:
-        
         cursor = mydb.cursor(dictionary=True)
         query = "SELECT product_id,product_name,product_description,product_price,company_id FROM productdetails where company_id=%s"
         cursor.execute(query,(company_id,))
@@ -397,7 +399,7 @@ def delete_product():
 @app.route('/api/cartdetails/<int:customer_id>', methods=['GET'])
 def cartdetails(customer_id):
     cursor=mydb.cursor(dictionary=True)
-    query="Select * from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
+    query="Select productdetails.product_id,productdetails. from addtocart left join productdetails on addtocart.product_id=productdetails.product_id where customer_id= %s"
     value=(customer_id,)
     cursor.execute(query,value)
     cartdata=cursor.fetchall()
@@ -443,6 +445,17 @@ def addcoins():
         mydb.rollback()
         cursor.close()
         return jsonify({"message":"Process failed"})
+    
+@app.route('/api/getcoins/<int:customer_id>',methods=['GET'])
+def getcoins(customer_id):
+    cursor=mydb.cursor()
+    query=f"select wallet_amount from wallet where customer_id={customer_id}"
+    cursor.execute(query)
+    data=cursor.fetchone()
+    return jsonify(data)
+
+
+
 
 @app.route('/api/ViewAllContributions',methods=['GET'])
 def AllContributions():
@@ -687,16 +700,13 @@ def contribute():
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
     bdimage = base64.b64encode(image.read()) 
-    if checkimage(image):
-        query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
-        cur.execute(query1,(customer_id,status ,bdimage))
-        mydb.commit()
-        return jsonify("Susses")
-    else:
-        print("NO")
-        return jsonify("not added")
+    query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
+    cur.execute(query1,(customer_id,status ,bdimage))
+    mydb.commit()
+    return jsonify("Susses")
 
-def checkimage(image):
+
+'''def checkimage(image):
     my_file = open("coco.txt", "r")
     # reading the file
     data = my_file.read()
@@ -737,13 +747,13 @@ def checkimage(image):
         # Terminate run when "Q" pressed
         
 
-    # When everything done, release the capture
+    # When everything done, release the capture'''
 
 
     
 if __name__=="__main__":
 
-    app.run(host='192.168.219.17',port='3000',debug=True)
+    app.run(host='192.168.56.1',port='3000',debug=True)
 
 
 

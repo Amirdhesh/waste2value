@@ -23,7 +23,7 @@ const Admininterface = ({admin_id,navigation}) => {
                 <MaterialCommunityIcons name="office-building" size={36} color="white" style={{marginHorizontal:14,marginTop:0}}/>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity >
+          <TouchableOpacity onPress={()=>navigation.navigate("Companyrequest")} >
           <View>
               <MaterialCommunityIcons name="account-box-multiple" size={32} color="white" style={{marginLeft:14,marginTop:1}} />
           </View>

@@ -15,11 +15,15 @@ const SignUp = ({navigation}) => {
         headers: 
         {'Content-Type':'application/json'
     },
-    body:JSON.stringify({email:email,password:password1})
+    body:JSON.stringify({email:email,password:password1,password2:password2})
   })
   .then(resp => resp.json())
   .then(data => {
-    if(data=="Signup Successful"){
+    if(data=="Email already exists")
+    Alert.alert("Email already exist","",[{text:"okay", onPress:()=>navigation.navigate("Login")}])
+  else if(data=="Enter all details")
+  Alert.alert("Enter all details","",[{text:"okay", onPress:()=>navigation.navigate("Register")}])
+    else if(data=="Signup Successful"){
     navigation.navigate("Login")
     }
     console.log(data)
