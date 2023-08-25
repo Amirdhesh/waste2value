@@ -30,7 +30,7 @@ const Companyinterface = ({company_id,navigation}) => {
           <Feather name="truck" size={34} color="white" style={{marginHorizontal:14,marginTop:1}}/>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('CompanyAccount')}>
+          <TouchableOpacity onPress={()=>navigation.navigate('CompanyAccount',{company_id:company_id})}>
           <View>
               <MaterialCommunityIcons name="account-box-multiple" size={32} color="white" style={{marginLeft:14,marginTop:1}} />
           </View>

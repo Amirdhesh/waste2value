@@ -28,9 +28,9 @@ const CompanyRequest=({navigation})=>{
       console.log(data)
         })
   }
- const handlePress=(id)=>
+ const handlePress=(email)=>
  {
-  navigation.navigate('Companydetailsdisplay',{id});
+  navigation.navigate('Companydetailsdisplay',{email});
  }
 
   const renderItem =({item})=>
@@ -43,8 +43,8 @@ const CompanyRequest=({navigation})=>{
       marginTop:12,
       }}>
         <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:10}}>
-        <Text style={{fontSize:28, fontWeight:"600"}} onPress={()=>handlePress(item.id)}>Company Name: {item.company_name}</Text>
-        <Text style={{fontSize:24,color:"green"}} onPress={()=>handlePress(item.id)}>Address: {item.address}</Text>
+        <Text style={{fontSize:28, fontWeight:"600"}} onPress={()=>handlePress(item.email)}>Company Name: {item.company_name}</Text>
+        <Text style={{fontSize:24,color:"green"}} onPress={()=>handlePress(item.email)}>Address: {item.address}</Text>
         </View>
       </View>
   )
@@ -61,7 +61,7 @@ return (
            <FlatList
       data={companydata}
       renderItem={renderItem}
-      keyExtractor={item => ( item.id)}
+      keyExtractor={item => ( item.email)}
       numColumns={1}
     />
           }

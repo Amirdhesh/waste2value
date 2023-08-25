@@ -90,7 +90,7 @@ export default function App() {
     <Stack.Screen name="CustomerCart" component={Cart} options={{headerShown:false}}/>
     <Stack.Screen name='CustomerPayment' component={CustomerPayment} options={{headerShown:false}}/>
     <Stack.Screen name='Details' component={Details} options={{headerShown:false}}/> 
-    <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:true}}/>
+    <Stack.Screen name="ContributeWaste" component={ContributeWaste} option={{headerShown:false}}/>
     <Stack.Screen name="Contribute" component={Contribute} option={{headerShown:false}}/>
     <Stack.Screen name="CustomerWallet" component={CustomerWallet} options={{headerShown:false}}/>
     <Stack.Screen name="CompanyWallet" component={CompanyWallet} options={{headerShown:false}}/>

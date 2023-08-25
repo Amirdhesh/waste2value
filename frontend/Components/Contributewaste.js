@@ -39,7 +39,7 @@ const ContributeWaste=({route,navigation})=>{
       }
     }
     return(
-        <View style={{flex:1 , alignContent:'center',padding:50}} >
+        <View style={{flex:1 ,justifyContent:"center", alignContent:'center',padding:50}} >
             <TouchableOpacity onPress={()=>navigation.navigate("ContributeImageUplode",{customer_id:customer_id})}>
             <Text>Uplode image</Text>
             </TouchableOpacity>

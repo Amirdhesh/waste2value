@@ -10,7 +10,7 @@ import random
 import time
 import cv2
 import numpy as np
-from ultralytics import YOLO
+#from ultralytics import YOLO
 import torch
 from torchvision.transforms import functional as F
 from PIL import Image
@@ -157,9 +157,10 @@ def login():
 
 @app.route('/checkdetails/<int:customer_id>',methods=['GET','POST'])
 def checkdetails(customer_id):
+    cursor=mydb.cursor()
     check_name='select username from login where id=%s'
-    cur.execute(check_name, [customer_id,]) 
-    username = cur.fetchone()
+    cursor.execute(check_name, [customer_id,]) 
+    username = cursor.fetchone()
     print(customer_id)
     print(username)
     if  username[0]!=None:
@@ -247,7 +248,7 @@ def company():
         #else:
          #   return jsonify({'message': 'Invalid image format'})
 def allowed_file(filename):
-    return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']"
+    return '.' in filename and filename.split('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 @app.route("/viewimage<int:product_id>",methods=["POST","GET"])
 def viewimage(product_id):
     query=f"select image from productdetails where product_id={product_id}"
@@ -567,10 +568,10 @@ def CompanyRequest():
     data=cursor.fetchall()
     return jsonify(data)
 
-@app.route('/admin/companydetailsdisplay/<int:id>',methods=['GET'])
+@app.route('/admin/companydetailsdisplay/<id>',methods=['GET'])
 def companydetailsdisplay(id):
     cursor=mydb.cursor(dictionary=True)
-    query="select id,email,phonenumber,pincode,landmark,district,state,company_name,address from login where email id=%s"
+    query="select id,email,phonenumber,pincode,landmark,district,state,company_name,address from login where email=%s"
     cursor.execute(query,(id,))
     data=cursor.fetchone()
     print(data)
@@ -594,7 +595,7 @@ def DeclineRequest(email):
 def AcceptRequest(email):
     try:
         cursor=mydb.cursor()
-        query="update login set type='company' where email=%s"
+        query="update login set type='company' where email=%s limit 1"
         cursor.execute(query,(email,))
         mydb.commit()
         print("Down")
@@ -720,8 +721,9 @@ def contribute():
     image = request.files['image']
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
-    bdimage = base64.b64encode(image.read()) 
-    if checkimage(bdimage):
+    bdimage = base64.b64encode(image.read())
+    if bdimage: 
+    #if checkimage(bdimage):
         query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
         cur.execute(query1,(customer_id,status ,bdimage))
         mydb.commit()
@@ -730,35 +732,35 @@ def contribute():
         print("NO")
         return jsonify("not added")
 
-def checkimage(image):
-    #model = torch.load('best.pt')
-    image_data = base64.b64decode(image)
+# def checkimage(image):
+#     #model = torch.load('best.pt')
+#     image_data = base64.b64decode(image)
 
-# Create a BytesIO object to work with PIL
-    image_stream = BytesIO(image_data)
+# # Create a BytesIO object to work with PIL
+#     image_stream = BytesIO(image_data)
 
-    # Open the image using PIL
-    image = Image.open(image_stream)
+#     # Open the image using PIL
+#     image = Image.open(image_stream)
 
-    # Save the image as JPG
-    image.save('output.jpg', 'JPEG') 
-    cap=cv2.imread('output.jpg')
-    model = YOLO("best.pt", "v8")
-    print("H")
-    detect_params = model.predict(source=[cap], conf=0.55, save=True)
+#     # Save the image as JPG
+#     image.save('output.jpg', 'JPEG') 
+#     cap=cv2.imread('output.jpg')
+#     model = YOLO("best.pt", "v8")
+#     print("H")
+#     detect_params = model.predict(source=[cap], conf=0.55, save=True)
     
-    DP = detect_params[0].numpy()
-    boxes = detect_params[0].boxes
+#     DP = detect_params[0].numpy()
+#     boxes = detect_params[0].boxes
     
-    if len(detect_params[0])!=0:
-        print("H")
-        print(len(detect_params[0]))
-        return True
-    return False
+#     if len(detect_params[0])!=0:
+#         print("H")
+#         print(len(detect_params[0]))
+#         return True
+#     return False
 
     
 if __name__=="__main__":
-    app.run(host='192.168.219.17' ,use_reloader=False , port='3000',debug=True)
+    app.run(host='192.168.219.194' ,use_reloader=False , port='3000',debug=True)
 
 
 

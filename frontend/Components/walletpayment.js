@@ -8,7 +8,7 @@ const WalletPayment = ({navigation,route}) => {
    
   const {customer_id,requiredcoins} = route.params;
  const addcoins=()=>{
-  Alert.alert("Coins added successfully","Click ok to continue",[{text:"OK", onPress:()=>navigation.navigate("CustomerWallet",{customer_id})}])
+  Alert.alert("Coins added successfully","Click ok to continue",[{text:"OK"}])
   fetch(`${Url()}/api/addcoins`, {
       method: 'POST',
       headers: {

@@ -6,12 +6,13 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
+import Companyinterface from './Companyinterface';
 import Url from './Url';
 const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
-    //const {customer_id} = route.params;
+    const {company_id} = route.params;
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
     settype(false)}} >
@@ -28,7 +29,7 @@ const Account = ({route,navigation}) => {
         </View>
         <Text style={{fontSize:43,}}>Account</Text>
         
-    <TouchableOpacity onPress={() => setlogout(true)}>
+    <TouchableOpacity onPress={(navigation.navigate("Login"))}>
       <View style={{
           flexDirection: 'row',
           justifyContent: 'center',
@@ -94,7 +95,7 @@ const Account = ({route,navigation}) => {
           </View> 
         }
         
-        <TouchableOpacity onPress={() => wallet()} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={() => navigation.navigate("CompanyWallet",{company_id:company_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Wallet
             </Text>
@@ -102,7 +103,7 @@ const Account = ({route,navigation}) => {
         </TouchableOpacity>
         
      </View>
-     <CustomerNavbar navigation={navigation}/>
+     <Companyinterface navigation={navigation} company_id={company_id}/>
     </View>
     </TouchableWithoutFeedback>
   )
