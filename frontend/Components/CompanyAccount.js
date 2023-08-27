@@ -6,12 +6,31 @@ import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import CustomerNavbar from './CustomerNavbar';
+import { Alert } from 'react-native';
+import Companyinterface from './Companyinterface';
 import Url from './Url';
 const Account = ({route,navigation}) => {
     const [name, setname] = useState('unknown') 
     const [logout, setlogout] = useState(false)
     const [type, settype] = useState(false)
-    //const {customer_id} = route.params;
+    const [coins,setcoins] = useState(0);
+    const {company_id} = route.params;
+    const getcoins=()=>{
+      fetch(`${Url()}/api/getcoins/${company_id}`)
+      .then((response)=>response.json())
+      .then((data)=>{
+        setcoins(data);
+        console.log(coins);
+      })
+      .catch((error)=>{
+        console.error(error);
+      })
+      if(coins)
+      return coins;
+    else
+    return 0;
+    }
+
   return (
     <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss();
     settype(false)}} >
@@ -28,7 +47,7 @@ const Account = ({route,navigation}) => {
         </View>
         <Text style={{fontSize:43,}}>Account</Text>
         
-    <TouchableOpacity onPress={() => setlogout(true)}>
+    <TouchableOpacity onPress={()=>Alert.alert("Logout of account","",[{text:"Logout", onPress:()=>navigation.navigate("Login")},{text:"Cancel"}])}>
       <View style={{
           flexDirection: 'row',
           justifyContent: 'center',
@@ -60,19 +79,11 @@ const Account = ({route,navigation}) => {
         </View>
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10}}>
             <Text style={{fontSize:30,color:'#3A3838'}}> 
-              Wallet:<Text >
-              100
+              Wallet:{getcoins()}<Text >
             </Text>
             </Text>
             <FontAwesome5 name="coins" size={24} color="gold" style={{marginLeft:3}} />
         </View>
-        
-        <TouchableOpacity onPress={()=>navigation.navigate('Details')} style={{height:'5%',flexDirection:'row',borderTopWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:23}}>
-            <Text style={{fontSize:25,marginLeft:8}}>
-              Details & Address 
-            </Text>
-            <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />
-        </TouchableOpacity>
         {
           logout===true && 
           <View style={{position:'absolute',borderRadius:10,height:'25%',backgroundColor:"white",elevation:20,shadowColor: '#52006A',borderWidth:1,width:"50%",bottom:350}}>
@@ -81,7 +92,7 @@ const Account = ({route,navigation}) => {
               <Text style={{fontSize:22,textAlign:'center',}}>Log out of your account?</Text>
               </View>              
               <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
-              <Text style={{fontSize:18,textAlign:'center',color:"red"}}>Log Out</Text>
+              <Text style={{fontSize:18,textAlign:'center',color:"red"}} onPress={()=>navigation.navigate("Login")}>Log Out</Text>
               </View>
               <View style={{height:"30%",width:"100%",borderTopWidth:1,flexDirection:'column',justifyContent:"center"}}>
                 <TouchableOpacity onPress={()=>setlogout(false)}>
@@ -94,7 +105,7 @@ const Account = ({route,navigation}) => {
           </View> 
         }
         
-        <TouchableOpacity onPress={() => wallet()} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={() => navigation.navigate("CompanyWallet",{company_id:company_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Wallet
             </Text>
@@ -102,7 +113,7 @@ const Account = ({route,navigation}) => {
         </TouchableOpacity>
         
      </View>
-     <CustomerNavbar navigation={navigation}/>
+     <Companyinterface navigation={navigation} company_id={company_id}/>
     </View>
     </TouchableWithoutFeedback>
   )

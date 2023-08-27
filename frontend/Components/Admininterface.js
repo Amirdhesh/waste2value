@@ -2,17 +2,12 @@ import { StyleSheet, View, TouchableOpacity,} from 'react-native'
 import React,{useState} from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 const Admininterface = ({admin_id,navigation}) => {
      
     return(
         <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
         <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
-          <TouchableOpacity >
-          
-          <View>
-              <MaterialCommunityIcons name="storefront-outline" size={34} color="white" style={{marginRight:14}}/>
-          </View>
-          </TouchableOpacity>
           <TouchableOpacity onPress={()=>navigation.navigate("Adminuserdetialsdispaly")} > 
           <View>
                 <FontAwesome5 name="user" size={28} color="white" style={{marginHorizontal:14,marginTop:3}}/>
@@ -23,9 +18,9 @@ const Admininterface = ({admin_id,navigation}) => {
                 <MaterialCommunityIcons name="office-building" size={36} color="white" style={{marginHorizontal:14,marginTop:0}}/>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity >
+          <TouchableOpacity onPress={()=>navigation.navigate("Companyrequest")} >
           <View>
-              <MaterialCommunityIcons name="account-box-multiple" size={32} color="white" style={{marginLeft:14,marginTop:1}} />
+          <Ionicons name="notifications" size={31} color="white"  style={{marginLeft:14,marginTop:3}} />
           </View>
           </TouchableOpacity>
           

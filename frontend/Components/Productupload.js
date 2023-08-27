@@ -29,6 +29,7 @@ export function AddProductScreen({route , navigation}){
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [stock,setStock] = useState('');
   const {company_id,imageUri} = route.params;
 console.log("id:",company_id);
 
@@ -179,8 +180,8 @@ const flag = 2;
         <Text style={{fontSize:20,left:4}}>Stock:</Text>
       <TextInput style={{width:"98%",height:53,fontSize:20,paddingLeft:10,borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',borderWidth:1,borderRadius:10}}
         placeholder="Stock"
-        value={price}
-        onChangeText={text => setPrice(text)}
+        value={stock}
+        onChangeText={text => setStock(text)}
         keyboardType="numeric"
       /></View>
     </View>

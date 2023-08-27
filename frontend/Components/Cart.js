@@ -81,11 +81,11 @@ const Cart = ({route,navigation}) => {
           <Text style={{fontSize:27 ,fontWeight:600 }}>{item.product_name}</Text>
           <Text style={{fontSize:20 , color:'green' , fontWeight:400 }}>Price: Rs.{item.product_price}</Text>
           <View style={{flexDirection:'row',marginLeft:-5}}>
-              <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
+              {/* <Entypo onPress={()=>quantityminus(item.product_code)} name="circle-with-minus" size={24} color="#C96FC4" />
               <Text style={{fontSize:20,marginTop:-4,marginHorizontal:8}}>{item.quantity}</Text>
-              <Ionicons onPress={()=>quantityplus(item.product_code)} name="ios-add-circle" size={24} color="#C96FC4" />
+              <Ionicons onPress={()=>quantityplus(item.product_code)} name="ios-add-circle" size={24} color="#C96FC4" /> */}
               <TouchableOpacity onPress={()=>deletecart(item.product_id)}>
-              <Text style={{paddingLeft:10,paddingTop:5}}>Remove</Text>
+              <Text style={{paddingLeft:10,paddingTop:5,color:'grey',fontWeight:'400'}}>Remove</Text>
               </TouchableOpacity>
           </View>
           
@@ -149,7 +149,7 @@ const Cart = ({route,navigation}) => {
           </View>
           
             <View style={{ height: 70,width: 220,shadowColor: '#52006A', elevation: 20,backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20,flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>Alert.alert('Plase order','confrom to plase the order',[{text: "Yes", onPress:()=>checkdetails()},{text: "No"}])}>
+            <TouchableOpacity onPress={()=>Alert.alert('Place order','confirm to place the order',[{text: "Yes", onPress:()=>checkdetails()},{text: "No"}])}>
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Place My order</Text>
             </TouchableOpacity>
             </View>
