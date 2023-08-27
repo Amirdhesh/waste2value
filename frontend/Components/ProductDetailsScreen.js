@@ -1,4 +1,3 @@
-// ProductDetailsScreen.js
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView,TouchableOpacity,StatusBar } from 'react-native';
@@ -48,7 +47,7 @@ function ProductDetailsScreen({ route,navigation}) {
   }, [product_id]);
 
   return (
-    <Scrollview style={{flex:1}}> 
+    <ScrollView style={{flex:1}}> 
       <StatusBar hidden={true}/>     
       <View style={{height:'10%',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
         <View style={{flexDirection:'row',justifyContent:'flex-start',alignItems:'center',width:"90%"}}>
@@ -85,7 +84,7 @@ function ProductDetailsScreen({ route,navigation}) {
             <Text style={{  color: 'white' ,fontWeight: 500, fontSize: 20 }}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
-    </Scrollview>
+    </ScrollView>
   );
 } 
 

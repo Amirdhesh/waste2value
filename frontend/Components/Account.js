@@ -110,7 +110,7 @@ const Account = ({route,navigation}) => {
             </Text>
             <MaterialIcons name="keyboard-arrow-right" size={48} color={ logout === true ? 'rgba(0,0,0,0.2)' : "#C96FC4"} />   
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('Contribution',{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('UserContribution',{customer_id:customer_id})} style={{height:'5%',flexDirection:'row',borderTopWidth:1,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between',width:'92%',height:'10%',marginTop:0}}>
             <Text style={{fontSize:25,marginLeft:8}}>
                Contributions
             </Text>
@@ -124,7 +124,7 @@ const Account = ({route,navigation}) => {
         </TouchableOpacity>
         
      </View>
-     <CustomerNavbar navigation={navigation}/>
+     <CustomerNavbar navigation={navigation} customer_id={customer_id}/>
     </View>
     </TouchableWithoutFeedback>
   )

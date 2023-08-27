@@ -10,27 +10,27 @@ import random
 import time
 import cv2
 import numpy as np
-#from ultralytics import YOLO
+from ultralytics import YOLO
 import torch
 from torchvision.transforms import functional as F
 from PIL import Image
 from io import BytesIO
-'''app=Flask(__name__)
+app=Flask(__name__)
 import mysql.connector
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="tiger",
   database="wtv"
-)'''
-from flask import Flask, request, jsonify
+)
+'''from flask import Flask, request, jsonify
 import mysql.connector 
 mydb=mysql.connector.connect(
     host= "localhost",
     user= "Madumitha",
     password= "madumitha",
     database="wastetovalue"
-)
+)'''
 '''
 from flask import Flask, request, jsonify
 import mysql.connector 
@@ -651,6 +651,7 @@ def companyorderdetails(company_id):
                 query='select customer_id from order_details where product_id=%s'
                 cursor.execute(query,(i["product_id"],))
                 data=cursor.fetchall()
+                return
         if data:
             rtu=[]
             for i in data:
@@ -722,45 +723,44 @@ def contribute():
     if image.filename == '':
         return jsonify({'message': 'No selected image'})
     bdimage = base64.b64encode(image.read())
-    if bdimage: 
-    #if checkimage(bdimage):
+    #if bdimage: 
+    if checkimage(bdimage):
         query1="insert into contributions(customer_id,status,image) values(%s,%s,%s)"
         cur.execute(query1,(customer_id,status ,bdimage))
         mydb.commit()
-        return jsonify("Susses")
+        return jsonify("Success")
     else:
         print("NO")
         return jsonify("not added")
 
-# def checkimage(image):
-#     #model = torch.load('best.pt')
-#     image_data = base64.b64decode(image)
+def checkimage(image):
+    #model = torch.load('best.pt')
+    image_data = base64.b64decode(image)
 
-# # Create a BytesIO object to work with PIL
-#     image_stream = BytesIO(image_data)
+# Create a BytesIO object to work with PIL
+    image_stream = BytesIO(image_data)
 
-#     # Open the image using PIL
-#     image = Image.open(image_stream)
+    # Open the image using PIL
+    image = Image.open(image_stream)
 
-#     # Save the image as JPG
-#     image.save('output.jpg', 'JPEG') 
-#     cap=cv2.imread('output.jpg')
-#     model = YOLO("best.pt", "v8")
-#     print("H")
-#     detect_params = model.predict(source=[cap], conf=0.55, save=True)
+    # Save the image as JPG
+    image.save('output.jpg', 'JPEG') 
+    cap=cv2.imread('output.jpg')
+    model = YOLO("best.pt", "v8")
+    detect_params = model.predict(source=[cap], conf=0.55, save=True)
     
-#     DP = detect_params[0].numpy()
-#     boxes = detect_params[0].boxes
+    DP = detect_params[0].numpy()
+    boxes = detect_params[0].boxes
     
-#     if len(detect_params[0])!=0:
-#         print("H")
-#         print(len(detect_params[0]))
-#         return True
-#     return False
+    if len(detect_params[0])!=0:
+        print(len(detect_params[0]))
+        return True
+    return False
 
     
+
 if __name__=="__main__":
-    app.run(host='192.168.219.194' ,use_reloader=False , port='3000',debug=True)
+    app.run(host='192.168.219.17', use_reloader=False  , port='3000',debug=True)
 
 
 

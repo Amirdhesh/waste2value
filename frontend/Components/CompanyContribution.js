@@ -12,11 +12,14 @@ import Companyinterface from './Companyinterface';
 import Url from './Url';
 const CompanyContribution = ({navigation,route}) => {
   const {company_id}= route.params;
-  const [accept, setaccept] = useState(false)
   const [Data,setData] = useState({})
+  const [accept,setaccept]=useState(false)
   useFocusEffect(
     useCallback(() => {
+      if(accept===false)
         viewContribution();
+      else
+      handleAccepted();
     },[])
 );
 
@@ -81,7 +84,7 @@ const viewContribution=async()=>{
       <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',borderWidth: 1, borderColor:'#BC5EB6',backgroundColor: '#F4F4F4',borderRadius:15,width:45,height:50,shadowColor:'#52006A', elevation: 20 }}> 
-          <TouchableOpacity >
+          <TouchableOpacity onPress={()=>navigation.goBack()}>
               <MaterialIcons name="keyboard-arrow-left" size={50} color="black" style={{marginLeft:-5}}/> 
 
           </TouchableOpacity>
@@ -105,7 +108,7 @@ const viewContribution=async()=>{
             keyExtractor={item=>item[0]}
           /> 
     </View>
-    <Companyinterface navigation={navigation}/>
+    <Companyinterface navigation={navigation} company_id={company_id}/>
 </View>
   )
 }

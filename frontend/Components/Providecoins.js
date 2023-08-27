@@ -28,7 +28,7 @@ const ProvideCoins=({navigation,route})=>{
         .then((data)=>console.log(data))
         .catch((error)=>console.log(error))
 
-        navigation.navigate("Contribution",{company_id});
+        navigation.navigate("Contribution",{company_id:company_id});
     }
     return(
         <View style={{flex:1,margin:20,paddingTop:30}}>

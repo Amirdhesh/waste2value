@@ -9,6 +9,7 @@ import { Text } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import Url from "./Url";
+import Admininterface from "./Admininterface";
 const CompanyRequest=({navigation})=>{
    
   const [companydata,setcompanydata] = useState({});
@@ -42,31 +43,30 @@ const CompanyRequest=({navigation})=>{
       alignItems: 'left',
       marginTop:12,
       }}>
-        <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:10}}>
-        <Text style={{fontSize:28, fontWeight:"600"}} onPress={()=>handlePress(item.email)}>Company Name: {item.company_name}</Text>
-        <Text style={{fontSize:24,color:"green"}} onPress={()=>handlePress(item.email)}>Address: {item.address}</Text>
+        <View style={{borderColor:'#F4F4F4',borderWidth:2, borderRadius:12, height:120, backgroundColor:'ghostwhite', elevation:3}}>
+        <Text style={{fontSize:25, fontWeight:"500",paddingLeft:8}} onPress={()=>handlePress(item.email)}>Company Name: {item.company_name}</Text>
+        <Text style={{fontSize:24,color:"green",paddingLeft:8}} onPress={()=>handlePress(item.email)}>Address: {item.address}</Text>
         </View>
       </View>
   )
 return (
         
-      <View style={{marginTop:35}}>
-        <View style={{flexDirection:'row', marginTop:20,marginLeft:20,alignItems:'center',height: 57 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 300, borderRadius: 20 }}>
-        <Ionicons name="search" placeholder="Search Pending request with company name" size={30} color="black" style={{width:'10%',marginLeft:5}}/>
-        <TextInput style={{height: 55,backgroundColor: '#F4F4F4',width: '88%',fontSize:20,paddingLeft:7, borderRadius: 20 }} placeholder='Search here...' placeholderTextColor="black"/>
-        </View>
-        <View style={{marginTop:20 ,marginLeft:20, width:500}}>
-          {
-            companydata.length !=0&&
+     
+        
+        <View style={{marginTop:20 ,flex:1,alignItems:"center"}}>
+         
            <FlatList
       data={companydata}
       renderItem={renderItem}
       keyExtractor={item => ( item.email)}
       numColumns={1}
     />
-          }
+          
+    <Admininterface navigation={navigation} />
+
     </View>
-        </View>
+        
+        
         )
         
         }

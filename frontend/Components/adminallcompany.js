@@ -43,9 +43,9 @@ const Adminallcompany=({navigation})=>{
       alignItems: 'center',
       marginTop:10
       }}>
-        <TouchableOpacity onPress={()=>handlePress(item.email)} style={{borderColor:'#F4F4F4',width:'90%',borderWidth:2, borderRadius:12, height:90, backgroundColor:'ghostwhite', elevation:1}}>
+        <TouchableOpacity onPress={()=>handlePress(item.email)} style={{borderColor:'#F4F4F4',width:'90%',borderWidth:2, borderRadius:12, height:120, backgroundColor:'ghostwhite', elevation:1}}>
         
-        <Text style={{fontSize:28, fontWeight:"600",paddingLeft:8}}>{item.company_name}</Text>
+        <Text style={{fontSize:25, fontWeight:"400",paddingLeft:8}}>{item.company_name}</Text>
         <Text style={{fontSize:24,color:"green",paddingLeft:8}}>Address: {item.address}</Text>
         
         </TouchableOpacity>
@@ -56,7 +56,7 @@ return (
   <View style={{flex:1}}> 
   <StatusBar hidden={true}/>     
 <View style={{flexDirection:'row',marginTop:35,justifyContent:'center',height:"10%"}}>
-<View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 296, borderRadius: 20 }}>
+<View style={{flexDirection:'row',alignItems:'center',height: 57,marginRight:9 ,borderWidth: 1,shadowColor: '#52006A', elevation: 20, borderColor: '#BC5EB6', backgroundColor: '#F4F4F4',width: 343, borderRadius: 20 }}>
 
 
 
@@ -67,11 +67,7 @@ return (
 </View>
 
 
-<TouchableOpacity onPress={()=>navigation.navigate("Companyrequest")} >
-  <View style={{height: 57,borderWidth: 1,flexDirection:'column',alignItems:'center',justifyContent:'center', borderColor: '#BC5EB6',marginLeft:1,backgroundColor: '#F4F4F4',borderRadius:15,width:47, elevation: 20 }}>
-  <Ionicons name="notifications" size={24} color="black" style={{marginVertical:0,marginHorizontal:0}}/>
-  </View>
-</TouchableOpacity>
+
 
 
 

@@ -14,8 +14,7 @@ const Companyinterface = ({company_id,navigation}) => {
     return(
         <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
         <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
-          <TouchableOpacity Onpress={()=>navigation.navigate('CompanyStore',{company_id:company_id})}>
-          
+          <TouchableOpacity onPress={()=>navigation.navigate('CompanyStore',{company_id:company_id})}>
           <View>
               <MaterialCommunityIcons name="storefront-outline" size={34} color="white" style={{marginRight:14}}/>
           </View>
@@ -25,7 +24,7 @@ const Companyinterface = ({company_id,navigation}) => {
               <Octicons name="diff-added" size={30} color="white" style={{marginHorizontal:14,marginTop:3}}/>
           </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('')}>
+          <TouchableOpacity onPress={()=>navigation.navigate('Comapnyorderdetails',{company_id:company_id})}>
           <View>
           <Feather name="truck" size={34} color="white" style={{marginHorizontal:14,marginTop:1}}/>
           </View>

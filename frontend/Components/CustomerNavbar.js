@@ -10,7 +10,7 @@ const CustomerNavbar = ({navigation,customer_id}) => {
   return (
     <View style={{position:'absolute',bottom:8,right:25,left:25 }}>
       <View style={{flexDirection:'row',justifyContent:'center',shadowColor: '#52006A', elevation: 20, paddingVertical: 20,paddingHorizontal:10 ,margin:20, backgroundColor: "#C96FC4",borderWidth: 1,borderColor: '#BD5CB7' ,borderRadius: 20}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("ProductList",{customer_id})}>
         <View>
             <MaterialCommunityIcons name="storefront-outline" size={34} color="white" style={{marginRight:14}}/>
         </View>
@@ -20,7 +20,7 @@ const CustomerNavbar = ({navigation,customer_id}) => {
             <Octicons name="diff-added" size={30} color="white" style={{marginHorizontal:14,marginTop:3}}/>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>navigation.navigate('CustomerCart',{customer_id,product_id})}>
+        <TouchableOpacity onPress={()=>navigation.navigate('CustomerCart',{customer_id})}>
         <View>
             <Ionicons name="ios-cart-outline" size={38} color="white" style={{marginHorizontal:14,marginTop:-2}}/>
         </View>

@@ -36,7 +36,7 @@ const Cart = ({navigation,route}) => {
     });
 
     return (
-    <View style={{paddingVertical:20,borderBottomWidth:1, borderColor:'black'}}>
+    <View style={{borderBottomWidth:1, borderColor:'black'}}>
     <View style={{alignItems:'left',marginRight:20}}>
      
           <View style={{flexDirection:'row'}}>
@@ -70,7 +70,7 @@ const Cart = ({navigation,route}) => {
   }
 
   return (
-    <ScrollView style={{flex:1}}>
+    <View style={{flex:1}}>
       <StatusBar hidden={true}/>
       <View style={{height:'10%',flexDirection:'column',alignItems:'center'}}>
       <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'100%',width:"90%"}}>
@@ -89,7 +89,7 @@ const Cart = ({navigation,route}) => {
         </View> 
         <View style={{height:'100%'}}>
         <FlatList
-           style={{flex:1,marginLeft:20,marginBottom:20,paddingBottom:30}}
+           style={{flex:1,marginLeft:20,marginBottom:20}}
             data={data}
             renderItem={({item})=><Product item={item}/>}
             keyExtractor={item=>item.id}
@@ -102,7 +102,7 @@ const Cart = ({navigation,route}) => {
        
         
       
-    </ScrollView>
+    </View>
 
   )
 }

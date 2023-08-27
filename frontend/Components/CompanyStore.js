@@ -22,6 +22,23 @@ const CompanyStore = ({navigation,route}) => {
     },[]));
 
 
+    useEffect(()=>{
+      const backAction=()=>{
+        return true;
+      }
+      if(isFocused){
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    
+      return () => backHandler.remove(); // Remove the event listener when component unmounts
+      }
+    }, [isFocused]);
+    
+      const handleGoBackToLogin = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+    };
 
     const searchproduct = async () => {
         try {
@@ -38,7 +55,7 @@ const CompanyStore = ({navigation,route}) => {
         navigation.navigate('ProductDetailscompany', {company_id, product_id });
       };
 
-      const fetchImage=(product_id)=>{
+     /* const fetchImage=(product_id)=>{
       fetch(`${Url()}/viewimage/${product_id}`)
     .then(response => response.blob()) // Convert response to Blob
     .then(data => {
@@ -51,7 +68,7 @@ const CompanyStore = ({navigation,route}) => {
     .catch(error => console.error(error));
 
     return imagedata;
-  }
+  }*/
 
 
       const renderItem = ({ item }) => {
@@ -61,7 +78,6 @@ const CompanyStore = ({navigation,route}) => {
           justifyContent: 'center',
           alignItems: 'center'}}>
             <View style={{height:200,width:178,borderRadius:10,backgroundColor:"grey"}}>
-              <Image source={{uri:fetchImage(item.product_id)}} style={{height:200,width:178,borderRadius:10}}/>
             </View>
             <Text style={{fontSize:20, fontWeight:"600"}} onPress={()=>handleProductClick(item.product_id)}>{item.product_name}</Text>
             <Text style={{fontSize:14,color:"green"}} onPress={()=>handleProductClick(item.product_id)}>Price:Rs.{item.product_price}</Text>

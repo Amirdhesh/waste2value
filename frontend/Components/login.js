@@ -78,7 +78,6 @@ const Login = ({navigation}) => {
             <View style={{flexDirection:'row' ,justifyContent:'space-between'}}>
               {invalid===false && <View></View>}
             {invalid===true && <Text style={{color:'red',fontSize:20}}>Invalid Email or Password</Text>}
-              <Text style={{color:'blue',fontSize:17}}>Forget Password?</Text>
             </View>
           </View>
           <TouchableOpacity onPress={()=>login()}>
